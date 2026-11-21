@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "sg-wishlist-request",
+      "settings": {
+        "continue_link": "/collections"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

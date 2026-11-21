@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "main": {
+      "type": "sg-wedding-planner-form",
+      "blocks": {
+        "function_ring": { "type": "function", "settings": { "label": "Ring Ceremony" } },
+        "function_haldi": { "type": "function", "settings": { "label": "Haldi" } },
+        "function_mehendi": { "type": "function", "settings": { "label": "Mehendi" } },
+        "function_sangeet": { "type": "function", "settings": { "label": "Sangeet" } },
+        "function_wedding": { "type": "function", "settings": { "label": "Wedding" } },
+        "function_reception": { "type": "function", "settings": { "label": "Reception" } },
+        "need_return": { "type": "need", "settings": { "label": "Return gifts" } },
+        "need_welcome": { "type": "need", "settings": { "label": "Welcome hampers" } },
+        "need_vip": { "type": "need", "settings": { "label": "VIP & family gifts" } },
+        "need_party": { "type": "need", "settings": { "label": "Bridal party gifts" } },
+        "need_function": { "type": "need", "settings": { "label": "Function gifts" } },
+        "need_trousseau": { "type": "need", "settings": { "label": "Trousseau packing" } },
+        "extra_personalisation": { "type": "extra", "settings": { "label": "Personalisation" } },
+        "extra_packaging": { "type": "extra", "settings": { "label": "Premium packaging" } },
+        "extra_venue": { "type": "extra", "settings": { "label": "Venue delivery" } },
+        "extra_international": { "type": "extra", "settings": { "label": "International delivery" } },
+        "budget_entry": { "type": "budget", "settings": { "label": "₹100 – ₹999", "value": "100-999" } },
+        "budget_mid": { "type": "budget", "settings": { "label": "₹1,000 – ₹2,000", "value": "1000-2000" } },
+        "budget_premium": { "type": "budget", "settings": { "label": "₹2,000 – ₹3,000", "value": "2000-3000" } },
+        "budget_luxury": { "type": "budget", "settings": { "label": "₹3,000 & above", "value": "3000+" } },
+        "budget_unsure": { "type": "budget", "settings": { "label": "Not sure yet", "value": "Not sure" } }
+      },
+      "block_order": [
+        "function_ring", "function_haldi", "function_mehendi", "function_sangeet", "function_wedding", "function_reception",
+        "need_return", "need_welcome", "need_vip", "need_party", "need_function", "need_trousseau",
+        "extra_personalisation", "extra_packaging", "extra_venue", "extra_international",
+        "budget_entry", "budget_mid", "budget_premium", "budget_luxury", "budget_unsure"
+      ],
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

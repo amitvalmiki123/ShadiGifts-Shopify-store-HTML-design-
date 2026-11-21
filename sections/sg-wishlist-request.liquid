@@ -1,0 +1,115 @@
+<section class="sg-section sg-form-page sg-wishlist-page" id="sg-wishlist-page-{{ section.id }}" data-sg-wishlist-page>
+  <div class="sg-shell-width sg-form-page__inner">
+    <header class="sg-section-heading">
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h1>{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
+    </header>
+
+    {% form 'contact', id: 'SGWishlistContactForm', class: 'sg-contact-form' %}
+      {%- if form.posted_successfully? -%}
+        <div class="sg-form-success" role="status" data-sg-contact-success>
+          <span class="sg-form-success__icon" aria-hidden="true">✓</span>
+          <h2>{{ section.settings.success_heading | escape }}</h2>
+          <p>{{ section.settings.success_message | escape }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if form.errors -%}
+        <div class="sg-form-errors" role="alert">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+
+      <input type="hidden" name="contact[subject]" value="{{ section.settings.email_subject | escape }}">
+      <input type="hidden" name="contact[Wishlist selection]" value="" data-sg-wishlist-summary>
+      <textarea class="sg-visually-hidden" name="contact[body]" tabindex="-1" aria-hidden="true" data-sg-wishlist-body></textarea>
+
+      <div class="sg-wishlist-selection">
+        <div class="sg-form-section-intro sg-wishlist-selection__heading">
+          <h2>{{ section.settings.selection_heading | escape }}</h2>
+          <p>{{ section.settings.selection_description | escape }}</p>
+        </div>
+        <div class="sg-wishlist-list" data-sg-wishlist-items data-empty-message="{{ section.settings.empty_message | escape }}" aria-live="polite">
+          <noscript>{{ section.settings.no_script_message | escape }}</noscript>
+        </div>
+        <div class="sg-wishlist-selection__footer">
+          <span>{{ section.settings.selection_note | escape }}</span>
+          {%- if section.settings.continue_link != blank -%}
+            <a href="{{ section.settings.continue_link }}">{{ section.settings.continue_label | escape }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="sg-form-card">
+        <div class="sg-form-section-intro">
+          <h2>{{ section.settings.contact_heading | escape }}</h2>
+          {%- if section.settings.contact_description != blank -%}<p>{{ section.settings.contact_description | escape }}</p>{%- endif -%}
+        </div>
+        <div class="sg-form-grid">
+          <div class="sg-form-field">
+            <label for="SGWishlistName-{{ section.id }}">{{ section.settings.name_label | escape }} <span aria-hidden="true">*</span></label>
+            <input id="SGWishlistName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" required>
+          </div>
+          <div class="sg-form-field">
+            <label for="SGWishlistEmail-{{ section.id }}">{{ section.settings.email_label | escape }} <span aria-hidden="true">*</span></label>
+            <input id="SGWishlistEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required>
+          </div>
+          <div class="sg-form-field">
+            <label for="SGWishlistPhone-{{ section.id }}">{{ section.settings.phone_label | escape }}</label>
+            <input id="SGWishlistPhone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel">
+          </div>
+          <div class="sg-form-field">
+            <label for="SGWishlistDate-{{ section.id }}">{{ section.settings.date_label | escape }}</label>
+            <input id="SGWishlistDate-{{ section.id }}" type="date" name="contact[Wedding date]">
+          </div>
+          <div class="sg-form-field sg-form-field--full">
+            <label for="SGWishlistLocation-{{ section.id }}">{{ section.settings.location_label | escape }}</label>
+            <input id="SGWishlistLocation-{{ section.id }}" type="text" name="contact[Wedding location]" autocomplete="address-level2">
+          </div>
+          <div class="sg-form-field sg-form-field--full">
+            <label for="SGWishlistNotes-{{ section.id }}">{{ section.settings.notes_label | escape }}</label>
+            <textarea id="SGWishlistNotes-{{ section.id }}" name="contact[Additional notes]" rows="4" data-sg-wishlist-notes></textarea>
+          </div>
+        </div>
+        {%- if section.settings.form_note != blank -%}<p class="sg-form-note">{{ section.settings.form_note | escape }}</p>{%- endif -%}
+      </div>
+
+      <div class="sg-form-submit">
+        <button class="sg-button sg-button--primary" type="submit">{{ section.settings.submit_label | escape }} {% render 'sg-icon', name: 'arrow' %}</button>
+        <p>{{ section.settings.privacy_note | escape }}</p>
+      </div>
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SG · Wishlist request",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personalised gifting proposal" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your Wedding Wishlist" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Review your saved gifts, add quantities or notes, and send your selection to our gifting team for a personalised quote." },
+    { "type": "text", "id": "email_subject", "label": "Email subject", "default": "ShaadiGifts wishlist quote request" },
+    { "type": "text", "id": "selection_heading", "label": "Wishlist heading", "default": "Saved gifts" },
+    { "type": "textarea", "id": "selection_description", "label": "Wishlist description", "default": "Your selection is saved in this browser. Quantities and notes are included with your request." },
+    { "type": "text", "id": "empty_message", "label": "Empty wishlist message", "default": "Your wishlist is empty. Browse collections and save the gifts you like." },
+    { "type": "text", "id": "no_script_message", "label": "No JavaScript message", "default": "Wishlist items need JavaScript enabled in this browser." },
+    { "type": "text", "id": "selection_note", "label": "Wishlist note", "default": "Indicative prices only. Your final proposal depends on quantity, personalisation and packaging." },
+    { "type": "text", "id": "continue_label", "label": "Continue link label", "default": "Continue exploring collections" },
+    { "type": "url", "id": "continue_link", "label": "Continue link" },
+    { "type": "text", "id": "contact_heading", "label": "Contact form heading", "default": "Request a Personalised Quote" },
+    { "type": "textarea", "id": "contact_description", "label": "Contact form description", "default": "Share your contact details and wedding plans. This form sends your request directly to the store's Shopify contact email." },
+    { "type": "text", "id": "name_label", "label": "Name label", "default": "Your name" },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email address" },
+    { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone / WhatsApp" },
+    { "type": "text", "id": "date_label", "label": "Wedding date label", "default": "Wedding date" },
+    { "type": "text", "id": "location_label", "label": "Location label", "default": "Wedding location (city / venue)" },
+    { "type": "text", "id": "notes_label", "label": "Notes label", "default": "Anything else we should know?" },
+    { "type": "textarea", "id": "form_note", "label": "Form note", "default": "Gifts are not purchased online. The team will confirm final pricing and delivery in your proposal." },
+    { "type": "text", "id": "submit_label", "label": "Submit button", "default": "Request Personalized Quote" },
+    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Request received" },
+    { "type": "textarea", "id": "success_message", "label": "Success message", "default": "Thank you. Our gifting team will contact you shortly with a personalised proposal." },
+    { "type": "textarea", "id": "privacy_note", "label": "Privacy note", "default": "Your wishlist and contact details are sent directly to our Shopify contact inbox. No payment or checkout is involved." }
+  ],
+  "presets": [{ "name": "SG · Wishlist request" }]
+}
+{% endschema %}

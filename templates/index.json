@@ -1,0 +1,426 @@
+{
+  "sections": {
+    "sg_home_hero": {
+      "type": "sg-home-hero",
+      "blocks": {
+        "trust_curated": {
+          "type": "benefit",
+          "settings": {
+            "icon": "box",
+            "label": "Curated & personalised gifts"
+          }
+        },
+        "trust_packaging": {
+          "type": "benefit",
+          "settings": {
+            "icon": "gift",
+            "label": "Premium packaging"
+          }
+        },
+        "trust_delivery": {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "label": "On-time venue delivery"
+          }
+        },
+        "trust_worldwide": {
+          "type": "benefit",
+          "settings": {
+            "icon": "globe",
+            "label": "India & worldwide"
+          }
+        }
+      },
+      "block_order": [
+        "trust_curated",
+        "trust_packaging",
+        "trust_delivery",
+        "trust_worldwide"
+      ],
+      "settings": {
+        "eyebrow": "End-to-end wedding gifting",
+        "heading_prefix": "Your Wedding. Every Gift.",
+        "heading_emphasis": "One Partner.",
+        "description": "We curate, personalise, package and coordinate all your wedding gifts — on time, at your venue, anywhere in the world.",
+        "image_alt": "Thoughtfully curated wedding gifts",
+        "primary_label": "Plan My Wedding Gifting",
+        "planner_link": "/pages/planner",
+        "secondary_label": "Create a Wishlist",
+        "wishlist_link": "/pages/wishlist",
+        "supporting_note": "A personal gifting concierge, from the first idea to venue delivery."
+      }
+    },
+    "sg_featured_collections": {
+      "type": "sg-featured-collections",
+      "settings": {
+        "heading": "Explore Our Collections",
+        "description": "Handpicked gifting options for every function, family and guest.",
+        "collections": [],
+        "show_product_count": false,
+        "show_all_link": true,
+        "all_link_label": "View All Collections",
+        "empty_message": "Explore thoughtful gifting for every function, family and guest. More collections are being added soon.",
+        "all_link": "/collections"
+      }
+    },
+    "sg_featured_products": {
+      "type": "sg-featured-products",
+      "settings": {
+        "heading": "Popular Wedding Gifts",
+        "description": "A few favourites to start your wishlist. Save any gift you would like us to personalise.",
+        "products_to_show": 4,
+        "show_descriptions": false,
+        "show_price": true,
+        "price_prefix": "Starting from",
+        "details_label": "View details",
+        "show_collection_link": true,
+        "collection_link_label": "Explore this collection",
+        "wishlist_link": "/pages/wishlist",
+        "empty_message": "Our wedding gift collection is being curated. Check back soon, or tell us about your celebration."
+      }
+    },
+    "sg_why_choose": {
+      "type": "sg-why-choose",
+      "blocks": {
+        "why_curated": {
+          "type": "benefit",
+          "settings": {
+            "icon": "box",
+            "heading": "Curated, Not Catalogued",
+            "description": "Every gift is handpicked for quality, theme and the guest who will receive it — from return gifts to VIP presents."
+          }
+        },
+        "why_personalised": {
+          "type": "benefit",
+          "settings": {
+            "icon": "pen",
+            "heading": "Personalised To Your Story",
+            "description": "Names, monograms, custom tags, message cards and colour-matched ribbons, carried through every box."
+          }
+        },
+        "why_packaging": {
+          "type": "benefit",
+          "settings": {
+            "icon": "gift",
+            "heading": "Premium Packaging",
+            "description": "Elegant, theme-based packaging that feels like a keepsake and arrives looking exactly as it should."
+          }
+        },
+        "why_venue": {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "heading": "On-Time, At Your Venue",
+            "description": "We plan delivery around your function schedule and deliver to your home, hotel or wedding venue."
+          }
+        },
+        "why_contact": {
+          "type": "benefit",
+          "settings": {
+            "icon": "support",
+            "heading": "One Point Of Contact",
+            "description": "A dedicated wedding concierge handles planning, updates and coordination, so you are not chasing suppliers."
+          }
+        },
+        "why_worldwide": {
+          "type": "benefit",
+          "settings": {
+            "icon": "globe",
+            "heading": "India & Worldwide",
+            "description": "Weddings in Jaipur, Dubai or Bangkok get the same care. We deliver across India and internationally."
+          }
+        }
+      },
+      "block_order": [
+        "why_curated",
+        "why_personalised",
+        "why_packaging",
+        "why_venue",
+        "why_contact",
+        "why_worldwide"
+      ],
+      "settings": {
+        "heading": "Why Couples Choose ShaadiGifts",
+        "description": "One concierge instead of many vendors — so nothing is missed between the first function and the last guest."
+      }
+    },
+    "sg_function_tiles": {
+      "type": "sg-function-tiles",
+      "blocks": {
+        "function_ring": {
+          "type": "function",
+          "settings": {
+            "title": "Ring Ceremony",
+            "description": "Refined keepsakes and boxes for the engagement celebration."
+          }
+        },
+        "function_haldi": {
+          "type": "function",
+          "settings": {
+            "title": "Haldi",
+            "description": "Bright, cheerful favours and sunny hampers."
+          }
+        },
+        "function_mehendi": {
+          "type": "function",
+          "settings": {
+            "title": "Mehendi",
+            "description": "Potlis, jars and festive treats for a colourful afternoon."
+          }
+        },
+        "function_sangeet": {
+          "type": "function",
+          "settings": {
+            "title": "Sangeet",
+            "description": "Glowing keepsakes and party boxes for a night of dance."
+          }
+        },
+        "function_wedding": {
+          "type": "function",
+          "settings": {
+            "title": "Wedding",
+            "description": "Return gifts, welcome hampers and family presents."
+          }
+        },
+        "function_reception": {
+          "type": "function",
+          "settings": {
+            "title": "Reception",
+            "description": "Elegant boxes and keepsakes for the grand finale."
+          }
+        }
+      },
+      "block_order": [
+        "function_ring",
+        "function_haldi",
+        "function_mehendi",
+        "function_sangeet",
+        "function_wedding",
+        "function_reception"
+      ],
+      "settings": {
+        "heading": "Gifts For Every Function",
+        "description": "A wedding is many celebrations. Choose a function and explore gifts that suit its mood.",
+        "link_label": "Explore gifts"
+      }
+    },
+    "sg_personalization": {
+      "type": "sg-personalization",
+      "blocks": {
+        "personal_detail_1": {
+          "type": "detail",
+          "settings": {
+            "text": "Names, initials and monograms on boxes, tags and bags"
+          }
+        },
+        "personal_detail_2": {
+          "type": "detail",
+          "settings": {
+            "text": "Custom message cards and handwritten-style notes"
+          }
+        },
+        "personal_detail_3": {
+          "type": "detail",
+          "settings": {
+            "text": "Theme and colour matching — ribbons, wraps and trays"
+          }
+        },
+        "personal_detail_4": {
+          "type": "detail",
+          "settings": {
+            "text": "Separate packing for VIP, family, bridal party and guests"
+          }
+        },
+        "personal_detail_5": {
+          "type": "detail",
+          "settings": {
+            "text": "Trousseau and sweets packing for the families"
+          }
+        }
+      },
+      "block_order": [
+        "personal_detail_1",
+        "personal_detail_2",
+        "personal_detail_3",
+        "personal_detail_4",
+        "personal_detail_5"
+      ],
+      "settings": {
+        "eyebrow": "Personalisation & packaging",
+        "heading": "Make Every Gift Unmistakably Yours",
+        "description": "A gift feels special when it looks like it belongs to your wedding. We add the details guests remember — and keep them consistent from the welcome hamper to the farewell box.",
+        "show_button": true,
+        "button_label": "Start a Gifting Plan",
+        "button_link": "/pages/planner"
+      }
+    },
+    "sg_how_it_works": {
+      "type": "sg-how-it-works",
+      "blocks": {
+        "step_browse": {
+          "type": "step",
+          "settings": {
+            "heading": "Browse & Explore",
+            "description": "Curated collections for your wedding."
+          }
+        },
+        "step_wishlist": {
+          "type": "step",
+          "settings": {
+            "heading": "Add to Wishlist",
+            "description": "Save the gifts that feel right for your celebration."
+          }
+        },
+        "step_requirements": {
+          "type": "step",
+          "settings": {
+            "heading": "Share Requirements",
+            "description": "Tell us your wedding details and preferences."
+          }
+        },
+        "step_proposal": {
+          "type": "step",
+          "settings": {
+            "heading": "Get a Personalised Proposal",
+            "description": "Our gifting experts will prepare a proposal for you."
+          }
+        }
+      },
+      "block_order": [
+        "step_browse",
+        "step_wishlist",
+        "step_requirements",
+        "step_proposal"
+      ],
+      "settings": {
+        "heading": "How It Works",
+        "description": "From selecting gifts to a considered, personalised proposal."
+      }
+    },
+    "sg_delivery": {
+      "type": "sg-delivery",
+      "blocks": {
+        "delivery_home": {
+          "type": "point",
+          "settings": {
+            "text": "Delivery to your home, hotel, resort or wedding venue"
+          }
+        },
+        "delivery_schedule": {
+          "type": "point",
+          "settings": {
+            "text": "Planned around your functions — Haldi to Reception"
+          }
+        },
+        "delivery_global": {
+          "type": "point",
+          "settings": {
+            "text": "Seamless delivery across India and international locations"
+          }
+        },
+        "delivery_updates": {
+          "type": "point",
+          "settings": {
+            "text": "Regular updates from your dedicated concierge"
+          }
+        }
+      },
+      "block_order": [
+        "delivery_home",
+        "delivery_schedule",
+        "delivery_global",
+        "delivery_updates"
+      ],
+      "settings": {
+        "eyebrow": "Delivery",
+        "heading": "On Time, At Your Venue — Anywhere In The World",
+        "description": "Wedding gifting runs on a schedule. We work backwards from your function dates so every box reaches the right place before it is needed.",
+        "note": "Share your wedding date and venue in the planner and we will confirm timelines in your proposal.",
+        "button_label": "Check My Wedding Dates",
+        "button_link": "/pages/planner"
+      }
+    },
+    "sg_faq": {
+      "type": "sg-faq",
+      "blocks": {
+        "faq_buy": {
+          "type": "question",
+          "settings": {
+            "question": "Can I buy gifts online?",
+            "answer": "<p>No — ShaadiGifts is a gifting concierge, not an online shop. Browse the collections, add favourites to your wishlist and submit your wedding details. We will send a personalised proposal.</p>"
+          }
+        },
+        "faq_wishlist": {
+          "type": "question",
+          "settings": {
+            "question": "How does the wishlist work?",
+            "answer": "<p>Tap the heart on any gift to save it. Add your quantities and notes, then share the selection with your wedding details to request a personalised quote. Nothing is charged and there is no checkout.</p>"
+          }
+        },
+        "faq_prices": {
+          "type": "question",
+          "settings": {
+            "question": "Are the prices final?",
+            "answer": "<p>Prices shown are indicative starting prices. Your final quotation depends on quantity, personalisation and packaging.</p>"
+          }
+        },
+        "faq_personalization": {
+          "type": "question",
+          "settings": {
+            "question": "Can you personalise gifts with our names and theme?",
+            "answer": "<p>Yes. We can add names, monograms, custom tags and message cards, and match packaging to your wedding colours and theme.</p>"
+          }
+        },
+        "faq_worldwide": {
+          "type": "question",
+          "settings": {
+            "question": "Do you deliver outside India?",
+            "answer": "<p>Yes. We serve Indian and international weddings and deliver to your venue, hotel or home. Tell us the country and city in the planner and we will confirm the details.</p>"
+          }
+        },
+        "faq_timing": {
+          "type": "question",
+          "settings": {
+            "question": "How early should I start planning?",
+            "answer": "<p>As early as you can. Personalised and carefully packed gifts need time. Share your wedding date and requirements in the planner and we will advise on timelines.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_buy",
+        "faq_wishlist",
+        "faq_prices",
+        "faq_personalization",
+        "faq_worldwide",
+        "faq_timing"
+      ],
+      "settings": {
+        "heading": "Questions, Answered",
+        "description": "Quick answers before you start your wishlist.",
+        "open_first_answer": true
+      }
+    },
+    "sg_planner_cta": {
+      "type": "sg-planner-cta",
+      "settings": {
+        "heading": "Planning Wedding Gifts?",
+        "description": "Tell us your wedding details and get a personalised gifting proposal.",
+        "button_label": "Start Your Gifting Plan",
+        "button_link": "/pages/planner"
+      }
+    }
+  },
+  "order": [
+    "sg_home_hero",
+    "sg_featured_collections",
+    "sg_featured_products",
+    "sg_why_choose",
+    "sg_function_tiles",
+    "sg_personalization",
+    "sg_how_it_works",
+    "sg_delivery",
+    "sg_faq",
+    "sg_planner_cta"
+  ]
+}

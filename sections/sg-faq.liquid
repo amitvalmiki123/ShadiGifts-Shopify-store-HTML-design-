@@ -1,0 +1,67 @@
+<section class="sg-section sg-section--band sg-faq-section" id="sg-faq-{{ section.id }}">
+  <div class="sg-shell-width sg-faq-section__inner">
+    <header class="sg-section-heading">
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
+    </header>
+    <div class="sg-faq-list">
+      {%- for block in section.blocks -%}
+        <details class="sg-faq-item"{% if section.settings.open_first_answer and forloop.first %} open{% endif %} {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question | escape }}<span class="sg-faq-item__indicator" aria-hidden="true"></span></summary>
+          <div class="sg-faq-item__answer rte">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in section.blocks -%}
+          {%- assign sg_faq_answer_plain = block.settings.answer | strip_html | strip | replace: '&nbsp;', ' ' -%}
+          {%- unless forloop.first -%},{%- endunless -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ sg_faq_answer_plain | json }}
+            }
+          }
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "SG · FAQ",
+  "max_blocks": 10,
+  "blocks": [
+    { "type": "question", "name": "Question", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "How does ShaadiGifts work?" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Browse collections, save your favourite gifts to a wishlist, and share your wedding requirements. Our gifting team will prepare a personalised proposal.</p>" }
+    ] }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, Answered" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Quick answers before you start your wishlist." },
+    { "type": "checkbox", "id": "open_first_answer", "label": "Open the first answer by default", "default": true }
+  ],
+  "presets": [{ "name": "SG · FAQ", "blocks": [
+    { "type": "question", "settings": { "question": "Can I buy gifts online?", "answer": "<p>No — ShaadiGifts is a gifting concierge, not an online shop. Browse the collections, add favourites to your wishlist and submit your wedding details. We will send a personalised proposal.</p>" } },
+    { "type": "question", "settings": { "question": "How does the wishlist work?", "answer": "<p>Tap the heart on any gift to save it. Add your quantities and notes, then share the selection with your wedding details to request a personalised quote. Nothing is charged and there is no checkout.</p>" } },
+    { "type": "question", "settings": { "question": "Are the prices final?", "answer": "<p>Prices shown are indicative starting prices. Your final quotation depends on quantity, personalisation and packaging.</p>" } },
+    { "type": "question", "settings": { "question": "Can you personalise gifts with our names and theme?", "answer": "<p>Yes. We can add names, monograms, custom tags and message cards, and match packaging to your wedding colours and theme.</p>" } },
+    { "type": "question", "settings": { "question": "Do you deliver outside India?", "answer": "<p>Yes. We serve Indian and international weddings and deliver to your venue, hotel or home. Tell us the country and city in the planner and we will confirm the details.</p>" } },
+    { "type": "question", "settings": { "question": "How early should I start planning?", "answer": "<p>As early as you can. Personalised and carefully packed gifts need time. Share your wedding date and requirements in the planner and we will advise on timelines.</p>" } }
+  ] }]
+}
+{% endschema %}

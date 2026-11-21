@@ -1,0 +1,59 @@
+<section class="sg-section sg-functions" id="sg-functions-{{ section.id }}">
+  <div class="sg-shell-width">
+    <header class="sg-section-heading">
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
+    </header>
+    <div class="sg-function-grid">
+      {%- for block in section.blocks -%}
+        {%- assign sg_function_url = block.settings.collection.url -%}
+        {%- capture sg_function_content -%}
+          <span class="sg-function-tile__index">0{{ forloop.index }}</span>
+          <span class="sg-function-tile__title">{{ block.settings.title | escape }}</span>
+          <span class="sg-function-tile__description">{{ block.settings.description | escape }}</span>
+          {%- if sg_function_url != blank -%}
+            <span class="sg-function-tile__link">{{ section.settings.link_label | escape }} {% render 'sg-icon', name: 'arrow' %}</span>
+          {%- endif -%}
+        {%- endcapture -%}
+        {%- if sg_function_url != blank -%}
+          <a class="sg-function-tile sg-function-tile--{{ forloop.index }} sg-function-tile--linked" href="{{ sg_function_url }}" {{ block.shopify_attributes }}>{{ sg_function_content }}</a>
+        {%- else -%}
+          <div class="sg-function-tile sg-function-tile--{{ forloop.index }}" {{ block.shopify_attributes }}>{{ sg_function_content }}</div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SG · Function tiles",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "function",
+      "name": "Wedding function",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Function", "default": "Wedding Function" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Choose thoughtful gifts to suit the mood of your celebration." },
+        { "type": "collection", "id": "collection", "label": "Linked collection", "info": "Select the Shopify collection for this wedding function." }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Gifts For Every Function" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "A wedding is many celebrations. Choose a function and explore gifts that suit its mood." },
+    { "type": "text", "id": "link_label", "label": "Tile link label", "default": "Explore gifts" }
+  ],
+  "presets": [{ "name": "SG · Function tiles", "blocks": [
+    { "type": "function", "settings": { "title": "Ring Ceremony", "description": "Refined keepsakes and boxes for the engagement celebration." } },
+    { "type": "function", "settings": { "title": "Haldi", "description": "Bright, cheerful favours and sunny hampers." } },
+    { "type": "function", "settings": { "title": "Mehendi", "description": "Potlis, jars and festive treats for a colourful afternoon." } },
+    { "type": "function", "settings": { "title": "Sangeet", "description": "Glowing keepsakes and party boxes for a night of dance." } },
+    { "type": "function", "settings": { "title": "Wedding", "description": "Return gifts, welcome hampers and family presents." } },
+    { "type": "function", "settings": { "title": "Reception", "description": "Elegant boxes and keepsakes for the grand finale." } }
+  ] }]
+}
+{% endschema %}

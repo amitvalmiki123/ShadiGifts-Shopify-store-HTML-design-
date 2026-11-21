@@ -1,0 +1,103 @@
+{%- liquid
+  assign sg_planner_link = section.settings.planner_link
+  assign sg_wishlist_link = section.settings.wishlist_link
+-%}
+<section class="sg-home-hero" id="sg-home-hero-{{ section.id }}">
+  <div class="sg-shell-width sg-home-hero__main">
+    <div class="sg-home-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h1 class="sg-home-hero__title">{{ section.settings.heading_prefix | escape }} <em>{{ section.settings.heading_emphasis | escape }}</em></h1>
+      {%- if section.settings.description != blank -%}<p class="sg-home-hero__lead">{{ section.settings.description | escape }}</p>{%- endif -%}
+      <div class="sg-home-hero__actions">
+        {%- if sg_planner_link != blank -%}
+          <a class="sg-button sg-button--primary" href="{{ sg_planner_link }}">
+            {% render 'sg-icon', name: 'gift' %}<span>{{ section.settings.primary_label | escape }}</span>{% render 'sg-icon', name: 'arrow' %}
+          </a>
+        {%- endif -%}
+        {%- if sg_wishlist_link != blank -%}
+          <a class="sg-button sg-button--outline" href="{{ sg_wishlist_link }}">
+            {% render 'sg-icon', name: 'heart' %}<span>{{ section.settings.secondary_label | escape }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.supporting_note != blank -%}<p class="sg-home-hero__note">{{ section.settings.supporting_note | escape }}</p>{%- endif -%}
+    </div>
+
+    <div class="sg-home-hero__media">
+      {%- if section.settings.image != blank -%}
+        {%- assign sg_hero_alt = section.settings.image_alt | default: section.settings.image.alt | default: 'Wedding gifting, thoughtfully curated by ShaadiGifts' -%}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'sg-home-hero__image', widths: '500, 700, 900, 1200, 1600', sizes: '(min-width: 900px) 48vw, 100vw', loading: 'eager', alt: sg_hero_alt }}
+      {%- else -%}
+        <div class="sg-home-hero__placeholder" role="img" aria-label="Add a wedding gifting photograph in the theme editor">
+          <span class="sg-home-hero__ornament sg-home-hero__ornament--one"></span>
+          <span class="sg-home-hero__ornament sg-home-hero__ornament--two"></span>
+          <div class="sg-home-hero__placeholder-card">
+            <span class="sg-home-hero__placeholder-icon">{% render 'sg-icon', name: 'gift' %}</span>
+            <span class="sg-home-hero__placeholder-kicker">Made for your celebration</span>
+            <span class="sg-home-hero__placeholder-title">The art of<br>giving beautifully</span>
+            <span class="sg-home-hero__placeholder-rule"></span>
+            <span class="sg-home-hero__placeholder-subtitle">CURATED · PERSONALISED · DELIVERED</span>
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.image_caption != blank -%}<p class="sg-home-hero__caption">{{ section.settings.image_caption | escape }}</p>{%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    <div class="sg-shell-width sg-trust">
+      <ul class="sg-trust__list" role="list">
+        {%- for block in section.blocks -%}
+          <li class="sg-trust__item" {{ block.shopify_attributes }}>
+            <span class="sg-trust__icon">{% render 'sg-icon', name: block.settings.icon %}</span>
+            <span>{{ block.settings.label | escape }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "SG · Home hero",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Trust point",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "box", "options": [
+          { "value": "box", "label": "Curated gift" },
+          { "value": "gift", "label": "Premium packaging" },
+          { "value": "truck", "label": "Delivery" },
+          { "value": "globe", "label": "Worldwide" }
+        ] },
+        { "type": "text", "id": "label", "label": "Benefit", "default": "Curated & personalised gifts" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "End-to-end wedding gifting" },
+    { "type": "text", "id": "heading_prefix", "label": "Heading", "default": "Your Wedding. Every Gift." },
+    { "type": "text", "id": "heading_emphasis", "label": "Emphasised heading", "default": "One Partner." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "We curate, personalise, package and coordinate all your wedding gifts — on time, at your venue, anywhere in the world." },
+    { "type": "image_picker", "id": "image", "label": "Hero photograph", "info": "Choose a photo from Shopify Files or upload one here." },
+    { "type": "text", "id": "image_alt", "label": "Hero image alt text", "default": "Thoughtfully curated wedding gifts" },
+    { "type": "text", "id": "image_caption", "label": "Image caption" },
+    { "type": "text", "id": "primary_label", "label": "Primary button", "default": "Plan My Wedding Gifting" },
+    { "type": "url", "id": "planner_link", "label": "Planner page link" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary button", "default": "Create a Wishlist" },
+    { "type": "url", "id": "wishlist_link", "label": "Wishlist page link" },
+    { "type": "text", "id": "supporting_note", "label": "Supporting note", "default": "A personal gifting concierge, from the first idea to venue delivery." }
+  ],
+  "presets": [
+    { "name": "SG · Home hero", "blocks": [
+      { "type": "benefit", "settings": { "icon": "box", "label": "Curated & personalised gifts" } },
+      { "type": "benefit", "settings": { "icon": "gift", "label": "Premium packaging" } },
+      { "type": "benefit", "settings": { "icon": "truck", "label": "On-time venue delivery" } },
+      { "type": "benefit", "settings": { "icon": "globe", "label": "India & worldwide" } }
+    ] }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,118 @@
+{%- liquid
+  assign sg_featured_collection = section.settings.collection
+  assign sg_show_featured_products = false
+  if sg_featured_collection != blank
+    if sg_featured_collection.products_count > 0
+      assign sg_show_featured_products = true
+    endif
+  endif
+  assign sg_wishlist_url = section.settings.wishlist_link
+-%}
+<section class="sg-section sg-products" id="sg-products-{{ section.id }}">
+  <div class="sg-shell-width">
+    <header class="sg-section-heading">
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2>{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
+    </header>
+
+    {%- if sg_show_featured_products -%}
+      <div class="sg-product-grid">
+        {%- for product in sg_featured_collection.products limit: section.settings.products_to_show -%}
+          {%- assign sg_product_image = product.featured_image -%}
+          {%- assign sg_product_summary = product.description | strip_html | strip | truncate: 104 -%}
+          <article class="sg-product-card">
+            <div class="sg-product-card__media">
+              <a class="sg-product-card__image-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+                {%- if sg_product_image != blank -%}
+                  {{ sg_product_image | image_url: width: 1000 | image_tag: class: 'sg-product-card__image', widths: '360, 540, 720, 1000', sizes: '(min-width: 1100px) 23vw, (min-width: 650px) 46vw, 92vw', loading: 'lazy', alt: product.title }}
+                {%- else -%}
+                  <span class="sg-product-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+                {%- endif -%}
+              </a>
+              <button
+                class="sg-product-card__wishlist"
+                type="button"
+                data-sg-wishlist-toggle
+                data-sg-wishlist-url="{{ sg_wishlist_url }}"
+                data-product-id="{{ product.id }}"
+                data-product-handle="{{ product.handle | escape }}"
+                data-product-title="{{ product.title | escape }}"
+                data-product-url="{{ product.url }}"
+                data-product-image="{% if sg_product_image != blank %}{{ sg_product_image | image_url: width: 900 | escape }}{% endif %}"
+                data-product-price="{{ product.price_min | money | strip_html | strip | escape }}"
+                data-sg-label-add="Add {{ product.title | escape }} to wishlist"
+                data-sg-label-remove="Remove {{ product.title | escape }} from wishlist"
+                aria-label="Add {{ product.title | escape }} to wishlist"
+                aria-pressed="false"
+              >
+                {% render 'sg-icon', name: 'heart' %}<span class="visually-hidden">Add to wishlist</span>
+              </button>
+            </div>
+            <div class="sg-product-card__body">
+              <div class="sg-product-card__text">
+                <h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+                {%- if section.settings.show_descriptions and sg_product_summary != blank -%}<p class="sg-product-card__description">{{ sg_product_summary | escape }}</p>{%- endif -%}
+              </div>
+              {%- if section.settings.show_price -%}<p class="sg-product-card__price"><span>{{ section.settings.price_prefix | escape }}</span> <strong>{{ product.price_min | money }}</strong></p>{%- endif -%}
+              <div class="sg-product-card__actions">
+                <button
+                  class="sg-button sg-button--small sg-button--wishlist"
+                  type="button"
+                  data-sg-wishlist-toggle
+                  data-sg-wishlist-url="{{ sg_wishlist_url }}"
+                  data-product-id="{{ product.id }}"
+                  data-product-handle="{{ product.handle | escape }}"
+                  data-product-title="{{ product.title | escape }}"
+                  data-product-url="{{ product.url }}"
+                  data-product-image="{% if sg_product_image != blank %}{{ sg_product_image | image_url: width: 900 | escape }}{% endif %}"
+                  data-product-price="{{ product.price_min | money | strip_html | strip | escape }}"
+                  data-sg-label-add="Add {{ product.title | escape }} to wishlist"
+                  data-sg-label-remove="Remove {{ product.title | escape }} from wishlist"
+                  aria-label="Add {{ product.title | escape }} to wishlist"
+                  aria-pressed="false"
+                >
+                  {% render 'sg-icon', name: 'heart' %}<span data-sg-wishlist-button-label>Add to Wishlist</span>
+                </button>
+                <a class="sg-product-card__details" href="{{ product.url }}">{{ section.settings.details_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="sg-empty-state">
+        <span class="sg-empty-state__icon">{% render 'sg-icon', name: 'gift' %}</span>
+        <p>{{ section.settings.empty_message | escape }}</p>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.show_collection_link and sg_featured_collection != blank -%}
+      <div class="sg-section__action">
+        <a class="sg-button sg-button--outline" href="{{ sg_featured_collection.url }}">{{ section.settings.collection_link_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SG · Featured products",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Popular Wedding Gifts" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "A few favourites to start your wishlist. Save any gift you would like us to personalise." },
+    { "type": "collection", "id": "collection", "label": "Product collection", "info": "Choose the Shopify collection whose real products you want to feature." },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_descriptions", "label": "Show product descriptions", "default": false },
+    { "type": "checkbox", "id": "show_price", "label": "Show indicative price", "default": true },
+    { "type": "text", "id": "price_prefix", "label": "Price prefix", "default": "Starting from" },
+    { "type": "text", "id": "details_label", "label": "Product details link", "default": "View details" },
+    { "type": "checkbox", "id": "show_collection_link", "label": "Show collection link", "default": true },
+    { "type": "text", "id": "collection_link_label", "label": "Collection button", "default": "Explore this collection" },
+    { "type": "url", "id": "wishlist_link", "label": "Wishlist page link" },
+    { "type": "text", "id": "empty_message", "label": "Empty state message", "default": "Our wedding gift collection is being curated. Check back soon, or tell us about your celebration." }
+  ],
+  "presets": [{ "name": "SG · Featured products" }]
+}
+{% endschema %}

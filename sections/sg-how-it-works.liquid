@@ -1,0 +1,48 @@
+<section class="sg-section sg-how-section" id="sg-how-{{ section.id }}">
+  <div class="sg-shell-width">
+    <div class="sg-how-card">
+      <header class="sg-section-heading sg-section-heading--compact">
+        {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2>{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
+      </header>
+      {%- if section.blocks.size > 0 -%}
+        <ol class="sg-steps">
+          {%- for block in section.blocks -%}
+            <li class="sg-step" {{ block.shopify_attributes }}>
+              <span class="sg-step__number">{{ forloop.index }}</span>
+              <span class="sg-step__copy">
+                <strong>{{ block.settings.heading | escape }}</strong>
+                <span>{{ block.settings.description | escape }}</span>
+              </span>
+            </li>
+          {%- endfor -%}
+        </ol>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SG · How it works",
+  "max_blocks": 4,
+  "blocks": [
+    { "type": "step", "name": "Step", "settings": [
+      { "type": "text", "id": "heading", "label": "Step heading", "default": "Browse & Explore" },
+      { "type": "textarea", "id": "description", "label": "Step description", "default": "Explore curated collections for your wedding." }
+    ] }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How It Works" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "From selecting gifts to a considered, personalised proposal." }
+  ],
+  "presets": [{ "name": "SG · How it works", "blocks": [
+    { "type": "step", "settings": { "heading": "Browse & Explore", "description": "Curated collections for your wedding." } },
+    { "type": "step", "settings": { "heading": "Add to Wishlist", "description": "Save the gifts that feel right for your celebration." } },
+    { "type": "step", "settings": { "heading": "Share Requirements", "description": "Tell us your wedding details and preferences." } },
+    { "type": "step", "settings": { "heading": "Get a Personalised Proposal", "description": "Our gifting experts will prepare a proposal for you." } }
+  ] }]
+}
+{% endschema %}
