@@ -50,9 +50,9 @@
   "tag": null,
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Get in Touch" },
-    { "type": "text", "id": "phone_number", "label": "Phone number", "default": "", "info": "Leave blank until you have a verified number." },
-    { "type": "text", "id": "email_address", "label": "Email address", "default": "", "info": "Leave blank until you have a verified email address." },
-    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp number (country code and digits)", "default": "", "info": "Leave blank until you have a verified WhatsApp number." },
+    { "type": "text", "id": "phone_number", "label": "Phone number", "info": "Leave blank until you have a verified number." },
+    { "type": "text", "id": "email_address", "label": "Email address", "info": "Leave blank until you have a verified email address." },
+    { "type": "text", "id": "whatsapp_number", "label": "WhatsApp number (country code and digits)", "info": "Leave blank until you have a verified WhatsApp number." },
     { "type": "text", "id": "whatsapp_label", "label": "WhatsApp link label", "default": "Chat on WhatsApp", "visible_if": "{{ block.settings.whatsapp_number != blank }}" },
     { "type": "text", "id": "wishlist_label", "label": "Wishlist link label", "default": "My Wishlist", "visible_if": "{{ block.settings.wishlist_link != blank }}" },
     { "type": "url", "id": "wishlist_link", "label": "Wishlist page", "visible_if": "{{ block.settings.wishlist_label != blank }}" },
