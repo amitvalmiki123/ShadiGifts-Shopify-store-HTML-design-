@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "main": {
+      "type": "sg-services-page",
+      "blocks": {
+        "service_curate": {
+          "type": "service",
+          "settings": {
+            "icon": "gift",
+            "heading": "Curate & Source",
+            "description": "Handpick unique, high-quality gifts for your wedding."
+          }
+        },
+        "service_packaging": {
+          "type": "service",
+          "settings": {
+            "icon": "box",
+            "heading": "Premium Packaging",
+            "description": "Elegant and theme-based packaging that leaves a lasting impression."
+          }
+        },
+        "service_personalization": {
+          "type": "service",
+          "settings": {
+            "icon": "pen",
+            "heading": "Personalization",
+            "description": "Add names, monograms and custom touches to make it special."
+          }
+        },
+        "service_delivery": {
+          "type": "service",
+          "settings": {
+            "icon": "truck",
+            "heading": "On-Time Venue Delivery",
+            "description": "Safe and timely delivery at your home, hotel or wedding venue."
+          }
+        },
+        "service_concierge": {
+          "type": "service",
+          "settings": {
+            "icon": "support",
+            "heading": "Dedicated Wedding Concierge",
+            "description": "A single point of contact for planning, updates and coordination."
+          }
+        },
+        "service_global_delivery": {
+          "type": "service",
+          "settings": {
+            "icon": "globe",
+            "heading": "India & Global Delivery",
+            "description": "Seamless delivery across India and international locations."
+          }
+        }
+      },
+      "block_order": [
+        "service_curate",
+        "service_packaging",
+        "service_personalization",
+        "service_delivery",
+        "service_concierge",
+        "service_global_delivery"
+      ],
+      "settings": {
+        "eyebrow": "Our Services",
+        "heading": "A Complete Wedding Gifting Solution",
+        "description": "From curation to delivery, we handle everything so you can focus on your celebration.",
+        "cta_heading": "Let's Create Your Wedding Gifting Experience",
+        "button_label": "Plan My Wedding Gifting",
+        "button_link": "/pages/planner"
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -106,6 +106,10 @@ export class OverflowList extends DeclarativeShadowElement {
       placeholder,
     };
 
+    // The header can opt out of the automatic “More” overflow item so every
+    // link assigned to the Main menu remains in the visible navigation row.
+    if (this.hasAttribute('data-no-overflow')) return;
+
     // Add event listener for reflow requests
     this.addEventListener(
       'reflow',

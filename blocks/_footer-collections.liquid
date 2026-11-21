@@ -1,0 +1,47 @@
+{%- liquid
+  assign sg_footer_menu = block.settings.menu
+  assign sg_collections_link = blank
+  if sg_footer_menu != blank
+    for link in sg_footer_menu.links
+      assign sg_link_title = link.title | downcase | strip
+      if sg_link_title == 'collections'
+        assign sg_collections_link = link
+        break
+      endif
+    endfor
+  endif
+-%}
+
+{%- if sg_collections_link != blank and sg_collections_link.links != blank -%}
+  <div class="sg-footer-collections" {{ block.shopify_attributes }}>
+    {%- if block.settings.heading != blank -%}
+      <h3 class="sg-footer-collections__heading">{{ block.settings.heading | escape }}</h3>
+    {%- endif -%}
+    <ul class="sg-footer-collections__list" role="list">
+      {%- for link in sg_collections_link.links -%}
+        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collections from Main menu",
+  "tag": null,
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Collections"
+    }
+  ]
+}
+{% endschema %}

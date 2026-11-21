@@ -15,24 +15,9 @@
       "type": "footer",
       "blocks": {
         "footer_brand": {
-          "type": "text",
+          "type": "_footer-brand",
           "settings": {
-            "text": "<h2>ShaadiGifts</h2><p>The Wedding Gifting Concierge</p><p>We curate, personalise, package and deliver wedding gifts for every celebration.</p><p><a href=\"/pages/planner\">Plan your gifting</a> · <a href=\"/pages/wishlist\">Build a wishlist</a></p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "#F4E3DA",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "description": "We curate, personalize, package and deliver your wedding gifts — on time, at your venue, anywhere in the world."
           },
           "blocks": {}
         },
@@ -52,17 +37,10 @@
           "blocks": {}
         },
         "footer_menu_collections": {
-          "type": "menu",
+          "type": "_footer-collections",
           "settings": {
-            "menu": "",
-            "heading": "Collections",
-            "menu_spacing": 12,
-            "show_as_accordion": true,
-            "accordion_icon": "caret",
-            "accordion_dividers": false,
-            "heading_preset": "h5",
-            "link_preset": "paragraph",
-            "text_color": "#F4E3DA"
+            "menu": "main-menu",
+            "heading": "Collections"
           },
           "blocks": {}
         },

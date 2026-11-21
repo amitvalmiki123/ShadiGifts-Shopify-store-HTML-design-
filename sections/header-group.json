@@ -13,22 +13,8 @@
   "sections": {
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
-      "blocks": {
-        "announcement_BxgCk9": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Thoughtful gifting for every wedding function · Personalised with care",
-            "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "letter_spacing": "normal",
-            "case": "none"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "announcement_BxgCk9"
-      ],
+      "blocks": {},
+      "block_order": [],
       "name": "t:names.announcement_bar",
       "settings": {
         "speed": 5,
@@ -47,7 +33,7 @@
         "whatsapp_number": "",
         "phone_display": "",
         "phone_number": "",
-        "show_announcement_messages": true,
+        "show_announcement_messages": false,
         "text_color": "#FFFFFF",
         "accent_color": "#E3C27A"
       }
@@ -61,9 +47,7 @@
           "settings": {
             "hide_logo_on_home_page": false,
             "padding-block-start": 0,
-            "padding-block-end": 0,
-            "brand_name": "ShaadiGifts",
-            "brand_tagline": "The Wedding Gifting Concierge"
+            "padding-block-end": 0
           },
           "blocks": {}
         },
@@ -76,7 +60,7 @@
             "menu_font_style": "inverse",
             "type_font_primary_link": "body",
             "type_case_primary_link": "none",
-            "menu_style": "featured_products",
+            "menu_style": "collection_images",
             "featured_products_aspect_ratio": "4 / 5",
             "featured_collections_aspect_ratio": "16 / 9",
             "image_border_radius": 0,

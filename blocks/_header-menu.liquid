@@ -170,25 +170,6 @@
           {%- endif -%}
         </li>
       {% endfor %}
-      <li
-        class="menu-list__list-item"
-        slot="more"
-        on:blur="/deactivate"
-        on:pointerenter="/activate"
-        on:pointerleave="/deactivate"
-      >
-        <button
-          class="menu-list__link button-unstyled"
-          aria-haspopup="true"
-          aria-expanded="false"
-          ref="menuitem"
-          on:click="/toggle"
-          data-testid="header-menu-more-button"
-          data-skip-node-update
-        >
-          <span class="menu-list__link-title">{{ 'actions.more' | t }}</span>
-        </button>
-      </li>
     {% endcapture %}
 
     <header-menu
@@ -211,7 +192,7 @@
             children: children,
             minimum-items: 2,
             data-testid: 'header-menu-overflow-list',
-            attributes: 'data-skip-node-update'
+            attributes: 'data-skip-node-update data-no-overflow'
           %}
         </nav>
       </div>

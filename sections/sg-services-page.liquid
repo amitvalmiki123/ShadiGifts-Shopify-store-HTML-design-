@@ -1,0 +1,311 @@
+{%- liquid
+  assign sg_services_image_alt = section.settings.image_alt | default: section.settings.image.alt | default: ''
+-%}
+<section class="sg-services-page" id="sg-services-page-{{ section.id }}" {{ section.shopify_attributes }}>
+  <header class="sg-services-page__hero">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1500 | image_tag: class: 'sg-services-page__hero-image', widths: '500, 750, 1000, 1250, 1500', sizes: '(min-width: 800px) 44vw, 100vw', loading: 'eager', alt: sg_services_image_alt }}
+    {%- else -%}
+      <img class="sg-services-page__hero-image" src="{{ 'sg-services-hero.jpg' | asset_url }}" alt="" width="337" height="178" loading="eager">
+    {%- endif -%}
+    <div class="sg-shell-width sg-services-page__hero-copy">
+      <nav class="sg-services-page__crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span aria-current="page">Services</span>
+      </nav>
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h1>{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.description != blank -%}<p>{{ section.settings.description | escape }}</p>{%- endif -%}
+    </div>
+  </header>
+
+  <div class="sg-shell-width sg-services-page__content">
+    <div class="sg-services-page__grid">
+      {%- for block in section.blocks -%}
+        <article class="sg-services-page__card" {{ block.shopify_attributes }}>
+          <span class="sg-services-page__icon" aria-hidden="true">{% render 'sg-icon', name: block.settings.icon %}</span>
+          <h2>{{ block.settings.heading | escape }}</h2>
+          <p>{{ block.settings.description | escape }}</p>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    <div class="sg-services-page__cta">
+      <svg class="sg-services-page__flourish" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <path d="M20 190C40 120 80 60 170 20M60 140c-20-10-30-30-28-50 20 4 32 20 28 50zM90 110c-20-6-34-24-34-44 22 2 36 18 34 44zM122 80c-16-8-24-26-20-44 20 6 28 22 20 44zM64 150c22-6 40 2 50 20-22 6-42 0-50-20zM96 118c22-4 40 4 48 22-22 4-40-2-48-22zM130 86c20-2 36 6 42 22-20 2-36-4-42-22z"/>
+      </svg>
+      <h2>{{ section.settings.cta_heading | escape }}</h2>
+      {%- if section.settings.button_link != blank -%}
+        <a class="sg-button" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sg-services-page {
+    background: var(--sg-cream, #fdf7f0);
+  }
+
+  .sg-services-page__hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-bottom: 1px solid var(--sg-line, #ead9c8);
+    background: linear-gradient(180deg, #fdf1e4, var(--sg-cream, #fdf7f0));
+  }
+
+  .sg-services-page__hero-copy {
+    position: relative;
+    z-index: 1;
+    order: 1;
+    padding-block: 28px 34px;
+  }
+
+  .sg-services-page__hero-image {
+    display: block;
+    order: 2;
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
+  }
+
+  .sg-services-page__crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: var(--sg-muted, #6b5654);
+    font-size: .9rem;
+  }
+
+  .sg-services-page__crumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sg-services-page__crumbs a:hover,
+  .sg-services-page__crumbs [aria-current='page'] {
+    color: var(--sg-maroon, #7a1230);
+  }
+
+  .sg-services-page__crumbs [aria-current='page'] {
+    font-weight: 600;
+  }
+
+  .sg-services-page__crumbs span[aria-hidden='true'] {
+    color: var(--sg-gold, #b8862b);
+  }
+
+  .sg-services-page__hero .sg-eyebrow {
+    margin-bottom: 1rem;
+    letter-spacing: .28em;
+  }
+
+  .sg-services-page__hero h1 {
+    max-width: 620px;
+    margin: 0 0 .25em;
+    color: var(--sg-maroon, #7a1230);
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: clamp(2rem, 4.6vw, 3.6rem);
+    line-height: 1.1;
+  }
+
+  .sg-services-page__hero-copy > p:last-child {
+    max-width: 36em;
+    margin: 0;
+    color: var(--sg-muted, #6b5654);
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+
+  .sg-services-page__content {
+    padding-block: 38px 56px;
+  }
+
+  .sg-services-page__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .sg-services-page__card {
+    padding: 30px 22px;
+    background: linear-gradient(180deg, #fcf1e6, #f8e7d8);
+    text-align: center;
+  }
+
+  .sg-services-page__icon {
+    display: block;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 12px;
+    color: var(--sg-gold, #b8862b);
+  }
+
+  .sg-services-page__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .sg-services-page__card h2 {
+    margin: 0 0 .4em;
+    color: var(--sg-maroon, #7a1230);
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: 1.35rem;
+    line-height: 1.25;
+  }
+
+  .sg-services-page__card p {
+    margin: 0;
+    color: var(--sg-muted, #6b5654);
+    font-size: .95rem;
+    line-height: 1.55;
+  }
+
+  .sg-services-page__cta {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    overflow: hidden;
+    margin-top: 36px;
+    padding: 50px 24px;
+    border-radius: var(--sg-radius-large, 28px);
+    background: linear-gradient(135deg, var(--sg-maroon-light, #9a2346), var(--sg-maroon-deep, #5b0c23));
+    color: #fff;
+    text-align: center;
+  }
+
+  .sg-services-page__cta h2 {
+    position: relative;
+    z-index: 1;
+    max-width: 22em;
+    margin: 0;
+    color: #fff;
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    line-height: 1.2;
+  }
+
+  .sg-services-page__cta .sg-button {
+    position: relative;
+    z-index: 1;
+    border-color: var(--sg-gold-light, #e3c27a);
+    background: var(--sg-gold-light, #e3c27a);
+    color: var(--sg-maroon-deep, #5b0c23);
+  }
+
+  .sg-services-page__cta .sg-button:hover {
+    background: var(--sg-gold-pale, #f5e2b8);
+    color: var(--sg-maroon-deep, #5b0c23);
+  }
+
+  .sg-services-page__flourish {
+    position: absolute;
+    right: 0;
+    bottom: -30px;
+    width: min(46vw, 230px);
+    color: var(--sg-gold-light, #e3c27a);
+    opacity: .35;
+    pointer-events: none;
+  }
+
+  @media screen and (min-width: 620px) {
+    .sg-services-page__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 800px) {
+    .sg-services-page__hero {
+      display: block;
+      min-height: 260px;
+    }
+
+    .sg-services-page__hero-copy {
+      max-width: 56%;
+      padding-block: 28px 44px;
+    }
+
+    .sg-services-page__hero-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 44%;
+      height: 100%;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 38%);
+      mask-image: linear-gradient(to right, transparent 0, #000 38%);
+    }
+  }
+
+  @media screen and (min-width: 960px) {
+    .sg-services-page__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .sg-services-page__card,
+    .sg-services-page__cta .sg-button {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SG · Services page",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "gift",
+          "options": [
+            { "value": "gift", "label": "Gift" },
+            { "value": "box", "label": "Box" },
+            { "value": "pen", "label": "Personalization" },
+            { "value": "truck", "label": "Delivery" },
+            { "value": "support", "label": "Concierge" },
+            { "value": "globe", "label": "Worldwide" }
+          ]
+        },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Curate & Source" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Handpick unique, high-quality gifts for your wedding." }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Services hero image" },
+    { "type": "text", "id": "image_alt", "label": "Hero image alt text" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our Services" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A Complete Wedding Gifting Solution" },
+    { "type": "textarea", "id": "description", "label": "Introduction", "default": "From curation to delivery, we handle everything so you can focus on your celebration." },
+    { "type": "text", "id": "cta_heading", "label": "CTA heading", "default": "Let's Create Your Wedding Gifting Experience" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Plan My Wedding Gifting" },
+    { "type": "url", "id": "button_link", "label": "Planner page link" }
+  ],
+  "presets": [
+    {
+      "name": "SG · Services page",
+      "blocks": [
+        { "type": "service", "settings": { "icon": "gift", "heading": "Curate & Source", "description": "Handpick unique, high-quality gifts for your wedding." } },
+        { "type": "service", "settings": { "icon": "box", "heading": "Premium Packaging", "description": "Elegant and theme-based packaging that leaves a lasting impression." } },
+        { "type": "service", "settings": { "icon": "pen", "heading": "Personalization", "description": "Add names, monograms and custom touches to make it special." } },
+        { "type": "service", "settings": { "icon": "truck", "heading": "On-Time Venue Delivery", "description": "Safe and timely delivery at your home, hotel or wedding venue." } },
+        { "type": "service", "settings": { "icon": "support", "heading": "Dedicated Wedding Concierge", "description": "A single point of contact for planning, updates and coordination." } },
+        { "type": "service", "settings": { "icon": "globe", "heading": "India & Global Delivery", "description": "Seamless delivery across India and international locations." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

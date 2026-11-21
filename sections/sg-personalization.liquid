@@ -5,27 +5,26 @@
         {%- if section.settings.image_1 != blank -%}
           {%- assign sg_alt_1 = section.settings.image_alt_1 | default: section.settings.image_1.alt | default: 'Keepsake wedding gift box' -%}
           {{ section.settings.image_1 | image_url: width: 900 | image_tag: class: 'sg-personalization__photo', widths: '320, 480, 700, 900', loading: 'lazy', alt: sg_alt_1 }}
-        {%- else -%}<span class="sg-personalization__placeholder sg-personalization__placeholder--rose">{% render 'sg-icon', name: 'gift' %}<small>Gift boxes</small></span>{%- endif -%}
+        {%- else -%}<img class="sg-personalization__photo" src="{{ 'sg-personalization-royal-box.jpg' | asset_url }}" alt="Teal and gold gift box with ribbon" width="337" height="166" loading="lazy">{%- endif -%}
       </div>
       <div class="sg-personalization__image sg-personalization__image--two">
         {%- if section.settings.image_2 != blank -%}
           {%- assign sg_alt_2 = section.settings.image_alt_2 | default: section.settings.image_2.alt | default: 'Hand-finished wedding gift jars' -%}
           {{ section.settings.image_2 | image_url: width: 900 | image_tag: class: 'sg-personalization__photo', widths: '320, 480, 700, 900', loading: 'lazy', alt: sg_alt_2 }}
-        {%- else -%}<span class="sg-personalization__placeholder sg-personalization__placeholder--gold">{% render 'sg-icon', name: 'box' %}<small>Fine details</small></span>{%- endif -%}
+        {%- else -%}<img class="sg-personalization__photo" src="{{ 'sg-personalization-tea-jars.jpg' | asset_url }}" alt="Hand-painted floral jars with gold lids" width="337" height="166" loading="lazy">{%- endif -%}
       </div>
       <div class="sg-personalization__image sg-personalization__image--three">
         {%- if section.settings.image_3 != blank -%}
           {%- assign sg_alt_3 = section.settings.image_alt_3 | default: section.settings.image_3.alt | default: 'Embroidered wedding favour bag' -%}
           {{ section.settings.image_3 | image_url: width: 900 | image_tag: class: 'sg-personalization__photo', widths: '320, 480, 700, 900', loading: 'lazy', alt: sg_alt_3 }}
-        {%- else -%}<span class="sg-personalization__placeholder sg-personalization__placeholder--sage">{% render 'sg-icon', name: 'pen' %}<small>Personal touches</small></span>{%- endif -%}
+        {%- else -%}<img class="sg-personalization__photo" src="{{ 'sg-personalization-potli.jpg' | asset_url }}" alt="Embroidered potli bags" width="337" height="178" loading="lazy">{%- endif -%}
       </div>
       <div class="sg-personalization__image sg-personalization__image--four">
         {%- if section.settings.image_4 != blank -%}
           {%- assign sg_alt_4 = section.settings.image_alt_4 | default: section.settings.image_4.alt | default: 'Wedding welcome hamper' -%}
           {{ section.settings.image_4 | image_url: width: 900 | image_tag: class: 'sg-personalization__photo', widths: '320, 480, 700, 900', loading: 'lazy', alt: sg_alt_4 }}
-        {%- else -%}<span class="sg-personalization__placeholder sg-personalization__placeholder--lavender">{% render 'sg-icon', name: 'heart' %}<small>Made with care</small></span>{%- endif -%}
+        {%- else -%}<img class="sg-personalization__photo" src="{{ 'sg-personalization-candle-holder.jpg' | asset_url }}" alt="Golden cut-work candle holder" width="337" height="166" loading="lazy">{%- endif -%}
       </div>
-      <span class="sg-personalization__seal" aria-hidden="true">Made<br>for you</span>
     </div>
 
     <div class="sg-personalization__copy">
@@ -64,9 +63,9 @@
     { "type": "text", "id": "image_alt_3", "label": "Image 3 alt text" },
     { "type": "image_picker", "id": "image_4", "label": "Collage image 4" },
     { "type": "text", "id": "image_alt_4", "label": "Image 4 alt text" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personalisation & packaging" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personalization & Packaging" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Make Every Gift Unmistakably Yours" },
-    { "type": "textarea", "id": "description", "label": "Description", "default": "A gift feels special when it looks like it belongs to your wedding. We add the details guests remember — and keep them consistent from the welcome hamper to the farewell box." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "A gift feels special when it looks like it belongs to your wedding. We add the details that guests remember — and keep them consistent from the welcome hamper to the farewell box." },
     { "type": "checkbox", "id": "show_button", "label": "Show services button", "default": true },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Our Services" },
     { "type": "url", "id": "button_link", "label": "Button link" }

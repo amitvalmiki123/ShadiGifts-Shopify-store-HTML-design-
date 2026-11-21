@@ -2,7 +2,6 @@
 
 {% liquid
   assign block_settings = block.settings
-  assign sg_brand_name = block.settings.brand_name | default: shop.name
   assign use_inverse_logo = false
 
   if section.settings.enable_transparent_header_home and template.name == 'index' and section.settings.home_inverse_logo == true
@@ -21,7 +20,7 @@
     endif
   endif
 
-  assign alt_text_fallback = 'accessibility.home_logo_alt' | t: store_name: sg_brand_name
+  assign alt_text_fallback = 'accessibility.home_logo_alt' | t: store_name: shop.name
 %}
 
 {% comment %}
@@ -33,7 +32,7 @@
     data-hidden-on-home-page
   {% endif %}
   href="{{ routes.root_url }}"
-  class="size-style spacing-style header-logo sg-native-header-logo{% if settings.logo != blank or use_inverse_logo and inverse_logo != blank %} sg-native-header-logo--image{% endif %}"
+  class="size-style spacing-style header-logo sg-native-header-logo{% if settings.logo != blank or use_inverse_logo and inverse_logo != blank %} sg-native-header-logo--image{% else %} sg-native-header-logo--custom-mark{% endif %}"
   style="
     {% render 'size-style', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
@@ -64,7 +63,7 @@
         class: 'header-logo__image',
         height: settings.logo_height,
         alt_text_fallback: alt_text_fallback,
-        text_fallback: sg_brand_name,
+        text_fallback: shop.name,
         style: logo_style
       %}
     </span>
@@ -79,17 +78,17 @@
           class: 'header-logo__image',
           height: settings.logo_height,
           alt_text_fallback: alt_text_fallback,
-          text_fallback: sg_brand_name,
+          text_fallback: shop.name,
           style: inverse_logo_style
         %}
       </span>
     {% endif %}
-    {% if block.settings.brand_tagline != blank %}<small class="sg-native-header-logo__tagline">{{ block.settings.brand_tagline | escape }}</small>{% endif %}
   {% else %}
-    <span class="sg-native-header-logo__mark">{% render 'sg-brand-mark' %}</span>
+    <span class="sg-native-header-logo__mark" aria-hidden="true">
+      <img src="{{ 'sg-logo-header-icon.svg' | asset_url }}" alt="" width="60" height="44" loading="eager">
+    </span>
     <span class="sg-native-header-logo__copy">
-      <strong>{{ sg_brand_name | escape }}</strong>
-      {% if block.settings.brand_tagline != blank %}<small>{{ block.settings.brand_tagline | escape }}</small>{% endif %}
+      <strong>{{ shop.name | escape }}</strong>
     </span>
   {% endif %}
 </a>
@@ -158,18 +157,6 @@
   "tag": null,
   "class": "header-logo",
   "settings": [
-    {
-      "type": "text",
-      "id": "brand_name",
-      "label": "Brand name",
-      "default": "ShaadiGifts"
-    },
-    {
-      "type": "text",
-      "id": "brand_tagline",
-      "label": "Brand tagline",
-      "default": "The Wedding Gifting Concierge"
-    },
     {
       "type": "paragraph",
       "content": "t:content.edit_logo_in_theme_settings"
