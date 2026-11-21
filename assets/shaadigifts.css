@@ -3140,3 +3140,27 @@ body {
 .sg-footer-contact__heading {
   font-family: var(--sg-body);
 }
+
+.sg-product-editor-note {
+  max-width: 60rem;
+  margin-inline: auto;
+  padding: 22px 26px;
+  border: 1px dashed var(--sg-line, #ead9c8);
+  border-radius: var(--sg-radius-medium, 18px);
+  background: var(--sg-paper, #fffaf5);
+  color: var(--sg-muted, #6b5654);
+  text-align: center;
+}
+
+.sg-product-editor-note strong {
+  display: block;
+  color: var(--sg-maroon, #7a1230);
+  font-family: var(--sg-display, Georgia, serif);
+  font-size: 1.12rem;
+}
+
+.sg-product-editor-note p {
+  margin: 8px 0 0;
+  font-size: .9rem;
+  line-height: 1.5;
+}

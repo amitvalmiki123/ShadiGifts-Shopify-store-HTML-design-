@@ -2,7 +2,7 @@
   assign sg_featured_collection = section.settings.collection
   assign sg_featured_products = blank
   if sg_featured_collection != blank
-    assign sg_featured_products = sg_featured_collection.products | slice: 0, section.settings.products_to_show
+    assign sg_featured_products = sg_featured_collection.products | where_exp: 'product', 'product.title != blank' | slice: 0, section.settings.products_to_show
   endif
   assign sg_show_featured_products = false
   if sg_featured_collection != blank and sg_featured_products != blank
@@ -66,6 +66,24 @@
       </div>
   </div>
 </section>
+{%- elsif request.design_mode -%}
+  <section class="sg-section sg-products sg-products--editor-empty" id="sg-products-{{ section.id }}" {{ section.shopify_attributes }}>
+    <div class="sg-shell-width">
+      <header class="sg-section-heading">
+        {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2>{{ section.settings.heading | escape }}</h2>
+      </header>
+      <div class="sg-product-editor-note" role="status">
+        {%- if sg_featured_collection != blank -%}
+          <strong>No Online Store products are available from “{{ sg_featured_collection.title | escape }}”.</strong>
+          <p>Make sure products are assigned to this collection and published to the Online Store sales channel. Active status alone is not enough.</p>
+        {%- else -%}
+          <strong>Select a product collection to show the product rail.</strong>
+          <p>Choose a Shopify collection with products published to the Online Store sales channel.</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
 {%- endif -%}
 
 {% schema %}

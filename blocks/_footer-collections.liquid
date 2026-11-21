@@ -1,25 +1,26 @@
 {%- liquid
   assign sg_footer_menu = block.settings.menu
-  assign sg_collections_link = blank
+  assign sg_footer_collection_links = blank
   if sg_footer_menu != blank
-    for link in sg_footer_menu.links
-      assign sg_link_title = link.title | downcase | strip
-      if sg_link_title == 'collections'
-        assign sg_collections_link = link
+    assign sg_footer_collection_links = sg_footer_menu.links
+    for sg_footer_menu_link in sg_footer_menu.links
+      assign sg_link_title = sg_footer_menu_link.title | downcase | strip
+      if sg_link_title == 'collections' and sg_footer_menu_link.links != blank
+        assign sg_footer_collection_links = sg_footer_menu_link.links
         break
       endif
     endfor
   endif
 -%}
 
-{%- if sg_collections_link != blank and sg_collections_link.links != blank -%}
+{%- if sg_footer_collection_links != blank -%}
   <div class="sg-footer-collections" {{ block.shopify_attributes }}>
     {%- if block.settings.heading != blank -%}
       <h3 class="sg-footer-collections__heading">{{ block.settings.heading | escape }}</h3>
     {%- endif -%}
     <ul class="sg-footer-collections__list" role="list">
-      {%- for link in sg_collections_link.links -%}
-        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+      {%- for sg_footer_collection_link in sg_footer_collection_links -%}
+        <li><a href="{{ sg_footer_collection_link.url }}">{{ sg_footer_collection_link.title | escape }}</a></li>
       {%- endfor -%}
     </ul>
   </div>
