@@ -7,28 +7,28 @@
           "type": "benefit",
           "settings": {
             "icon": "box",
-            "label": "Curated & personalised gifts"
+            "label": "Curated & Personalized Gifts"
           }
         },
         "trust_packaging": {
           "type": "benefit",
           "settings": {
             "icon": "gift",
-            "label": "Premium packaging"
+            "label": "Premium Packaging"
           }
         },
         "trust_delivery": {
           "type": "benefit",
           "settings": {
             "icon": "truck",
-            "label": "On-time venue delivery"
+            "label": "On-Time Delivery at Your Venue"
           }
         },
         "trust_worldwide": {
           "type": "benefit",
           "settings": {
             "icon": "globe",
-            "label": "India & worldwide"
+            "label": "For Indian & International Weddings"
           }
         }
       },
@@ -42,13 +42,12 @@
         "eyebrow": "End-to-end wedding gifting",
         "heading_prefix": "Your Wedding. Every Gift.",
         "heading_emphasis": "One Partner.",
-        "description": "We curate, personalise, package and coordinate all your wedding gifts — on time, at your venue, anywhere in the world.",
-        "image_alt": "Thoughtfully curated wedding gifts",
+        "description": "We curate, personalize, package and deliver all your wedding gifts — on time, at your venue, anywhere in the world.",
+        "image_alt": "Wedding gift box with maroon satin bow, golden candle and flowers",
         "primary_label": "Plan My Wedding Gifting",
         "planner_link": "/pages/planner",
-        "secondary_label": "Create a Wishlist",
-        "wishlist_link": "/pages/wishlist",
-        "supporting_note": "A personal gifting concierge, from the first idea to venue delivery."
+        "secondary_label": "Create Wishlist",
+        "wishlist_link": "/collections"
       }
     },
     "sg_featured_collections": {

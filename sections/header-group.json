@@ -1,108 +1,39 @@
 /*
  * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
+ * IMPORTANT: This group file is consumed by Shopify OS 2.0.
+ * Keep the ShaadiGifts top information bar and brand header in this order.
  * ------------------------------------------------------------
  */
 {
   "type": "header",
-  "name": "t:names.header",
+  "name": "ShaadiGifts header",
   "sections": {
-    "header_announcements_9jGBFp": {
-      "type": "header-announcements",
-      "blocks": {
-        "announcement_BxgCk9": {
-          "type": "_announcement",
-          "settings": {
-            "text": "Thoughtful gifting for every wedding function · Personalised with care",
-            "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
-            "letter_spacing": "normal",
-            "case": "none"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "announcement_BxgCk9"
-      ],
-      "name": "t:names.announcement_bar",
+    "sg_topbar": {
+      "type": "sg-topbar",
+      "name": "SG · Top information bar",
       "settings": {
-        "speed": 5,
-        "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.background }}",
-        "divider_width": 1,
-        "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "serving_text": "Serving India & Worldwide",
+        "delivery_text": "International Delivery",
+        "quality_text": "Quality Assured",
+        "whatsapp_label": "Chat on WhatsApp",
+        "phone_display": "+91 98765 43210",
+        "phone_number": "919876543210"
       }
     },
-    "header_section": {
-      "type": "header",
-      "blocks": {
-        "header-logo": {
-          "type": "_header-logo",
-          "static": true,
-          "settings": {
-            "hide_logo_on_home_page": false,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
-        "header-menu": {
-          "type": "_header-menu",
-          "static": true,
-          "settings": {
-            "menu": "main-menu",
-            "type_font_primary_size": "0.875rem",
-            "menu_font_style": "inverse",
-            "type_font_primary_link": "body",
-            "type_case_primary_link": "none",
-            "menu_style": "featured_products",
-            "featured_products_aspect_ratio": "4 / 5",
-            "featured_collections_aspect_ratio": "16 / 9",
-            "image_border_radius": 0,
-            "navigation_bar": false,
-            "drawer_accordion": false,
-            "drawer_accordion_expand_first": false,
-            "drawer_dividers": false
-          },
-          "blocks": {}
-        }
-      },
+    "sg_header": {
+      "type": "sg-header",
+      "name": "SG · Brand header",
       "settings": {
-        "logo_position": "left",
-        "menu_position": "left",
-        "menu_row": "top",
-        "show_search": true,
-        "search_position": "right",
-        "search_row": "top",
-        "show_country": true,
-        "country_selector_style": false,
-        "show_language": true,
-        "localization_font": "heading",
-        "localization_font_size": "0.875rem",
-        "localization_position": "right",
-        "localization_row": "top",
-        "section_width": "page-width",
-        "section_height": "standard",
-        "enable_sticky_header": "always",
-        "divider_width": 0,
-        "divider_size": "page-width",
-        "border_width": 0,
-        "background_color_top": "{{ settings.color_palette.background }}",
-        "enable_transparent_header_home": false,
-        "enable_transparent_header_product": false,
-        "enable_transparent_header_collection": false
+        "brand_name": "ShaadiGifts",
+        "brand_tagline": "The Wedding Gifting Concierge",
+        "price_label": "₹100 – ₹999",
+        "wishlist_label": "Wishlist",
+        "planner_label": "Plan My Wedding Gifting"
       }
     }
   },
   "order": [
-    "header_announcements_9jGBFp",
-    "header_section"
+    "sg_topbar",
+    "sg_header"
   ]
 }

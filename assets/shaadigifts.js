@@ -414,7 +414,32 @@
     saveWishlist(items, { renderItems: false });
   });
 
+  function initHeaderNavigation() {
+    const openButton = document.querySelector('[data-sg-menu-open]');
+    const drawer = document.querySelector('[data-sg-header-drawer]');
+    if (!openButton || !drawer || openButton.dataset.sgBound === 'true') return;
+
+    openButton.dataset.sgBound = 'true';
+    openButton.addEventListener('click', () => {
+      if (!drawer.open) drawer.showModal();
+    });
+
+    const closeButton = drawer.querySelector('[data-sg-menu-close]');
+    if (closeButton) closeButton.addEventListener('click', () => drawer.close());
+
+    drawer.addEventListener('click', (event) => {
+      if (event.target === drawer) drawer.close();
+    });
+
+    drawer.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (drawer.open) drawer.close();
+      });
+    });
+  }
+
   function init() {
+    initHeaderNavigation();
     initContactForms();
     const wishlistSuccess = document.querySelector('[data-sg-wishlist-page] [data-sg-contact-success]');
     if (wishlistSuccess && readWishlist().length) saveWishlist([]);
@@ -428,6 +453,7 @@
   }
 
   document.addEventListener('shopify:section:load', () => {
+    initHeaderNavigation();
     initContactForms();
     updateWishlistUI();
   });
