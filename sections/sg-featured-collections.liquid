@@ -41,7 +41,7 @@
 
     {%- if section.settings.show_all_link and section.settings.all_link != blank -%}
       <div class="sg-section__action">
-        <a class="sg-button sg-button--outline" href="{{ section.settings.all_link }}">{{ section.settings.all_link_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
+        <a class="sg-button sg-button--outline" href="{{ section.settings.all_link }}">{{ section.settings.all_link_label | escape }}</a>
       </div>
     {%- endif -%}
   </div>

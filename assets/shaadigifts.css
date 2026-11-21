@@ -907,27 +907,6 @@ body {
   line-height: 1.5;
 }
 
-.sg-function-tile__link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: auto;
-  padding-top: 13px;
-  color: var(--sg-maroon);
-  font-size: .77rem;
-  font-weight: 700;
-}
-
-.sg-function-tile__link svg {
-  width: 15px;
-  height: 15px;
-  transition: transform .2s ease;
-}
-
-.sg-function-tile--linked:hover .sg-function-tile__link svg {
-  transform: translateX(3px);
-}
-
 /* Personalisation photo collage and copy */
 .sg-two-column {
   display: grid;
@@ -953,11 +932,6 @@ body {
   background: linear-gradient(135deg, #F9E3C8, #F2CFA8);
   box-shadow: var(--sg-shadow-small);
   overflow: hidden;
-}
-
-.sg-personalization__image--two,
-.sg-personalization__image--three {
-  transform: translateY(12px);
 }
 
 .sg-personalization__photo {
@@ -1378,7 +1352,7 @@ body {
 
 /* Final wedding planner banner */
 .sg-planner-cta-section {
-  padding-top: 0;
+  padding-top: clamp(24px, 4vw, 44px);
 }
 
 .sg-planner-cta {
@@ -1833,9 +1807,6 @@ body {
   .sg-function-tile__description {
     font-size: .76rem;
   }
-  .sg-function-tile__link {
-    font-size: .7rem;
-  }
   .sg-personalization__collage {
     gap: 9px;
     padding-right: 6px;
@@ -1909,7 +1880,7 @@ body {
     font-size: .87rem;
   }
   .sg-planner-cta-section {
-    padding-top: 0;
+    padding-top: 22px;
   }
   .sg-planner-cta {
     gap: 20px;
@@ -2849,4 +2820,46 @@ body {
     min-height: 38px;
     padding: 6px 9px;
   }
+}
+
+/* Editable Get in Touch block in the native Horizon footer. */
+.sg-footer-contact {
+  min-width: 0;
+  color: var(--color-foreground, #f4e3da);
+}
+
+.sg-footer-contact__heading {
+  margin: 0 0 .7em;
+  color: var(--sg-footer-accent, var(--sg-gold-light));
+  font-family: var(--sg-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.sg-footer-contact__list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sg-footer-contact__list a {
+  display: inline-block;
+  padding: 6px 0;
+  color: var(--color-foreground, #f4e3da);
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.sg-footer-contact__list a:hover {
+  color: var(--sg-footer-accent, var(--sg-gold-light));
+}
+
+.sg-footer-contact__note {
+  margin: 12px 0 0;
+  color: var(--color-foreground, #f4e3da);
+  font-size: .85rem;
+  line-height: 1.55;
+  opacity: .8;
 }

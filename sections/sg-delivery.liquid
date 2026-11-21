@@ -13,7 +13,7 @@
       {%- endif -%}
       {%- if section.settings.note != blank -%}<p class="sg-delivery__note">{{ section.settings.note | escape }}</p>{%- endif -%}
       {%- if section.settings.button_link != blank -%}
-        <a class="sg-button sg-button--outline" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
+        <a class="sg-button sg-button--outline" href="{{ section.settings.button_link }}">{{ section.settings.button_label | escape }}</a>
       {%- endif -%}
     </div>
 

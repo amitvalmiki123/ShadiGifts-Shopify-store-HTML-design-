@@ -66,18 +66,18 @@
           },
           "blocks": {}
         },
-        "footer_menu_information": {
-          "type": "menu",
+        "footer_contact": {
+          "type": "_footer-contact",
           "settings": {
-            "menu": "",
-            "heading": "Information",
-            "menu_spacing": 12,
-            "show_as_accordion": true,
-            "accordion_icon": "caret",
-            "accordion_dividers": false,
-            "heading_preset": "h5",
-            "link_preset": "paragraph",
-            "text_color": "#F4E3DA"
+            "heading": "Get in Touch",
+            "phone_number": "",
+            "email_address": "",
+            "whatsapp_number": "",
+            "whatsapp_label": "Chat on WhatsApp",
+            "wishlist_label": "My Wishlist",
+            "wishlist_link": "/pages/wishlist",
+            "show_wishlist_count": true,
+            "explanatory_text": "Gifts are not sold online — build a wishlist and request a personalised proposal."
           },
           "blocks": {}
         }
@@ -86,7 +86,7 @@
         "footer_brand",
         "footer_menu_explore",
         "footer_menu_collections",
-        "footer_menu_information"
+        "footer_contact"
       ],
       "name": "t:names.footer",
       "settings": {
@@ -104,40 +104,25 @@
         "footer_copyright_jweRK8": {
           "type": "footer-copyright",
           "settings": {
-            "show_powered_by": true,
-            "font_size": "0.75rem",
+            "show_powered_by": false,
+            "font_size": "0.875rem",
             "case": "none"
           },
-          "blocks": {}
-        },
-        "footer_policy_list_VCdnpa": {
-          "type": "footer-policy-list",
-          "settings": {
-            "font_size": "0.75rem",
-            "case": "none"
-          },
-          "blocks": {}
-        },
-        "social_links_Ew63Kq": {
-          "type": "social-links",
-          "settings": {},
           "blocks": {}
         }
       },
       "block_order": [
-        "footer_copyright_jweRK8",
-        "footer_policy_list_VCdnpa",
-        "social_links_Ew63Kq"
+        "footer_copyright_jweRK8"
       ],
       "name": "t:names.utilities",
       "settings": {
         "section_width": "page-width",
         "gap": 24,
         "divider_thickness": 1,
-        "divider_color": "#B8862B",
+        "divider_color": "#78384B",
         "background_color": "#5B0C23",
         "padding-block-start": 18,
-        "padding-block-end": 28
+        "padding-block-end": 16
       }
     }
   },

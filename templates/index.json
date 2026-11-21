@@ -76,7 +76,8 @@
         "show_collection_link": true,
         "collection_link_label": "Explore this collection",
         "wishlist_link": "/pages/wishlist",
-        "empty_message": "Our wedding gift collection is being curated. Check back soon, or tell us about your celebration."
+        "no_collection_message": "Choose a product collection in this section's settings. Products must be assigned to that collection and published to the Online Store sales channel.",
+        "empty_message": "No storefront-visible products were found. Confirm the products are Active, published to the Online Store sales channel, and assigned to this collection."
       }
     },
     "sg_why_choose": {

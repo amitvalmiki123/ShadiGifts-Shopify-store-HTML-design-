@@ -1,10 +1,12 @@
 {%- liquid
   assign sg_featured_collection = section.settings.collection
-  assign sg_show_featured_products = false
+  assign sg_featured_products = blank
   if sg_featured_collection != blank
-    if sg_featured_collection.products_count > 0
-      assign sg_show_featured_products = true
-    endif
+    assign sg_featured_products = sg_featured_collection.products | slice: 0, section.settings.products_to_show
+  endif
+  assign sg_show_featured_products = false
+  if sg_featured_products != blank
+    assign sg_show_featured_products = true
   endif
   assign sg_wishlist_url = section.settings.wishlist_link
 -%}
@@ -18,7 +20,7 @@
 
     {%- if sg_show_featured_products -%}
       <div class="sg-product-grid">
-        {%- for product in sg_featured_collection.products limit: section.settings.products_to_show -%}
+        {%- for product in sg_featured_products -%}
           {%- assign sg_product_image = product.featured_image -%}
           {%- assign sg_product_summary = product.description | strip_html | strip | truncate: 104 -%}
           <article class="sg-product-card">
@@ -83,13 +85,19 @@
     {%- else -%}
       <div class="sg-empty-state">
         <span class="sg-empty-state__icon">{% render 'sg-icon', name: 'gift' %}</span>
-        <p>{{ section.settings.empty_message | escape }}</p>
+        {%- if sg_featured_collection == blank -%}
+          <p>{{ section.settings.no_collection_message | escape }}</p>
+        {%- else -%}
+          <p>
+            <strong>{{ sg_featured_collection.title | escape }}</strong> — {{ section.settings.empty_message | escape }}
+          </p>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
     {%- if section.settings.show_collection_link and sg_featured_collection != blank -%}
       <div class="sg-section__action">
-        <a class="sg-button sg-button--outline" href="{{ sg_featured_collection.url }}">{{ section.settings.collection_link_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
+        <a class="sg-button sg-button--outline" href="{{ sg_featured_collection.url }}">{{ section.settings.collection_link_label | escape }}</a>
       </div>
     {%- endif -%}
   </div>
@@ -102,7 +110,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Popular Wedding Gifts" },
     { "type": "textarea", "id": "description", "label": "Description", "default": "A few favourites to start your wishlist. Save any gift you would like us to personalise." },
-    { "type": "collection", "id": "collection", "label": "Product collection", "info": "Choose the Shopify collection whose real products you want to feature." },
+    { "type": "collection", "id": "collection", "label": "Product collection", "info": "Choose a collection with products assigned to it and published to the Online Store sales channel. Active status alone is not enough." },
     { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
     { "type": "checkbox", "id": "show_descriptions", "label": "Show product descriptions", "default": false },
     { "type": "checkbox", "id": "show_price", "label": "Show indicative price", "default": true },
@@ -111,7 +119,8 @@
     { "type": "checkbox", "id": "show_collection_link", "label": "Show collection link", "default": true },
     { "type": "text", "id": "collection_link_label", "label": "Collection button", "default": "Explore this collection" },
     { "type": "url", "id": "wishlist_link", "label": "Wishlist page link" },
-    { "type": "text", "id": "empty_message", "label": "Empty state message", "default": "Our wedding gift collection is being curated. Check back soon, or tell us about your celebration." }
+    { "type": "textarea", "id": "no_collection_message", "label": "Message when no collection is selected", "default": "Choose a product collection in this section's settings. Products must be assigned to that collection and published to the Online Store sales channel." },
+    { "type": "textarea", "id": "empty_message", "label": "Message when the collection has no visible products", "default": "No storefront-visible products were found. Confirm the products are Active, published to the Online Store sales channel, and assigned to this collection." }
   ],
   "presets": [{ "name": "SG · Featured products" }]
 }

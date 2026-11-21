@@ -12,9 +12,6 @@
           <span class="sg-function-tile__index">0{{ forloop.index }}</span>
           <span class="sg-function-tile__title">{{ block.settings.title | escape }}</span>
           <span class="sg-function-tile__description">{{ block.settings.description | escape }}</span>
-          {%- if sg_function_url != blank -%}
-            <span class="sg-function-tile__link">{{ section.settings.link_label | escape }} {% render 'sg-icon', name: 'arrow' %}</span>
-          {%- endif -%}
         {%- endcapture -%}
         {%- if sg_function_url != blank -%}
           <a class="sg-function-tile sg-function-tile--{{ forloop.index }} sg-function-tile--linked" href="{{ sg_function_url }}" {{ block.shopify_attributes }}>{{ sg_function_content }}</a>
@@ -44,8 +41,7 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Gifts For Every Function" },
-    { "type": "textarea", "id": "description", "label": "Description", "default": "A wedding is many celebrations. Choose a function and explore gifts that suit its mood." },
-    { "type": "text", "id": "link_label", "label": "Tile link label", "default": "Explore gifts" }
+    { "type": "textarea", "id": "description", "label": "Description", "default": "A wedding is many celebrations. Choose a function and explore gifts that suit its mood." }
   ],
   "presets": [{ "name": "SG · Function tiles", "blocks": [
     { "type": "function", "settings": { "title": "Ring Ceremony", "description": "Refined keepsakes and boxes for the engagement celebration." } },

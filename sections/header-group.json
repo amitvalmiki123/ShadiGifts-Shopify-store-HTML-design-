@@ -47,7 +47,7 @@
         "whatsapp_number": "",
         "phone_display": "",
         "phone_number": "",
-        "show_announcement_messages": false,
+        "show_announcement_messages": true,
         "text_color": "#FFFFFF",
         "accent_color": "#E3C27A"
       }
