@@ -10,7 +10,8 @@
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 <div
-  class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  class="section section--{{ section.settings.section_width }} sg-native-footer{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="--sg-footer-accent: {{ section.settings.accent_color | default: '#E3C27A' | escape }};"
 >
   {% liquid
     assign total_blocks = section.blocks.size
@@ -95,6 +96,32 @@
 
     .footer-content--isolated-grid-item-desktop > :last-child {
       grid-column: 1 / -1;
+    }
+  }
+
+  .sg-native-footer .footer-content {
+    row-gap: clamp(22px, 3vw, 38px);
+  }
+
+  .sg-native-footer .menu__heading__default,
+  .sg-native-footer .menu__heading__accordion {
+    color: var(--sg-footer-accent, #e3c27a);
+    font-weight: 700;
+  }
+
+  .sg-native-footer .menu__item a,
+  .sg-native-footer .text-block a {
+    color: var(--color-foreground);
+  }
+
+  .sg-native-footer .menu__item a:hover,
+  .sg-native-footer .text-block a:hover {
+    color: var(--sg-footer-accent, #e3c27a);
+  }
+
+  @media screen and (min-width: 990px) {
+    .sg-native-footer .footer-content[style*='--grid-columns: 4'] {
+      grid-template-columns: 1.55fr repeat(3, 1fr);
     }
   }
 {% endstylesheet %}
@@ -182,6 +209,12 @@
       "id": "background_color",
       "label": "t:settings.background_color",
       "default": "{{ settings.color_palette.foreground }}"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Footer accent color",
+      "default": "#E3C27A"
     },
     {
       "type": "header",

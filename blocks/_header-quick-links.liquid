@@ -1,0 +1,145 @@
+{% liquid
+  assign price_link = block.settings.price_link | default: routes.collections_url
+  assign wishlist_link = block.settings.wishlist_link | default: '/pages/wishlist'
+  assign planner_link = block.settings.planner_link | default: '/pages/planner'
+%}
+
+<nav
+  class="sg-header-quick-links"
+  aria-label="{{ block.settings.quick_links_label | escape }}"
+  data-show-cart="{{ block.settings.show_cart }}"
+  style="--sg-header-accent: {{ block.settings.accent_color | escape }}; --sg-header-accent-hover: {{ block.settings.accent_hover_color | escape }}; --sg-header-highlight: {{ block.settings.highlight_color | escape }}; --sg-header-action-text: {{ block.settings.button_text_color | escape }}; --sg-header-price-text: {{ block.settings.price_text_color | escape }};"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.show_price_link and block.settings.price_label != blank %}
+    <a class="sg-header-quick-links__link sg-header-quick-links__price" href="{{ price_link | escape }}">
+      <span class="sg-header-quick-links__icon">{% render 'sg-icon', name: 'tag' %}</span>
+      <span>{{ block.settings.price_label | escape }}</span>
+    </a>
+  {% endif %}
+  {% if block.settings.show_wishlist_link and block.settings.wishlist_label != blank %}
+    <a class="sg-header-quick-links__link sg-header-quick-links__wishlist" href="{{ wishlist_link | escape }}">
+      <span class="sg-header-quick-links__icon">{% render 'sg-icon', name: 'heart' %}</span>
+      <span class="sg-header-quick-links__wishlist-label">{{ block.settings.wishlist_label | escape }}</span>
+    </a>
+  {% endif %}
+  {% if block.settings.show_planner_link and block.settings.planner_label != blank %}
+    <a class="sg-header-quick-links__link sg-header-quick-links__planner" href="{{ planner_link | escape }}">
+      <span>{{ block.settings.planner_label | escape }}</span>
+      {% render 'sg-icon', name: 'arrow' %}
+    </a>
+  {% endif %}
+</nav>
+
+{% schema %}
+{
+  "name": "ShaadiGifts quick links",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "quick_links_label",
+      "label": "Accessibility label",
+      "default": "Quick links"
+    },
+    {
+      "type": "header",
+      "content": "Quick link colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Button and link color",
+      "default": "#7A1230"
+    },
+    {
+      "type": "color",
+      "id": "accent_hover_color",
+      "label": "Button hover color",
+      "default": "#5B0C23"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Price link highlight color",
+      "default": "#E3C27A"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "price_text_color",
+      "label": "Price link text color",
+      "default": "#F7E3A8"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price_link",
+      "label": "Show price range link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "price_label",
+      "label": "Price range label",
+      "default": "₹100 – ₹999",
+      "visible_if": "{{ block.settings.show_price_link }}"
+    },
+    {
+      "type": "url",
+      "id": "price_link",
+      "label": "Price range link",
+      "visible_if": "{{ block.settings.show_price_link }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist_link",
+      "label": "Show wishlist link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "wishlist_label",
+      "label": "Wishlist label",
+      "default": "Wishlist",
+      "visible_if": "{{ block.settings.show_wishlist_link }}"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_link",
+      "label": "Wishlist page",
+      "visible_if": "{{ block.settings.show_wishlist_link }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_planner_link",
+      "label": "Show planner button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "planner_label",
+      "label": "Planner button label",
+      "default": "Plan My Wedding Gifting",
+      "visible_if": "{{ block.settings.show_planner_link }}"
+    },
+    {
+      "type": "url",
+      "id": "planner_link",
+      "label": "Planner page",
+      "visible_if": "{{ block.settings.show_planner_link }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Show native cart icon",
+      "default": false,
+      "info": "Leave off for the wishlist/concierge storefront, which does not sell or check out online."
+    }
+  ]
+}
+{% endschema %}

@@ -1,6 +1,21 @@
+{%- liquid
+  assign sg_phone_digits = section.settings.phone_number | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')' | remove: '.'
+  assign sg_whatsapp_digits = section.settings.whatsapp_number | remove: ' ' | remove: '+' | remove: '-' | remove: '(' | remove: ')' | remove: '.'
+  assign sg_show_phone = false
+  assign sg_show_whatsapp = false
+  if section.settings.phone_display != blank and sg_phone_digits != blank
+    assign sg_show_phone = true
+  endif
+  if section.settings.whatsapp_label != blank and sg_whatsapp_digits != blank
+    assign sg_show_whatsapp = true
+  endif
+  assign sg_show_contact_links = false
+  if sg_show_phone or sg_show_whatsapp
+    assign sg_show_contact_links = true
+  endif
+-%}
 
-
-{% if section.blocks.size > 1 %}
+{% if section.settings.show_announcement_messages and section.blocks.size > 1 %}
   <script
     src="{{ 'announcement-bar.js' | asset_url }}"
     type="module"
@@ -8,36 +23,85 @@
   ></script>
 {% endif %}
 
-{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+{% render 'contrast-override', background_color: section.settings.background_color, text_color: section.settings.text_color, section_id: section.id %}
 
 <div class="section-background color-custom-{{ section.id }}"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
+  class="announcement-bar sg-native-announcement spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px; --sg-announcement-accent: {{ section.settings.accent_color | default: '#E3C27A' | escape }};{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
+  {{ section.shopify_attributes }}
 >
-  {% liquid
-    assign autoplay = false
-    assign show_arrows = false
-    if section.blocks.size > 1
-      assign autoplay = true
-      assign show_arrows = true
-    endif
-  %}
+  {% if section.settings.show_service_info %}
+    <div class="sg-announcement-info" role="region" aria-label="{{ section.settings.info_bar_label | escape }}">
+      <ul class="sg-announcement-info__items sg-announcement-info__items--left" role="list">
+        {% if section.settings.serving_text != blank %}
+          <li class="sg-announcement-info__item">
+            {% render 'sg-icon', name: 'globe-small' %}
+            <span>{{ section.settings.serving_text | escape }}</span>
+          </li>
+        {% endif %}
+        {% if section.settings.delivery_text != blank %}
+          <li class="sg-announcement-info__item">
+            {% render 'sg-icon', name: 'plane' %}
+            <span>{{ section.settings.delivery_text | escape }}</span>
+          </li>
+        {% endif %}
+        {% if section.settings.quality_text != blank %}
+          <li class="sg-announcement-info__item">
+            {% render 'sg-icon', name: 'shield' %}
+            <span>{{ section.settings.quality_text | escape }}</span>
+          </li>
+        {% endif %}
+      </ul>
 
-  <announcement-bar-component
-    class="announcement-bar__slider"
-    {% if autoplay == true %}
-      autoplay="{{ section.settings.speed }}" aria-live="polite"
-    {% endif %}
-  >
-    {% if show_arrows %}
-      {% render 'slideshow-arrows', icon_style: 'chevron' %}
-    {% endif %}
-
-    <div class="announcement-bar__slides">
-      {% content_for 'blocks' %}
+      {% if sg_show_contact_links %}
+        <ul class="sg-announcement-info__items sg-announcement-info__items--right" role="list">
+          {% if sg_show_whatsapp %}
+            <li class="sg-announcement-info__item sg-announcement-info__item--whatsapp">
+              <a href="https://wa.me/{{ sg_whatsapp_digits | escape }}" target="_blank" rel="noopener noreferrer">
+                {% render 'sg-icon', name: 'whatsapp' %}
+                <span>{{ section.settings.whatsapp_label | escape }}</span>
+              </a>
+            </li>
+          {% endif %}
+          {% if sg_show_phone %}
+            <li class="sg-announcement-info__item">
+              <a href="tel:+{{ sg_phone_digits | escape }}">
+                {% render 'sg-icon', name: 'phone' %}
+                <span>{{ section.settings.phone_display | escape }}</span>
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      {% endif %}
     </div>
-  </announcement-bar-component>
+  {% endif %}
+
+  {% if section.settings.show_announcement_messages and section.blocks.size > 0 %}
+    {% liquid
+      assign autoplay = false
+      assign show_arrows = false
+      if section.blocks.size > 1
+        assign autoplay = true
+        assign show_arrows = true
+      endif
+    %}
+
+    <announcement-bar-component
+      class="announcement-bar__slider sg-announcement-messages"
+      {% if autoplay == true %}
+        autoplay="{{ section.settings.speed }}" aria-live="polite"
+      {% endif %}
+    >
+      {% if show_arrows %}
+        {% render 'slideshow-arrows', icon_style: 'chevron' %}
+      {% endif %}
+
+      <div class="announcement-bar__slides">
+        {% content_for 'blocks' %}
+      </div>
+    </announcement-bar-component>
+  {% endif %}
 </aside>
 
 {% stylesheet %}
@@ -126,6 +190,92 @@
     position: absolute;
     inset: 0;
   }
+
+  .sg-announcement-info {
+    display: flex;
+    width: min(100%, 1600px);
+    min-height: 42px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 3vw, 38px);
+    color: var(--color-foreground);
+    font-size: 0.82rem;
+    line-height: 1.35;
+  }
+
+  .sg-announcement-info__items {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: clamp(12px, 1.7vw, 24px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sg-announcement-info__item,
+  .sg-announcement-info__item a {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .sg-announcement-info__item a:hover {
+    color: var(--sg-announcement-accent, var(--sg-gold-light, #e3c27a));
+  }
+
+  .sg-announcement-info__item svg {
+    display: block;
+    width: 17px;
+    height: 17px;
+    flex: 0 0 auto;
+    color: var(--sg-announcement-accent, var(--sg-gold-light, #e3c27a));
+  }
+
+  .sg-announcement-info__item--whatsapp svg {
+    color: #6be08e;
+  }
+
+  .sg-announcement-info__items--left .sg-announcement-info__item + .sg-announcement-info__item {
+    border-inline-start: 1px solid rgb(var(--color-foreground-rgb) / 0.25);
+    padding-inline-start: clamp(12px, 1.7vw, 24px);
+  }
+
+  .sg-announcement-messages {
+    margin-inline: auto;
+  }
+
+  @media screen and (max-width: 899px) {
+    .sg-announcement-info__items--left .sg-announcement-info__item:nth-child(n + 2),
+    .sg-announcement-info__item--whatsapp {
+      display: none;
+    }
+
+    .sg-announcement-info__items--right {
+      margin-inline-start: auto;
+    }
+  }
+
+  @media screen and (max-width: 560px) {
+    .sg-announcement-info {
+      min-height: 36px;
+      justify-content: center;
+      padding-inline: 12px;
+      font-size: 0.72rem;
+    }
+
+    .sg-announcement-info__items--left,
+    .sg-announcement-info__items--right {
+      justify-content: center;
+      margin-inline: auto;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -141,13 +291,91 @@
   },
   "settings": [
     {
+      "type": "header",
+      "content": "ShaadiGifts service information"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_service_info",
+      "label": "Show service information bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "info_bar_label",
+      "label": "Accessibility label",
+      "default": "Store information"
+    },
+    {
+      "type": "text",
+      "id": "serving_text",
+      "label": "Service area",
+      "default": "Serving India & Worldwide",
+      "visible_if": "{{ section.settings.show_service_info }}"
+    },
+    {
+      "type": "text",
+      "id": "delivery_text",
+      "label": "Delivery message",
+      "default": "International Delivery",
+      "visible_if": "{{ section.settings.show_service_info }}"
+    },
+    {
+      "type": "text",
+      "id": "quality_text",
+      "label": "Quality message",
+      "default": "Quality Assured",
+      "visible_if": "{{ section.settings.show_service_info }}"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_label",
+      "label": "WhatsApp link label",
+      "default": "Chat on WhatsApp",
+      "visible_if": "{{ section.settings.show_service_info }}"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp number (country code and digits)",
+      "default": "",
+      "info": "Enter the store's verified WhatsApp number with country code and digits. Leave blank to hide the link.",
+      "visible_if": "{{ section.settings.show_service_info }}"
+    },
+    {
+      "type": "text",
+      "id": "phone_display",
+      "label": "Phone number shown",
+      "default": "",
+      "visible_if": "{{ section.settings.show_service_info }}"
+    },
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Phone number for link (country code and digits)",
+      "default": "",
+      "info": "Enter the verified store phone number with country code and digits; leave blank to hide the phone link.",
+      "visible_if": "{{ section.settings.show_service_info }}"
+    },
+    {
+      "type": "header",
+      "content": "Announcement messages"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement_messages",
+      "label": "Show the editable announcement message blocks",
+      "default": false
+    },
+    {
       "type": "range",
       "id": "speed",
       "label": "t:settings.scroll_speed",
       "min": 2,
       "max": 10,
       "default": 5,
-      "unit": "sec"
+      "unit": "sec",
+      "visible_if": "{{ section.settings.show_announcement_messages }}"
     },
     {
       "type": "header",
@@ -174,6 +402,18 @@
       "id": "background_color",
       "label": "t:settings.background_color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Service information accent color",
+      "default": "#E3C27A"
     },
     {
       "type": "range",
@@ -204,7 +444,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 15
+      "default": 6
     },
     {
       "type": "range",
@@ -214,7 +454,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 15
+      "default": 6
     }
   ],
   "presets": [

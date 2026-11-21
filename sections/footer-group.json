@@ -1,31 +1,148 @@
 /*
  * ------------------------------------------------------------
- * IMPORTANT: This group file is consumed by Shopify OS 2.0.
- * The custom brand footer replaces Horizon's generic newsletter footer.
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
 {
   "type": "footer",
-  "name": "ShaadiGifts footer",
+  "name": "t:names.footer",
   "sections": {
-    "sg_footer": {
-      "type": "sg-footer",
-      "name": "SG · Brand footer",
+    "footer_m9NzUG": {
+      "type": "footer",
+      "blocks": {
+        "footer_brand": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>ShaadiGifts</h2><p>The Wedding Gifting Concierge</p><p>We curate, personalise, package and deliver wedding gifts for every celebration.</p><p><a href=\"/pages/planner\">Plan your gifting</a> · <a href=\"/pages/wishlist\">Build a wishlist</a></p>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "#F4E3DA",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "footer_menu_explore": {
+          "type": "menu",
+          "settings": {
+            "menu": "main-menu",
+            "heading": "Explore",
+            "menu_spacing": 12,
+            "show_as_accordion": true,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "heading_preset": "h5",
+            "link_preset": "paragraph",
+            "text_color": "#F4E3DA"
+          },
+          "blocks": {}
+        },
+        "footer_menu_collections": {
+          "type": "menu",
+          "settings": {
+            "menu": "",
+            "heading": "Collections",
+            "menu_spacing": 12,
+            "show_as_accordion": true,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "heading_preset": "h5",
+            "link_preset": "paragraph",
+            "text_color": "#F4E3DA"
+          },
+          "blocks": {}
+        },
+        "footer_menu_information": {
+          "type": "menu",
+          "settings": {
+            "menu": "",
+            "heading": "Information",
+            "menu_spacing": 12,
+            "show_as_accordion": true,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "heading_preset": "h5",
+            "link_preset": "paragraph",
+            "text_color": "#F4E3DA"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "footer_brand",
+        "footer_menu_explore",
+        "footer_menu_collections",
+        "footer_menu_information"
+      ],
+      "name": "t:names.footer",
       "settings": {
-        "brand_name": "ShaadiGifts",
-        "brand_tagline": "The Wedding Gifting Concierge",
-        "description": "We curate, personalize, package and deliver your wedding gifts — on time, at your venue, anywhere in the world.",
-        "explore_heading": "Explore",
-        "collections_heading": "Collections",
-        "contact_heading": "Get in Touch",
-        "phone_display": "+91 98765 43210",
-        "phone_number": "919876543210",
-        "no_purchase_note": "Gifts are not sold online — build a wishlist and request a personalised proposal.",
-        "copyright_text": "All rights reserved."
+        "section_width": "page-width",
+        "gap": 28,
+        "background_color": "#5B0C23",
+        "padding-block-start": 48,
+        "padding-block-end": 34,
+        "accent_color": "#E3C27A"
+      }
+    },
+    "footer_utilities_jLGE8U": {
+      "type": "footer-utilities",
+      "blocks": {
+        "footer_copyright_jweRK8": {
+          "type": "footer-copyright",
+          "settings": {
+            "show_powered_by": true,
+            "font_size": "0.75rem",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "footer_policy_list_VCdnpa": {
+          "type": "footer-policy-list",
+          "settings": {
+            "font_size": "0.75rem",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "social_links_Ew63Kq": {
+          "type": "social-links",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "footer_copyright_jweRK8",
+        "footer_policy_list_VCdnpa",
+        "social_links_Ew63Kq"
+      ],
+      "name": "t:names.utilities",
+      "settings": {
+        "section_width": "page-width",
+        "gap": 24,
+        "divider_thickness": 1,
+        "divider_color": "#B8862B",
+        "background_color": "#5B0C23",
+        "padding-block-start": 18,
+        "padding-block-end": 28
       }
     }
   },
   "order": [
-    "sg_footer"
+    "footer_m9NzUG",
+    "footer_utilities_jLGE8U"
   ]
 }

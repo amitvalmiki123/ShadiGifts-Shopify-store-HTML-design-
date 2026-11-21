@@ -325,6 +325,13 @@
   {% endif %}
 {% endcapture %}
 
+{% capture sg_header_quick_links %}
+  {% content_for 'block', type: '_header-quick-links', id: 'header-quick-links' %}
+{% endcapture %}
+{% liquid
+  assign actions = actions | append: sg_header_quick_links
+%}
+
 <script type="application/ld+json">
   {
     "@context": "http://schema.org",
@@ -339,7 +346,7 @@
 
 <header-component
   id="header-component"
-  class="{{ class }}"
+  class="{{ class }} sg-native-header"
   data-theme-color="rgb({{ section.settings.background_color_top.rgb | default: settings.page_background_color.rgb }})"
   data-bubble-style="{{ section.settings.bubble_style }}"
   {% if transparent %}
