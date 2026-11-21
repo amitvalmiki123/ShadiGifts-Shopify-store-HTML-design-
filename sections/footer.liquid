@@ -100,7 +100,7 @@
   }
 
   .sg-native-footer .footer-content {
-    row-gap: clamp(22px, 3vw, 38px);
+    row-gap: 30px;
   }
 
   .sg-native-footer .menu__heading__default,
@@ -121,7 +121,7 @@
 
   @media screen and (min-width: 990px) {
     .sg-native-footer .footer-content[style*='--grid-columns: 4'] {
-      grid-template-columns: 1.55fr repeat(3, 1fr);
+      grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
     }
   }
 {% endstylesheet %}
@@ -163,9 +163,6 @@
     },
     {
       "type": "_footer-brand"
-    },
-    {
-      "type": "_footer-collections"
     },
     {
       "type": "_footer-contact"

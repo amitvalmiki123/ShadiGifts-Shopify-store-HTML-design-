@@ -1,36 +1,25 @@
 {%- liquid
   assign sg_featured_collection = section.settings.collection
-  assign sg_featured_products = blank
-  if sg_featured_collection != blank
-    assign sg_featured_products = sg_featured_collection.products | where_exp: 'product', 'product.title != blank' | slice: 0, section.settings.products_to_show
-  endif
-  assign sg_show_featured_products = false
-  if sg_featured_collection != blank and sg_featured_products != blank
-    assign sg_show_featured_products = true
-  endif
   assign sg_wishlist_url = section.settings.wishlist_link
 -%}
-{%- if sg_show_featured_products -%}
-<section class="sg-section sg-products" id="sg-products-{{ section.id }}" {{ section.shopify_attributes }}>
-  <div class="sg-shell-width">
-    <header class="sg-section-heading">
-      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-      <h2>{{ section.settings.heading | escape }}</h2>
-      {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
-    </header>
 
-      <div class="sg-product-grid">
-        {%- for product in sg_featured_products -%}
-          {%- assign sg_product_image = product.featured_image -%}
+{%- capture sg_featured_cards -%}
+  {%- if sg_featured_collection != blank -%}
+    {%- for product in sg_featured_collection.products limit: section.settings.products_to_show -%}
+      {%- if product != blank and product.id != blank and product.title != blank and product.url != blank -%}
+        {%- assign sg_product_image = product.featured_image -%}
+        {%- if sg_product_image == blank -%}
+          {%- assign sg_product_image = product.featured_media.preview_image -%}
+        {%- endif -%}
+        {%- if sg_product_image == blank -%}
+          {%- assign sg_product_image = product.images.first -%}
+        {%- endif -%}
+        {%- if sg_product_image != blank -%}
           {%- assign sg_product_summary = product.description | strip_html | strip | truncate: 104 -%}
           <article class="sg-product-card">
             <div class="sg-product-card__media">
               <a class="sg-product-card__image-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
-                {%- if sg_product_image != blank -%}
-                  {{ sg_product_image | image_url: width: 1000 | image_tag: class: 'sg-product-card__image', widths: '360, 540, 720, 1000', sizes: '(min-width: 1100px) 23vw, (min-width: 650px) 46vw, 92vw', loading: 'lazy', alt: product.title }}
-                {%- else -%}
-                  <span class="sg-product-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
-                {%- endif -%}
+                {{ sg_product_image | image_url: width: 1000 | image_tag: class: 'sg-product-card__image', widths: '360, 540, 720, 1000', sizes: '(min-width: 1100px) 23vw, (min-width: 650px) 46vw, 92vw', loading: 'lazy', alt: product.title }}
               </a>
               <button
                 class="sg-product-card__wishlist"
@@ -41,7 +30,7 @@
                 data-product-handle="{{ product.handle | escape }}"
                 data-product-title="{{ product.title | escape }}"
                 data-product-url="{{ product.url }}"
-                data-product-image="{% if sg_product_image != blank %}{{ sg_product_image | image_url: width: 900 | escape }}{% endif %}"
+                data-product-image="{{ sg_product_image | image_url: width: 900 | escape }}"
                 data-product-price="{{ product.price_min | money | strip_html | strip | escape }}"
                 data-sg-label-add="Add {{ product.title | escape }} to wishlist"
                 data-sg-label-remove="Remove {{ product.title | escape }} from wishlist"
@@ -56,16 +45,29 @@
                 <h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
                 {%- if section.settings.show_descriptions and sg_product_summary != blank -%}<p class="sg-product-card__description">{{ sg_product_summary | escape }}</p>{%- endif -%}
               </div>
-              {%- if section.settings.show_price -%}<p class="sg-product-card__price"><span>{{ section.settings.price_prefix | escape }}</span> <strong>{{ product.price_min | money }}</strong></p>{%- endif -%}
+              {%- if section.settings.show_price and product.price_min != blank -%}<p class="sg-product-card__price"><span>{{ section.settings.price_prefix | escape }}</span> <strong>{{ product.price_min | money }}</strong></p>{%- endif -%}
               <div class="sg-product-card__actions">
                 <a class="sg-product-card__details" href="{{ product.url }}">{{ section.settings.details_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
               </div>
             </div>
           </article>
-        {%- endfor -%}
-      </div>
-  </div>
-</section>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if sg_featured_cards != blank -%}
+  <section class="sg-section sg-products" id="sg-products-{{ section.id }}" {{ section.shopify_attributes }}>
+    <div class="sg-shell-width">
+      <header class="sg-section-heading">
+        {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2>{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
+      </header>
+      <div class="sg-product-grid">{{ sg_featured_cards }}</div>
+    </div>
+  </section>
 {%- elsif request.design_mode -%}
   <section class="sg-section sg-products sg-products--editor-empty" id="sg-products-{{ section.id }}" {{ section.shopify_attributes }}>
     <div class="sg-shell-width">
@@ -75,8 +77,8 @@
       </header>
       <div class="sg-product-editor-note" role="status">
         {%- if sg_featured_collection != blank -%}
-          <strong>No Online Store products are available from “{{ sg_featured_collection.title | escape }}”.</strong>
-          <p>Make sure products are assigned to this collection and published to the Online Store sales channel. Active status alone is not enough.</p>
+          <strong>No storefront-ready products were returned for “{{ sg_featured_collection.title | escape }}”.</strong>
+          <p>Shopify reports {{ sg_featured_collection.products_count }} products in this collection, but the preview returned none with a title, featured image, and Online Store URL. Confirm the products are Active, have a featured image, and are published to the Online Store sales channel.</p>
         {%- else -%}
           <strong>Select a product collection to show the product rail.</strong>
           <p>Choose a Shopify collection with products published to the Online Store sales channel.</p>
@@ -93,7 +95,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Popular Wedding Gifts" },
     { "type": "textarea", "id": "description", "label": "Description", "default": "A few favourites to start your wishlist. Tap the heart to save any gift." },
-    { "type": "collection", "id": "collection", "label": "Product collection", "info": "Choose a collection with products assigned to it and published to the Online Store sales channel. Active status alone is not enough." },
+    { "type": "collection", "id": "collection", "label": "Product collection", "info": "Choose a collection whose products are Active, have a featured image, and are published to the Online Store sales channel." },
     { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
     { "type": "checkbox", "id": "show_descriptions", "label": "Show product descriptions", "default": false },
     { "type": "checkbox", "id": "show_price", "label": "Show indicative price", "default": true },

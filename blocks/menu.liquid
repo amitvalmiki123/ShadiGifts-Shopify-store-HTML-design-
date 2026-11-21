@@ -5,6 +5,21 @@
   assign menu = block_settings.menu
   assign heading = block_settings.heading
   assign show_as_accordion = block_settings.show_as_accordion
+  assign menu_links = blank
+  assign menu_parent_title = block_settings.parent_link_title | strip | downcase
+  if menu != blank
+    assign menu_links = menu.links
+    if menu_parent_title != blank
+      assign menu_links = blank
+      for menu_parent in menu.links
+        assign menu_parent_title_normalized = menu_parent.title | strip | downcase
+        if menu_parent_title_normalized == menu_parent_title and menu_parent.links != blank
+          assign menu_links = menu_parent.links
+          break
+        endif
+      endfor
+    endif
+  endif
   if show_as_accordion == true and block_settings.accordion_dividers == true
     assign dividers_enabled = true
   endif
@@ -70,9 +85,9 @@
           aria-label="{{ menu.title | escape }}"
         {% endif %}
       >
-        {% if menu %}
+        {% if menu_links != blank %}
           <ul class="list-unstyled">
-            {% for link in menu.links %}
+            {% for link in menu_links %}
               <li class="menu__item {{ block_settings.link_preset }}">
                 <a href="{{ link.url }}">
                   {{ link.title }}{% if link.data_sharing_opt_out_icon %}{{ link.data_sharing_opt_out_icon }}{% endif %}
@@ -166,6 +181,12 @@
       "type": "text",
       "id": "heading",
       "label": "t:settings.heading"
+    },
+    {
+      "type": "text",
+      "id": "parent_link_title",
+      "label": "Show links inside menu item",
+      "info": "Optional. Enter a top-level menu label, such as Collections, to show its nested links. Leave blank to show the menu's top-level links."
     },
     {
       "type": "header",

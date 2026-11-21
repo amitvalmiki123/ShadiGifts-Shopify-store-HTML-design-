@@ -19,8 +19,11 @@
     </a>
   {%- else -%}
     <a class="sg-footer-brand__logo-link sg-footer-brand__logo-link--custom" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
-      <img class="sg-footer-brand__logo-icon" src="{{ 'sg-logo-footer-icon.svg' | asset_url }}" alt="" width="60" height="44" loading="lazy">
-      <span class="sg-footer-brand__wordmark">{{ shop.name | escape }}</span>
+      <img class="sg-footer-brand__logo-icon" src="{{ 'sg-logo-footer-icon.svg' | asset_url }}" alt="" width="46" height="34" loading="lazy">
+      <span class="sg-footer-brand__copy">
+        <span class="sg-footer-brand__wordmark">{{ shop.name | escape }}</span>
+        <small class="sg-footer-brand__tagline">The Wedding Gifting Concierge</small>
+      </span>
     </a>
   {%- endif -%}
 

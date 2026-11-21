@@ -625,19 +625,6 @@ body {
   transform: scale(1.035);
 }
 
-.sg-product-card__placeholder {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  place-items: center;
-  color: rgba(122, 18, 48, .58);
-}
-
-.sg-product-card__placeholder svg {
-  width: 72px;
-  height: 72px;
-}
-
 .sg-product-card__wishlist {
   position: absolute;
   z-index: 2;
@@ -3060,7 +3047,7 @@ body {
   display: inline-flex;
   max-width: 100%;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   text-decoration: none;
 }
 
@@ -3074,19 +3061,35 @@ body {
 
 .sg-footer-brand__logo-icon {
   display: block;
-  width: 54px;
-  height: 40px;
+  width: 46px;
+  height: 34px;
   flex: 0 0 auto;
   object-fit: contain;
+}
+
+.sg-footer-brand__copy {
+  display: grid;
+  justify-items: start;
 }
 
 .sg-footer-brand__wordmark {
   color: var(--sg-footer-accent, #e3c27a);
   font-family: var(--sg-display, Georgia, serif);
-  font-size: 1.55rem;
+  font-size: 1.7rem;
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
+}
+
+.sg-footer-brand__tagline {
+  margin-top: 3px;
+  color: var(--color-foreground, #f4e3da);
+  font-family: var(--sg-body);
+  font-size: .55rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
 .sg-footer-brand__description {
@@ -3098,47 +3101,28 @@ body {
   line-height: 1.5;
 }
 
-.sg-footer-collections {
-  min-width: 0;
-}
-
-.sg-footer-collections__heading,
 .sg-native-footer .menu__heading__default,
 .sg-native-footer .menu__heading__accordion {
   margin: 0 0 .7em;
   color: var(--sg-footer-accent, #e3c27a);
-  font-family: var(--sg-body);
+  font-family: var(--sg-display);
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.3;
 }
 
-.sg-footer-collections__list {
-  display: grid;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.sg-footer-collections__list a,
 .sg-native-footer .menu__item a {
   display: inline-block;
   padding: 6px 0;
   color: var(--color-foreground, #f4e3da);
   font-family: var(--sg-body);
-  font-size: .95rem;
+  font-size: 1rem;
   line-height: 1.5;
   text-decoration: none;
 }
 
-.sg-footer-collections__list a:hover,
 .sg-native-footer .menu__item a:hover {
   color: var(--sg-footer-accent, #e3c27a);
-}
-
-.sg-footer-contact__heading {
-  font-family: var(--sg-body);
 }
 
 .sg-product-editor-note {

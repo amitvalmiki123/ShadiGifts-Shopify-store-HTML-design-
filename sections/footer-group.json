@@ -37,10 +37,18 @@
           "blocks": {}
         },
         "footer_menu_collections": {
-          "type": "_footer-collections",
+          "type": "menu",
           "settings": {
             "menu": "main-menu",
-            "heading": "Collections"
+            "heading": "Collections",
+            "parent_link_title": "Collections",
+            "menu_spacing": 12,
+            "show_as_accordion": true,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "heading_preset": "h5",
+            "link_preset": "paragraph",
+            "text_color": "#F4E3DA"
           },
           "blocks": {}
         },
@@ -69,10 +77,10 @@
       "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
-        "gap": 28,
+        "gap": 30,
         "background_color": "#5B0C23",
         "padding-block-start": 48,
-        "padding-block-end": 34,
+        "padding-block-end": 30,
         "accent_color": "#E3C27A"
       }
     },
