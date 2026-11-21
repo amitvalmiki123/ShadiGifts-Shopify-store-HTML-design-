@@ -1,9 +1,23 @@
 <section class="sg-section sg-planner-cta-section" id="sg-planner-cta-{{ section.id }}">
   <div class="sg-shell-width">
     <div class="sg-planner-cta">
-      <svg class="sg-planner-cta__flourish" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-        <path d="M20 190C40 120 80 60 170 20M60 140c-20-10-30-30-28-50 20 4 32 20 28 50zM90 110c-20-6-34-24-34-44 22 2 36 18 34 44zM122 80c-16-8-24-26-20-44 20 6 28 22 20 44zM64 150c22-6 40 2 50 20-22 6-42 0-50-20zM96 118c22-4 40 4 48 22-22 4-40-2-48-22zM130 86c20-2 36 6 42 22-20 2-36-4-42-22z"/>
-      </svg>
+      {%- if section.settings.flourish_svg_url != blank -%}
+        <img
+          class="sg-planner-cta__flourish"
+          src="{{ section.settings.flourish_svg_url | escape }}"
+          alt=""
+          aria-hidden="true"
+          width="200"
+          height="200"
+          loading="lazy"
+        >
+      {%- elsif section.settings.flourish_image != blank -%}
+        {{ section.settings.flourish_image | image_url: width: 400 | image_tag: class: 'sg-planner-cta__flourish', widths: '150, 200, 400', sizes: '200px', loading: 'lazy', alt: '', aria-hidden: 'true' }}
+      {%- else -%}
+        <svg class="sg-planner-cta__flourish" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M20 190C40 120 80 60 170 20M60 140c-20-10-30-30-28-50 20 4 32 20 28 50zM90 110c-20-6-34-24-34-44 22 2 36 18 34 44zM122 80c-16-8-24-26-20-44 20 6 28 22 20 44zM64 150c22-6 40 2 50 20-22 6-42 0-50-20zM96 118c22-4 40 4 48 22-22 4-40-2-48-22zM130 86c20-2 36 6 42 22-20 2-36-4-42-22z"/>
+        </svg>
+      {%- endif -%}
       <div class="sg-planner-cta__content">
         <span class="sg-planner-cta__icon">{% render 'sg-icon', name: 'calendar' %}</span>
         <div>
@@ -26,6 +40,8 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Planning Wedding Gifts?" },
     { "type": "textarea", "id": "description", "label": "Description", "default": "Tell us your wedding details and get a personalised gifting proposal." },
+    { "type": "image_picker", "id": "flourish_image", "label": "Custom flourish image", "info": "Choose a PNG, WebP or JPG. Used when no custom SVG URL is set; leave blank to keep the built-in leaf." },
+    { "type": "url", "id": "flourish_svg_url", "label": "Custom SVG file URL", "info": "Upload an SVG under Shopify admin → Content → Files, then paste its URL here. This takes priority over the image and built-in leaf." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Start Your Gifting Plan" },
     { "type": "url", "id": "button_link", "label": "Button link" }
   ],

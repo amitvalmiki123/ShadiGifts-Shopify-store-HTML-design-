@@ -1428,6 +1428,8 @@ body {
   right: -7px;
   bottom: -51px;
   width: 200px;
+  height: 200px;
+  object-fit: contain;
   color: rgba(184, 134, 43, .4);
   pointer-events: none;
 }
@@ -1904,6 +1906,7 @@ body {
   .sg-planner-cta__flourish {
     right: -35px;
     width: 150px;
+    height: 150px;
   }
   .sg-toast {
     right: 12px;
