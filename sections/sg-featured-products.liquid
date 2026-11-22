@@ -32,6 +32,8 @@
                 data-product-url="{{ product.url }}"
                 data-product-image="{{ sg_product_image | image_url: width: 900 | escape }}"
                 data-product-price="{{ product.price_min | money | strip_html | strip | escape }}"
+                data-product-type="{{ product.type | escape }}"
+                data-product-category="{{ sg_featured_collection.title | escape }}"
                 data-sg-label-add="Add {{ product.title | escape }} to wishlist"
                 data-sg-label-remove="Remove {{ product.title | escape }} from wishlist"
                 aria-label="Add {{ product.title | escape }} to wishlist"

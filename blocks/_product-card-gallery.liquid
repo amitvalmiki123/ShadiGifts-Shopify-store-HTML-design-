@@ -49,6 +49,7 @@
         data-product-url="{{ product.url | escape }}"
         {% if sg_product_image_url != blank %}data-product-image="{{ sg_product_image_url | escape }}"{% endif %}
         data-product-price="{{ product.price_min | money | strip_html | strip | escape }}"
+        data-product-type="{{ product.type | escape }}"
         data-sg-label-add="Add {{ product.title | escape }} to wishlist"
         data-sg-label-remove="Remove {{ product.title | escape }} from wishlist"
         aria-label="Add {{ product.title | escape }} to wishlist"

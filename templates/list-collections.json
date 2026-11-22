@@ -3,7 +3,7 @@
     "main": {
       "type": "sg-collections-landing",
       "settings": {
-        "eyebrow": "Our Collections",
+        "eyebrow": "",
         "heading": "Discover Curated Wedding Gift Collections",
         "description": "Thoughtful gifts for every function, guest and celebration.",
         "collections": [
@@ -17,7 +17,7 @@
         "show_product_count": false,
         "grid_eyebrow": "Thoughtfully grouped",
         "grid_heading": "Find Gifts for Every Celebration",
-        "grid_description": "Browse by gifting moment, then open a collection to explore its products and refine your selection with Shopify's native filters.",
+        "grid_description": "Choose a gifting moment to explore products here, or open its collection to use Shopify’s native filters.",
         "cta_heading": "Can't Find What You're Looking For?",
         "cta_description": "Let us curate something unique for your celebration.",
         "cta_button_label": "Plan My Wedding Gifting",

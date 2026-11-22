@@ -9,6 +9,7 @@
         "function_sangeet": { "type": "function", "settings": { "label": "Sangeet" } },
         "function_wedding": { "type": "function", "settings": { "label": "Wedding" } },
         "function_reception": { "type": "function", "settings": { "label": "Reception" } },
+        "function_other": { "type": "function", "settings": { "label": "Other" } },
         "need_return": { "type": "need", "settings": { "label": "Return gifts" } },
         "need_welcome": { "type": "need", "settings": { "label": "Welcome hampers" } },
         "need_vip": { "type": "need", "settings": { "label": "VIP & family gifts" } },
@@ -26,7 +27,7 @@
         "budget_unsure": { "type": "budget", "settings": { "label": "Not sure yet", "value": "Not sure" } }
       },
       "block_order": [
-        "function_ring", "function_haldi", "function_mehendi", "function_sangeet", "function_wedding", "function_reception",
+        "function_ring", "function_haldi", "function_mehendi", "function_sangeet", "function_wedding", "function_reception", "function_other",
         "need_return", "need_welcome", "need_vip", "need_party", "need_function", "need_trousseau",
         "extra_personalisation", "extra_packaging", "extra_venue", "extra_international",
         "budget_entry", "budget_mid", "budget_premium", "budget_luxury", "budget_unsure"

@@ -1,161 +1,225 @@
-<section class="sg-section sg-form-page sg-planner-form" id="sg-planner-form-{{ section.id }}">
-  <div class="sg-shell-width sg-form-page__inner">
-    <header class="sg-section-heading">
+{%- liquid
+  assign sg_planner_hero_alt = section.settings.hero_alt | default: section.settings.hero_image.alt | default: 'A curated wedding gift hamper'
+  assign sg_planner_collections_url = section.settings.collections_link | default: routes.collections_url
+  assign sg_planner_wishlist_url = pages.wishlist.url | default: '/pages/wishlist'
+-%}
+<section class="sg-planner-page" id="sg-planner-page-{{ section.id }}" data-sg-planner-page {{ section.shopify_attributes }}>
+  <header class="sg-planner-page__hero">
+    {%- if section.settings.hero_image != blank -%}
+      {{ section.settings.hero_image | image_url: width: 1200 | image_tag: class: 'sg-planner-page__hero-image', widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 800px) 44vw, 100vw', loading: 'eager', alt: sg_planner_hero_alt }}
+    {%- else -%}
+      <img class="sg-planner-page__hero-image" src="{{ 'sg-planner-hero.jpg' | asset_url }}" alt="{{ sg_planner_hero_alt | escape }}" width="190" height="205" loading="eager">
+    {%- endif -%}
+    <div class="sg-shell-width sg-planner-page__hero-copy">
+      <nav class="sg-planner-page__crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span aria-current="page">Wedding Gifting Planner</span>
+      </nav>
       {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
       <h1>{{ section.settings.heading | escape }}</h1>
-      {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
-    </header>
+      {%- if section.settings.description != blank -%}<p>{{ section.settings.description | escape }}</p>{%- endif -%}
+    </div>
+  </header>
 
-    {% form 'contact', id: 'SGPlannerContactForm', class: 'sg-contact-form' %}
+  <div class="sg-planner-page__content sg-shell-width">
+    {% form 'contact', id: 'SGPlannerContactForm', class: 'sg-contact-form sg-planner-contact-form' %}
       {%- if form.posted_successfully? -%}
-        <div class="sg-form-success" role="status" data-sg-contact-success>
+        <div class="sg-form-success sg-planner-success" role="status" data-sg-planner-success>
           <span class="sg-form-success__icon" aria-hidden="true">✓</span>
           <h2>{{ section.settings.success_heading | escape }}</h2>
           <p>{{ section.settings.success_message | escape }}</p>
+          <a class="sg-button sg-button--primary" href="{{ routes.root_url }}">{{ section.settings.success_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
+        </div>
+      {%- else -%}
+        {%- if form.errors -%}<div class="sg-form-errors" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+        <input type="hidden" name="contact[subject]" value="{{ section.settings.email_subject | escape }}">
+        <input type="hidden" name="contact[Wishlist selection]" value="" data-sg-planner-wishlist-field>
+        <textarea class="sg-visually-hidden" name="contact[body]" tabindex="-1" aria-hidden="true" data-sg-planner-body></textarea>
+
+        <ol class="sg-planner-stepper" data-sg-planner-stepper aria-label="Planner progress">
+          <li><span class="sg-planner-stepper__number">1</span><span>{{ section.settings.step_one_label | escape }}</span></li>
+          <li><span class="sg-planner-stepper__number">2</span><span>{{ section.settings.step_two_label | escape }}</span></li>
+          <li><span class="sg-planner-stepper__number">3</span><span>{{ section.settings.step_three_label | escape }}</span></li>
+          <li><span class="sg-planner-stepper__number">4</span><span>{{ section.settings.step_four_label | escape }}</span></li>
+        </ol>
+        <p class="sg-planner-progress" data-sg-planner-progress aria-live="polite">Step 1 of 4</p>
+
+        <div class="sg-form-card sg-planner-form-card">
+          <section class="sg-planner-step" data-sg-planner-step aria-labelledby="SGPlannerStepOne-{{ section.id }}">
+            <div class="sg-form-section-intro">
+              <h2 id="SGPlannerStepOne-{{ section.id }}">1. {{ section.settings.wedding_section_heading | escape }}</h2>
+              {%- if section.settings.wedding_section_description != blank -%}<p>{{ section.settings.wedding_section_description | escape }}</p>{%- endif -%}
+            </div>
+            <div class="sg-form-grid">
+              <div class="sg-form-field">
+                <label for="SGPlannerName-{{ section.id }}">{{ section.settings.name_label | escape }} <span aria-hidden="true">*</span></label>
+                <input id="SGPlannerName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" placeholder="Enter your name" required>
+              </div>
+              <div class="sg-form-field">
+                <label for="SGPlannerCountry-{{ section.id }}">{{ section.settings.country_label | escape }} <span aria-hidden="true">*</span></label>
+                <select id="SGPlannerCountry-{{ section.id }}" name="contact[Wedding country]" autocomplete="country-name" required>
+                  <option value="">Select country</option>
+                  <option value="India">India</option>
+                  <option value="United Arab Emirates">United Arab Emirates</option>
+                  <option value="United States">United States</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Australia">Australia</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Thailand">Thailand</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="sg-form-field">
+                <label for="SGPlannerDate-{{ section.id }}">{{ section.settings.date_label | escape }} <span aria-hidden="true">*</span></label>
+                <input id="SGPlannerDate-{{ section.id }}" type="date" name="contact[Wedding date]" required>
+              </div>
+              <div class="sg-form-field">
+                <label for="SGPlannerLocation-{{ section.id }}">{{ section.settings.location_label | escape }} <span aria-hidden="true">*</span></label>
+                <input id="SGPlannerLocation-{{ section.id }}" type="text" name="contact[Wedding location]" autocomplete="address-level2" placeholder="e.g., Delhi, Dubai, Bangkok" required>
+              </div>
+              <div class="sg-form-field sg-form-field--full">
+                <label for="SGPlannerGuests-{{ section.id }}">{{ section.settings.guests_label | escape }} <span aria-hidden="true">*</span></label>
+                <input id="SGPlannerGuests-{{ section.id }}" type="number" name="contact[Approximate guest count]" min="1" inputmode="numeric" placeholder="e.g., 300" required>
+              </div>
+            </div>
+
+            <fieldset class="sg-choice-group sg-choice-group--required" data-sg-choice-group data-sg-min-one>
+              <legend>{{ section.settings.functions_label | escape }} <span aria-hidden="true">*</span></legend>
+              <div class="sg-choice-grid">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'function' -%}
+                    {%- assign sg_function_value = block.settings.value | default: block.settings.label -%}
+                    <label class="sg-choice" for="SGPlannerFunction-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+                      <input id="SGPlannerFunction-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Wedding functions][]" value="{{ sg_function_value | escape }}">
+                      <span>{{ block.settings.label | escape }}</span>
+                    </label>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              <span class="sg-choice-group__error" data-sg-choice-error hidden>{{ section.settings.function_error | escape }}</span>
+            </fieldset>
+          </section>
+
+          <section class="sg-planner-step" data-sg-planner-step aria-labelledby="SGPlannerStepTwo-{{ section.id }}">
+            <div class="sg-form-section-intro">
+              <h2 id="SGPlannerStepTwo-{{ section.id }}">2. {{ section.settings.needs_section_heading | escape }}</h2>
+              {%- if section.settings.needs_section_description != blank -%}<p>{{ section.settings.needs_section_description | escape }}</p>{%- endif -%}
+            </div>
+
+            <fieldset class="sg-choice-group sg-choice-group--required" data-sg-choice-group data-sg-min-one>
+              <legend>{{ section.settings.needs_label | escape }} <span aria-hidden="true">*</span></legend>
+              <div class="sg-choice-grid">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'need' -%}
+                    {%- assign sg_need_value = block.settings.value | default: block.settings.label -%}
+                    <label class="sg-choice" for="SGPlannerNeed-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+                      <input id="SGPlannerNeed-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Gifting needs][]" value="{{ sg_need_value | escape }}">
+                      <span>{{ block.settings.label | escape }}</span>
+                    </label>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              <span class="sg-choice-group__error" data-sg-choice-error hidden>{{ section.settings.needs_error | escape }}</span>
+            </fieldset>
+
+            <fieldset class="sg-choice-group">
+              <legend>{{ section.settings.extras_label | escape }}</legend>
+              <div class="sg-choice-grid">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'extra' -%}
+                    {%- assign sg_extra_value = block.settings.value | default: block.settings.label -%}
+                    <label class="sg-choice" for="SGPlannerExtra-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+                      <input id="SGPlannerExtra-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Additional services][]" value="{{ sg_extra_value | escape }}">
+                      <span>{{ block.settings.label | escape }}</span>
+                    </label>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </fieldset>
+
+            <div class="sg-form-grid sg-planner-step__delivery">
+              <div class="sg-form-field">
+                <label for="SGPlannerDeliverBy-{{ section.id }}">{{ section.settings.delivery_date_label | escape }}</label>
+                <input id="SGPlannerDeliverBy-{{ section.id }}" type="date" name="contact[Delivery needed by]">
+              </div>
+            </div>
+          </section>
+
+          <section class="sg-planner-step" data-sg-planner-step aria-labelledby="SGPlannerStepThree-{{ section.id }}">
+            <div class="sg-form-section-intro">
+              <h2 id="SGPlannerStepThree-{{ section.id }}">3. {{ section.settings.budget_section_heading | escape }}</h2>
+              {%- if section.settings.budget_section_description != blank -%}<p>{{ section.settings.budget_section_description | escape }}</p>{%- endif -%}
+            </div>
+            <fieldset class="sg-choice-group sg-choice-group--required" data-sg-choice-group data-sg-min-one>
+              <legend>{{ section.settings.budget_label | escape }} <span aria-hidden="true">*</span></legend>
+              <div class="sg-choice-grid sg-choice-grid--budget">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'budget' -%}
+                    {%- assign sg_budget_value = block.settings.value | default: block.settings.label -%}
+                    <label class="sg-choice" for="SGPlannerBudget-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
+                      <input id="SGPlannerBudget-{{ section.id }}-{{ block.id }}" type="radio" name="contact[Budget per gift]" value="{{ sg_budget_value | escape }}">
+                      <span>{{ block.settings.label | escape }}</span>
+                    </label>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              <span class="sg-choice-group__error" data-sg-choice-error hidden>{{ section.settings.budget_error | escape }}</span>
+            </fieldset>
+
+            <div class="sg-form-grid sg-planner-step__total-budget">
+              <div class="sg-form-field">
+                <label for="SGPlannerTotalBudget-{{ section.id }}">{{ section.settings.total_budget_label | escape }}</label>
+                <input id="SGPlannerTotalBudget-{{ section.id }}" type="text" name="contact[Total budget]" placeholder="e.g., ₹5,00,000">
+              </div>
+            </div>
+            {%- if section.settings.form_note != blank -%}<p class="sg-form-note sg-planner-budget-note">{{ section.settings.form_note | escape }}</p>{%- endif -%}
+          </section>
+
+          <section class="sg-planner-step" data-sg-planner-step aria-labelledby="SGPlannerStepFour-{{ section.id }}">
+            <div class="sg-form-section-intro">
+              <h2 id="SGPlannerStepFour-{{ section.id }}">4. {{ section.settings.preferences_section_heading | escape }}</h2>
+              {%- if section.settings.preferences_section_description != blank -%}<p>{{ section.settings.preferences_section_description | escape }}</p>{%- endif -%}
+            </div>
+            <div class="sg-form-grid">
+              <div class="sg-form-field sg-form-field--full">
+                <label for="SGPlannerTheme-{{ section.id }}">{{ section.settings.theme_label | escape }}</label>
+                <input id="SGPlannerTheme-{{ section.id }}" type="text" name="contact[Wedding theme and colours]" placeholder="{{ section.settings.theme_placeholder | escape }}">
+              </div>
+              <div class="sg-form-field">
+                <label for="SGPlannerPhone-{{ section.id }}">{{ section.settings.phone_label | escape }} <span aria-hidden="true">*</span></label>
+                <input id="SGPlannerPhone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel" placeholder="+91 …" required>
+              </div>
+              <div class="sg-form-field">
+                <label for="SGPlannerEmail-{{ section.id }}">{{ section.settings.email_label | escape }} <span aria-hidden="true">*</span></label>
+                <input id="SGPlannerEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" placeholder="you@email.com" required>
+              </div>
+              <div class="sg-form-field sg-form-field--full">
+                <label for="SGPlannerNotes-{{ section.id }}">{{ section.settings.notes_label | escape }}</label>
+                <textarea id="SGPlannerNotes-{{ section.id }}" name="contact[Additional notes]" rows="4" placeholder="Personalisation ideas, special requests…"></textarea>
+              </div>
+            </div>
+
+            <div class="sg-planner-wishlist" data-sg-planner-wishlist data-collections-url="{{ sg_planner_collections_url | escape }}" data-wishlist-url="{{ sg_planner_wishlist_url | escape }}" aria-live="polite">
+              <h3>{{ section.settings.wishlist_summary_heading | escape }}</h3>
+              <div data-sg-planner-wishlist-items></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="sg-planner-form__navigation" data-sg-planner-navigation hidden>
+          <button class="sg-button sg-button--outline sg-planner-form__save" type="button" data-sg-planner-save>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.75h12a1.25 1.25 0 0 1 1.25 1.25v15L12 16l-7.25 4V5A1.25 1.25 0 0 1 6 3.75z"/></svg>
+            {{ section.settings.save_label | escape }}
+          </button>
+          <button class="sg-button sg-button--outline" type="button" data-sg-planner-previous hidden>← {{ section.settings.previous_label | escape }}</button>
+          <button class="sg-button sg-button--primary" type="button" data-sg-planner-next><span data-sg-planner-next-label>{{ section.settings.next_label | escape }}</span>{% render 'sg-icon', name: 'arrow' %}</button>
+          <button class="sg-button sg-button--primary" type="submit" data-sg-planner-submit hidden>{{ section.settings.submit_label | escape }}{% render 'sg-icon', name: 'arrow' %}</button>
+        </div>
+        <div class="sg-planner-form__fallback">
+          <button class="sg-button sg-button--primary" type="submit" data-sg-planner-fallback-submit>{{ section.settings.submit_label | escape }}{% render 'sg-icon', name: 'arrow' %}</button>
+          <p>{{ section.settings.privacy_note | escape }}</p>
         </div>
       {%- endif -%}
-
-      {%- if form.errors -%}
-        <div class="sg-form-errors" role="alert">{{ form.errors | default_errors }}</div>
-      {%- endif -%}
-
-      <input type="hidden" name="contact[subject]" value="{{ section.settings.email_subject | escape }}">
-      <textarea class="sg-visually-hidden" name="contact[body]" tabindex="-1" aria-hidden="true" data-sg-planner-body></textarea>
-
-      <div class="sg-form-card">
-        <div class="sg-form-section-intro">
-          <h2>{{ section.settings.wedding_section_heading | escape }}</h2>
-          {%- if section.settings.wedding_section_description != blank -%}<p>{{ section.settings.wedding_section_description | escape }}</p>{%- endif -%}
-        </div>
-        <div class="sg-form-grid">
-          <div class="sg-form-field">
-            <label for="SGPlannerName-{{ section.id }}">{{ section.settings.name_label | escape }} <span aria-hidden="true">*</span></label>
-            <input id="SGPlannerName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" required>
-          </div>
-          <div class="sg-form-field">
-            <label for="SGPlannerEmail-{{ section.id }}">{{ section.settings.email_label | escape }} <span aria-hidden="true">*</span></label>
-            <input id="SGPlannerEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required>
-          </div>
-          <div class="sg-form-field">
-            <label for="SGPlannerPhone-{{ section.id }}">{{ section.settings.phone_label | escape }}</label>
-            <input id="SGPlannerPhone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel">
-          </div>
-          <div class="sg-form-field">
-            <label for="SGPlannerCountry-{{ section.id }}">{{ section.settings.country_label | escape }}</label>
-            <input id="SGPlannerCountry-{{ section.id }}" type="text" name="contact[Wedding country]" autocomplete="country-name">
-          </div>
-          <div class="sg-form-field">
-            <label for="SGPlannerDate-{{ section.id }}">{{ section.settings.date_label | escape }}</label>
-            <input id="SGPlannerDate-{{ section.id }}" type="date" name="contact[Wedding date]">
-          </div>
-          <div class="sg-form-field">
-            <label for="SGPlannerLocation-{{ section.id }}">{{ section.settings.location_label | escape }}</label>
-            <input id="SGPlannerLocation-{{ section.id }}" type="text" name="contact[Wedding location]" autocomplete="address-level2">
-          </div>
-          <div class="sg-form-field sg-form-field--full">
-            <label for="SGPlannerGuests-{{ section.id }}">{{ section.settings.guests_label | escape }}</label>
-            <input id="SGPlannerGuests-{{ section.id }}" type="number" name="contact[Approximate guest count]" min="1" inputmode="numeric">
-          </div>
-        </div>
-
-        <fieldset class="sg-choice-group" data-sg-choice-group data-sg-min-one>
-          <legend>{{ section.settings.functions_label | escape }}</legend>
-          <div class="sg-choice-grid">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'function' -%}
-                {%- assign sg_function_value = block.settings.value | default: block.settings.label -%}
-                <label class="sg-choice" for="SGPlannerFunction-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                  <input id="SGPlannerFunction-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Wedding functions][]" value="{{ sg_function_value | escape }}">
-                  <span>{{ block.settings.label | escape }}</span>
-                </label>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-          <span class="sg-choice-group__error" data-sg-choice-error hidden>{{ section.settings.function_error | escape }}</span>
-        </fieldset>
-      </div>
-
-      <div class="sg-form-card">
-        <div class="sg-form-section-intro">
-          <h2>{{ section.settings.needs_section_heading | escape }}</h2>
-          {%- if section.settings.needs_section_description != blank -%}<p>{{ section.settings.needs_section_description | escape }}</p>{%- endif -%}
-        </div>
-
-        <fieldset class="sg-choice-group" data-sg-choice-group data-sg-min-one>
-          <legend>{{ section.settings.needs_label | escape }}</legend>
-          <div class="sg-choice-grid">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'need' -%}
-                {%- assign sg_need_value = block.settings.value | default: block.settings.label -%}
-                <label class="sg-choice" for="SGPlannerNeed-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                  <input id="SGPlannerNeed-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Gifting needs][]" value="{{ sg_need_value | escape }}">
-                  <span>{{ block.settings.label | escape }}</span>
-                </label>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-          <span class="sg-choice-group__error" data-sg-choice-error hidden>{{ section.settings.needs_error | escape }}</span>
-        </fieldset>
-
-        <fieldset class="sg-choice-group">
-          <legend>{{ section.settings.extras_label | escape }}</legend>
-          <div class="sg-choice-grid">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'extra' -%}
-                {%- assign sg_extra_value = block.settings.value | default: block.settings.label -%}
-                <label class="sg-choice" for="SGPlannerExtra-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                  <input id="SGPlannerExtra-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Additional services][]" value="{{ sg_extra_value | escape }}">
-                  <span>{{ block.settings.label | escape }}</span>
-                </label>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-        </fieldset>
-
-        <div class="sg-form-grid">
-          <div class="sg-form-field">
-            <label for="SGPlannerDeliverBy-{{ section.id }}">{{ section.settings.delivery_date_label | escape }}</label>
-            <input id="SGPlannerDeliverBy-{{ section.id }}" type="date" name="contact[Delivery needed by]">
-          </div>
-          <div class="sg-form-field">
-            <label for="SGPlannerTotalBudget-{{ section.id }}">{{ section.settings.total_budget_label | escape }}</label>
-            <input id="SGPlannerTotalBudget-{{ section.id }}" type="text" name="contact[Total budget]">
-          </div>
-        </div>
-
-        <fieldset class="sg-choice-group" data-sg-choice-group data-sg-min-one>
-          <legend>{{ section.settings.budget_label | escape }}</legend>
-          <div class="sg-choice-grid sg-choice-grid--budget">
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'budget' -%}
-                {%- assign sg_budget_value = block.settings.value | default: block.settings.label -%}
-                <label class="sg-choice" for="SGPlannerBudget-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                  <input id="SGPlannerBudget-{{ section.id }}-{{ block.id }}" type="radio" name="contact[Budget per gift]" value="{{ sg_budget_value | escape }}">
-                  <span>{{ block.settings.label | escape }}</span>
-                </label>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-          <span class="sg-choice-group__error" data-sg-choice-error hidden>{{ section.settings.budget_error | escape }}</span>
-        </fieldset>
-
-        <div class="sg-form-grid">
-          <div class="sg-form-field sg-form-field--full">
-            <label for="SGPlannerTheme-{{ section.id }}">{{ section.settings.theme_label | escape }}</label>
-            <input id="SGPlannerTheme-{{ section.id }}" type="text" name="contact[Wedding theme and colours]">
-          </div>
-          <div class="sg-form-field sg-form-field--full">
-            <label for="SGPlannerNotes-{{ section.id }}">{{ section.settings.notes_label | escape }}</label>
-            <textarea id="SGPlannerNotes-{{ section.id }}" name="contact[Additional notes]" rows="4"></textarea>
-          </div>
-        </div>
-        {%- if section.settings.form_note != blank -%}<p class="sg-form-note">{{ section.settings.form_note | escape }}</p>{%- endif -%}
-      </div>
-
-      <div class="sg-form-submit">
-        <button class="sg-button sg-button--primary" type="submit">{{ section.settings.submit_label | escape }} {% render 'sg-icon', name: 'arrow' %}</button>
-        <p>{{ section.settings.privacy_note | escape }}</p>
-      </div>
     {% endform %}
   </div>
 </section>
@@ -183,35 +247,52 @@
     ] }
   ],
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Wedding gifting concierge" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Plan Your Wedding Gifting" },
-    { "type": "textarea", "id": "description", "label": "Description", "default": "Tell us about your wedding and the gifts you have in mind. Our team will email you a personalised proposal." },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "hero_alt", "label": "Hero image alt text" },
+    { "type": "text", "id": "eyebrow", "label": "Hero eyebrow", "default": "Wedding Gifting Planner" },
+    { "type": "text", "id": "heading", "label": "Hero heading", "default": "Let's Plan Your Wedding Gifting" },
+    { "type": "textarea", "id": "description", "label": "Hero description", "default": "Share a few details about your celebration and we'll create a personalized gifting proposal for you." },
+    { "type": "url", "id": "collections_link", "label": "Collections link" },
     { "type": "text", "id": "email_subject", "label": "Email subject", "default": "Wedding gifting planner enquiry" },
-    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Thank you — your plan is submitted" },
-    { "type": "textarea", "id": "success_message", "label": "Success message", "default": "Our gifting team will review your details and email you a personalised proposal shortly." },
+    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Thank you — your plan is submitted!" },
+    { "type": "textarea", "id": "success_message", "label": "Success message", "default": "Our gifting experts will review your details and send a personalised proposal shortly." },
+    { "type": "text", "id": "success_button_label", "label": "Success button", "default": "Back to Home" },
+    { "type": "text", "id": "step_one_label", "label": "Step one label", "default": "Wedding Details" },
+    { "type": "text", "id": "step_two_label", "label": "Step two label", "default": "Gifting Needs" },
+    { "type": "text", "id": "step_three_label", "label": "Step three label", "default": "Budget" },
+    { "type": "text", "id": "step_four_label", "label": "Step four label", "default": "Preferences" },
     { "type": "text", "id": "wedding_section_heading", "label": "Wedding details heading", "default": "Your Wedding Details" },
-    { "type": "textarea", "id": "wedding_section_description", "label": "Wedding details description", "default": "Share your contact details, wedding date and destination." },
-    { "type": "text", "id": "name_label", "label": "Name label", "default": "Your name" },
-    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email address" },
-    { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone / WhatsApp" },
-    { "type": "text", "id": "country_label", "label": "Country label", "default": "Wedding country" },
-    { "type": "text", "id": "date_label", "label": "Wedding date label", "default": "Wedding date" },
-    { "type": "text", "id": "location_label", "label": "Location label", "default": "Wedding location (city / venue)" },
-    { "type": "text", "id": "guests_label", "label": "Guest count label", "default": "Approximate number of guests" },
-    { "type": "text", "id": "functions_label", "label": "Functions label", "default": "Wedding functions" },
-    { "type": "text", "id": "function_error", "label": "Functions error message", "default": "Choose at least one wedding function." },
+    { "type": "textarea", "id": "wedding_section_description", "label": "Wedding details description", "default": "Tell us a little about the celebration you're planning." },
+    { "type": "text", "id": "name_label", "label": "Name label", "default": "Your Name" },
+    { "type": "text", "id": "country_label", "label": "Country label", "default": "Country" },
+    { "type": "text", "id": "date_label", "label": "Wedding date label", "default": "Wedding Date" },
+    { "type": "text", "id": "location_label", "label": "Location label", "default": "Wedding Location (City / Venue)" },
+    { "type": "text", "id": "guests_label", "label": "Guest count label", "default": "Number of Guests (approx.)" },
+    { "type": "text", "id": "functions_label", "label": "Functions label", "default": "Wedding Functions" },
+    { "type": "text", "id": "function_error", "label": "Functions error message", "default": "Choose at least one function." },
     { "type": "text", "id": "needs_section_heading", "label": "Gifting needs heading", "default": "Your Gifting Needs" },
-    { "type": "textarea", "id": "needs_section_description", "label": "Gifting needs description", "default": "Select the gifts and services you would like us to consider." },
+    { "type": "textarea", "id": "needs_section_description", "label": "Gifting needs description", "default": "Select the gifts and extras you would like us to consider." },
     { "type": "text", "id": "needs_label", "label": "Needs label", "default": "What do you need?" },
-    { "type": "text", "id": "needs_error", "label": "Needs error message", "default": "Choose at least one gifting need." },
-    { "type": "text", "id": "extras_label", "label": "Extra services label", "default": "Extra services" },
+    { "type": "text", "id": "needs_error", "label": "Needs error message", "default": "Choose at least one option." },
+    { "type": "text", "id": "extras_label", "label": "Extra services label", "default": "Extras" },
     { "type": "text", "id": "delivery_date_label", "label": "Delivery date label", "default": "Delivery needed by" },
+    { "type": "text", "id": "budget_section_heading", "label": "Budget heading", "default": "Your Budget" },
+    { "type": "textarea", "id": "budget_section_description", "label": "Budget description", "default": "Choose an approximate per-gift range, or tell us your overall budget." },
+    { "type": "text", "id": "budget_label", "label": "Budget per gift label", "default": "Approx. budget per gift" },
+    { "type": "text", "id": "budget_error", "label": "Budget error message", "default": "Please choose a range." },
     { "type": "text", "id": "total_budget_label", "label": "Total budget label", "default": "Total budget (optional)" },
-    { "type": "text", "id": "budget_label", "label": "Budget per gift label", "default": "Approximate budget per gift" },
-    { "type": "text", "id": "budget_error", "label": "Budget error message", "default": "Choose a budget range or add a budget option in the theme editor." },
-    { "type": "text", "id": "theme_label", "label": "Theme label", "default": "Theme, colours or style" },
+    { "type": "textarea", "id": "form_note", "label": "Budget note", "default": "Indicative only. Your final quotation depends on quantity, customisation and packaging." },
+    { "type": "text", "id": "preferences_section_heading", "label": "Preferences heading", "default": "Your Preferences" },
+    { "type": "textarea", "id": "preferences_section_description", "label": "Preferences description", "default": "Add your style notes and the best way for our gifting team to reach you." },
+    { "type": "text", "id": "theme_label", "label": "Theme label", "default": "Theme / colours / style" },
+    { "type": "text", "id": "theme_placeholder", "label": "Theme placeholder", "default": "e.g., Maroon and gold, floral, minimal" },
+    { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone / WhatsApp" },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email" },
     { "type": "text", "id": "notes_label", "label": "Notes label", "default": "Anything else we should know?" },
-    { "type": "textarea", "id": "form_note", "label": "Form note", "default": "Indicative only. Your final proposal depends on quantity, personalisation and packaging." },
+    { "type": "text", "id": "wishlist_summary_heading", "label": "Wishlist summary heading", "default": "Gifts from your wishlist" },
+    { "type": "text", "id": "save_label", "label": "Save button", "default": "Save & Continue Later" },
+    { "type": "text", "id": "previous_label", "label": "Back button", "default": "Back" },
+    { "type": "text", "id": "next_label", "label": "Next button", "default": "Next: Gifting Needs" },
     { "type": "text", "id": "submit_label", "label": "Submit button", "default": "Submit My Gifting Plan" },
     { "type": "textarea", "id": "privacy_note", "label": "Privacy note", "default": "Your details are sent directly to our Shopify contact inbox so our team can follow up with your proposal." }
   ],
@@ -222,16 +303,17 @@
     { "type": "function", "settings": { "label": "Sangeet" } },
     { "type": "function", "settings": { "label": "Wedding" } },
     { "type": "function", "settings": { "label": "Reception" } },
-    { "type": "need", "settings": { "label": "Return gifts" } },
-    { "type": "need", "settings": { "label": "Welcome hampers" } },
-    { "type": "need", "settings": { "label": "VIP & family gifts" } },
-    { "type": "need", "settings": { "label": "Bridal party gifts" } },
-    { "type": "need", "settings": { "label": "Function gifts" } },
-    { "type": "need", "settings": { "label": "Trousseau packing" } },
+    { "type": "function", "settings": { "label": "Other" } },
+    { "type": "need", "settings": { "label": "Return Gifts" } },
+    { "type": "need", "settings": { "label": "Welcome Hampers" } },
+    { "type": "need", "settings": { "label": "VIP & Family Gifts" } },
+    { "type": "need", "settings": { "label": "Bridal Party Gifts" } },
+    { "type": "need", "settings": { "label": "Function Gifts" } },
+    { "type": "need", "settings": { "label": "Trousseau Packing" } },
     { "type": "extra", "settings": { "label": "Personalisation" } },
-    { "type": "extra", "settings": { "label": "Premium packaging" } },
-    { "type": "extra", "settings": { "label": "Venue delivery" } },
-    { "type": "extra", "settings": { "label": "International delivery" } },
+    { "type": "extra", "settings": { "label": "Premium Packaging" } },
+    { "type": "extra", "settings": { "label": "Venue Delivery" } },
+    { "type": "extra", "settings": { "label": "International Delivery" } },
     { "type": "budget", "settings": { "label": "₹100 – ₹999", "value": "100-999" } },
     { "type": "budget", "settings": { "label": "₹1,000 – ₹2,000", "value": "1000-2000" } },
     { "type": "budget", "settings": { "label": "₹2,000 – ₹3,000", "value": "2000-3000" } },

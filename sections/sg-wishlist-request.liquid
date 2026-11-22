@@ -1,113 +1,152 @@
-<section class="sg-section sg-form-page sg-wishlist-page" id="sg-wishlist-page-{{ section.id }}" data-sg-wishlist-page>
-  <div class="sg-shell-width sg-form-page__inner">
-    <header class="sg-section-heading">
-      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-      <h1>{{ section.settings.heading | escape }}</h1>
-      {%- if section.settings.description != blank -%}<p class="sg-section-heading__description">{{ section.settings.description | escape }}</p>{%- endif -%}
-    </header>
+{%- liquid
+  assign sg_wishlist_hero_alt = section.settings.hero_alt | default: section.settings.hero_image.alt | default: 'A wedding gift wrapped with a soft pink bow'
+  assign sg_wishlist_collections_url = section.settings.continue_link | default: routes.collections_url
+-%}
+<section class="sg-wishlist-page" id="sg-wishlist-page-{{ section.id }}" data-sg-wishlist-page {{ section.shopify_attributes }}>
+  <header class="sg-wishlist-page__hero">
+    {%- if section.settings.hero_image != blank -%}
+      {{ section.settings.hero_image | image_url: width: 1200 | image_tag: class: 'sg-wishlist-page__hero-image', widths: '400, 600, 800, 1000, 1200', sizes: '(min-width: 800px) 44vw, 100vw', loading: 'eager', alt: sg_wishlist_hero_alt }}
+    {%- else -%}
+      <img class="sg-wishlist-page__hero-image" src="{{ 'sg-wishlist-hero.jpg' | asset_url }}" alt="{{ sg_wishlist_hero_alt | escape }}" width="195" height="133" loading="eager">
+    {%- endif -%}
+    <div class="sg-shell-width sg-wishlist-page__hero-copy">
+      <nav class="sg-wishlist-page__crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span aria-current="page">Wishlist</span>
+      </nav>
+      <h1>{{ section.settings.heading | escape }} <span aria-hidden="true">♡</span></h1>
+      {%- if section.settings.description != blank -%}<p>{{ section.settings.description | escape }}</p>{%- endif -%}
+    </div>
+  </header>
 
-    {% form 'contact', id: 'SGWishlistContactForm', class: 'sg-contact-form' %}
-      {%- if form.posted_successfully? -%}
-        <div class="sg-form-success" role="status" data-sg-contact-success>
-          <span class="sg-form-success__icon" aria-hidden="true">✓</span>
-          <h2>{{ section.settings.success_heading | escape }}</h2>
-          <p>{{ section.settings.success_message | escape }}</p>
-        </div>
-      {%- endif -%}
+  <div class="sg-wishlist-page__content">
+    <div class="sg-shell-width">
+      <div
+        class="sg-wishlist-list"
+        data-sg-wishlist-items
+        data-empty-message="{{ section.settings.empty_message | escape }}"
+        data-collections-url="{{ sg_wishlist_collections_url | escape }}"
+        aria-live="polite"
+      >
+        <noscript>{{ section.settings.no_script_message | escape }}</noscript>
+      </div>
 
-      {%- if form.errors -%}
-        <div class="sg-form-errors" role="alert">{{ form.errors | default_errors }}</div>
-      {%- endif -%}
-
-      <input type="hidden" name="contact[subject]" value="{{ section.settings.email_subject | escape }}">
-      <input type="hidden" name="contact[Wishlist selection]" value="" data-sg-wishlist-summary>
-      <textarea class="sg-visually-hidden" name="contact[body]" tabindex="-1" aria-hidden="true" data-sg-wishlist-body></textarea>
-
-      <div class="sg-wishlist-selection">
-        <div class="sg-form-section-intro sg-wishlist-selection__heading">
+      <div class="sg-wishlist-summary" data-sg-wishlist-summary hidden>
+        <span class="sg-wishlist-summary__icon" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+        <div class="sg-wishlist-summary__copy">
           <h2>{{ section.settings.selection_heading | escape }}</h2>
-          <p>{{ section.settings.selection_description | escape }}</p>
+          <p>{{ section.settings.selection_note | escape }}</p>
         </div>
-        <div class="sg-wishlist-list" data-sg-wishlist-items data-empty-message="{{ section.settings.empty_message | escape }}" aria-live="polite">
-          <noscript>{{ section.settings.no_script_message | escape }}</noscript>
-        </div>
-        <div class="sg-wishlist-selection__footer">
-          <span>{{ section.settings.selection_note | escape }}</span>
-          {%- if section.settings.continue_link != blank -%}
-            <a href="{{ section.settings.continue_link }}">{{ section.settings.continue_label | escape }}</a>
-          {%- endif -%}
-        </div>
+        <p class="sg-wishlist-summary__totals">
+          <span><strong data-sg-wishlist-products-count>0</strong> Products</span>
+          <span class="sg-wishlist-summary__divider" aria-hidden="true">|</span>
+          <span>Total Quantity: <strong class="sg-wishlist-summary__quantity" data-sg-wishlist-total-quantity>0</strong></span>
+        </p>
       </div>
 
-      <div class="sg-form-card">
-        <div class="sg-form-section-intro">
-          <h2>{{ section.settings.contact_heading | escape }}</h2>
-          {%- if section.settings.contact_description != blank -%}<p>{{ section.settings.contact_description | escape }}</p>{%- endif -%}
-        </div>
-        <div class="sg-form-grid">
-          <div class="sg-form-field">
-            <label for="SGWishlistName-{{ section.id }}">{{ section.settings.name_label | escape }} <span aria-hidden="true">*</span></label>
-            <input id="SGWishlistName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" required>
-          </div>
-          <div class="sg-form-field">
-            <label for="SGWishlistEmail-{{ section.id }}">{{ section.settings.email_label | escape }} <span aria-hidden="true">*</span></label>
-            <input id="SGWishlistEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required>
-          </div>
-          <div class="sg-form-field">
-            <label for="SGWishlistPhone-{{ section.id }}">{{ section.settings.phone_label | escape }}</label>
-            <input id="SGWishlistPhone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel">
-          </div>
-          <div class="sg-form-field">
-            <label for="SGWishlistDate-{{ section.id }}">{{ section.settings.date_label | escape }}</label>
-            <input id="SGWishlistDate-{{ section.id }}" type="date" name="contact[Wedding date]">
-          </div>
-          <div class="sg-form-field sg-form-field--full">
-            <label for="SGWishlistLocation-{{ section.id }}">{{ section.settings.location_label | escape }}</label>
-            <input id="SGWishlistLocation-{{ section.id }}" type="text" name="contact[Wedding location]" autocomplete="address-level2">
-          </div>
-          <div class="sg-form-field sg-form-field--full">
-            <label for="SGWishlistNotes-{{ section.id }}">{{ section.settings.notes_label | escape }}</label>
-            <textarea id="SGWishlistNotes-{{ section.id }}" name="contact[Additional notes]" rows="4" data-sg-wishlist-notes></textarea>
-          </div>
-        </div>
-        {%- if section.settings.form_note != blank -%}<p class="sg-form-note">{{ section.settings.form_note | escape }}</p>{%- endif -%}
+      <div class="sg-wishlist-actions" data-sg-wishlist-actions hidden>
+        <a class="sg-button sg-button--outline" href="{{ sg_wishlist_collections_url | escape }}">{% render 'sg-icon', name: 'arrow' %} {{ section.settings.continue_label | escape }}</a>
+        <button class="sg-button sg-button--primary" type="button" data-sg-open-wishlist-dialog>
+          {{ section.settings.request_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}
+        </button>
       </div>
-
-      <div class="sg-form-submit">
-        <button class="sg-button sg-button--primary" type="submit">{{ section.settings.submit_label | escape }} {% render 'sg-icon', name: 'arrow' %}</button>
-        <p>{{ section.settings.privacy_note | escape }}</p>
-      </div>
-    {% endform %}
+    </div>
   </div>
+
+  {% form 'contact', id: 'SGWishlistContactForm', class: 'sg-contact-form sg-wishlist-contact-form' %}
+    <dialog class="sg-quote-dialog" id="SGWishlistQuoteDialog-{{ section.id }}" data-sg-wishlist-dialog{% if form.errors or form.posted_successfully? %} data-sg-auto-open{% endif %} aria-labelledby="SGWishlistQuoteHeading-{{ section.id }}">
+      <div class="sg-quote-dialog__header">
+        <div>
+          <p class="sg-eyebrow">{{ section.settings.dialog_eyebrow | escape }}</p>
+          <h2 id="SGWishlistQuoteHeading-{{ section.id }}">{{ section.settings.contact_heading | escape }}</h2>
+        </div>
+        <button class="sg-quote-dialog__close" type="button" data-sg-close-wishlist-dialog aria-label="Close quote request">×</button>
+      </div>
+      <div class="sg-quote-dialog__body">
+        <p class="sg-quote-dialog__intro">{{ section.settings.contact_description | escape }}</p>
+        {%- if form.posted_successfully? -%}
+          <div class="sg-form-success" role="status" data-sg-contact-success>
+            <span class="sg-form-success__icon" aria-hidden="true">✓</span>
+            <h2>{{ section.settings.success_heading | escape }}</h2>
+            <p>{{ section.settings.success_message | escape }}</p>
+            <button class="sg-button sg-button--primary" type="button" data-sg-close-wishlist-dialog>{{ section.settings.success_button_label | escape }}</button>
+          </div>
+        {%- else -%}
+          {%- if form.errors -%}<div class="sg-form-errors" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+          <input type="hidden" name="contact[subject]" value="{{ section.settings.email_subject | escape }}">
+          <input type="hidden" name="contact[Wishlist selection]" value="" data-sg-wishlist-summary-field>
+          <textarea class="sg-visually-hidden" name="contact[body]" tabindex="-1" aria-hidden="true" data-sg-wishlist-body></textarea>
+          <div class="sg-form-grid">
+            <div class="sg-form-field">
+              <label for="SGWishlistName-{{ section.id }}">{{ section.settings.name_label | escape }} <span aria-hidden="true">*</span></label>
+              <input id="SGWishlistName-{{ section.id }}" type="text" name="contact[name]" autocomplete="name" placeholder="{{ section.settings.name_placeholder | escape }}" required>
+            </div>
+            <div class="sg-form-field">
+              <label for="SGWishlistPhone-{{ section.id }}">{{ section.settings.phone_label | escape }} <span aria-hidden="true">*</span></label>
+              <input id="SGWishlistPhone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel" placeholder="{{ section.settings.phone_placeholder | escape }}" required>
+            </div>
+            <div class="sg-form-field">
+              <label for="SGWishlistEmail-{{ section.id }}">{{ section.settings.email_label | escape }} <span aria-hidden="true">*</span></label>
+              <input id="SGWishlistEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" placeholder="{{ section.settings.email_placeholder | escape }}" required>
+            </div>
+            <div class="sg-form-field">
+              <label for="SGWishlistDate-{{ section.id }}">{{ section.settings.date_label | escape }} <span aria-hidden="true">*</span></label>
+              <input id="SGWishlistDate-{{ section.id }}" type="date" name="contact[Wedding date]" required>
+            </div>
+            <div class="sg-form-field sg-form-field--full">
+              <label for="SGWishlistLocation-{{ section.id }}">{{ section.settings.location_label | escape }} <span aria-hidden="true">*</span></label>
+              <input id="SGWishlistLocation-{{ section.id }}" type="text" name="contact[Wedding location]" autocomplete="address-level2" placeholder="{{ section.settings.location_placeholder | escape }}" required>
+            </div>
+            <div class="sg-form-field sg-form-field--full">
+              <label for="SGWishlistNotes-{{ section.id }}">{{ section.settings.notes_label | escape }}</label>
+              <textarea id="SGWishlistNotes-{{ section.id }}" name="contact[Additional notes]" rows="4" placeholder="{{ section.settings.notes_placeholder | escape }}" data-sg-wishlist-notes></textarea>
+            </div>
+          </div>
+          {%- if section.settings.form_note != blank -%}<p class="sg-form-note">{{ section.settings.form_note | escape }}</p>{%- endif -%}
+          <button class="sg-button sg-button--primary sg-quote-dialog__submit" type="submit">{{ section.settings.submit_label | escape }}{% render 'sg-icon', name: 'arrow' %}</button>
+        {%- endif -%}
+      </div>
+    </dialog>
+  {% endform %}
 </section>
 
 {% schema %}
 {
   "name": "SG · Wishlist request",
   "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "hero_alt", "label": "Hero image alt text" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Personalised gifting proposal" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Your Wedding Wishlist" },
-    { "type": "textarea", "id": "description", "label": "Description", "default": "Review your saved gifts, add quantities or notes, and send your selection to our gifting team for a personalised quote." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "My Wedding Wishlist" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Your selected gifts for your special celebration." },
     { "type": "text", "id": "email_subject", "label": "Email subject", "default": "ShaadiGifts wishlist quote request" },
-    { "type": "text", "id": "selection_heading", "label": "Wishlist heading", "default": "Saved gifts" },
+    { "type": "text", "id": "selection_heading", "label": "Wishlist summary heading", "default": "Your Selection" },
+    { "type": "textarea", "id": "selection_note", "label": "Wishlist summary note", "default": "Indicative prices only. Final quotation depends on quantity, customization and packaging." },
     { "type": "textarea", "id": "selection_description", "label": "Wishlist description", "default": "Your selection is saved in this browser. Quantities and notes are included with your request." },
-    { "type": "text", "id": "empty_message", "label": "Empty wishlist message", "default": "Your wishlist is empty. Browse collections and save the gifts you like." },
+    { "type": "text", "id": "empty_message", "label": "Empty wishlist message", "default": "Your wishlist is empty. Browse our collections and tap the heart on any gift to save it here." },
     { "type": "text", "id": "no_script_message", "label": "No JavaScript message", "default": "Wishlist items need JavaScript enabled in this browser." },
-    { "type": "text", "id": "selection_note", "label": "Wishlist note", "default": "Indicative prices only. Your final proposal depends on quantity, personalisation and packaging." },
-    { "type": "text", "id": "continue_label", "label": "Continue link label", "default": "Continue exploring collections" },
+    { "type": "text", "id": "continue_label", "label": "Continue link label", "default": "Continue Exploring Collections" },
     { "type": "url", "id": "continue_link", "label": "Continue link" },
-    { "type": "text", "id": "contact_heading", "label": "Contact form heading", "default": "Request a Personalised Quote" },
-    { "type": "textarea", "id": "contact_description", "label": "Contact form description", "default": "Share your contact details and wedding plans. This form sends your request directly to the store's Shopify contact email." },
-    { "type": "text", "id": "name_label", "label": "Name label", "default": "Your name" },
-    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email address" },
+    { "type": "text", "id": "request_button_label", "label": "Quote button label", "default": "Request Personalized Quote" },
+    { "type": "header", "content": "Shopify contact form" },
+    { "type": "text", "id": "dialog_eyebrow", "label": "Dialog eyebrow", "default": "Your wedding gifting enquiry" },
+    { "type": "text", "id": "contact_heading", "label": "Contact form heading", "default": "Request Personalized Quote" },
+    { "type": "textarea", "id": "contact_description", "label": "Contact form description", "default": "Share your details and we will send a personalised proposal for your wishlist. Gifts are not purchased online." },
+    { "type": "text", "id": "name_label", "label": "Name label", "default": "Your Name" },
+    { "type": "text", "id": "name_placeholder", "label": "Name placeholder", "default": "Enter your name" },
     { "type": "text", "id": "phone_label", "label": "Phone label", "default": "Phone / WhatsApp" },
-    { "type": "text", "id": "date_label", "label": "Wedding date label", "default": "Wedding date" },
-    { "type": "text", "id": "location_label", "label": "Location label", "default": "Wedding location (city / venue)" },
+    { "type": "text", "id": "phone_placeholder", "label": "Phone placeholder", "default": "+91 …" },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email" },
+    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "you@email.com" },
+    { "type": "text", "id": "date_label", "label": "Wedding date label", "default": "Wedding Date" },
+    { "type": "text", "id": "location_label", "label": "Location label", "default": "Wedding Location (City / Venue)" },
+    { "type": "text", "id": "location_placeholder", "label": "Location placeholder", "default": "e.g., Delhi, Dubai, Bangkok" },
     { "type": "text", "id": "notes_label", "label": "Notes label", "default": "Anything else we should know?" },
-    { "type": "textarea", "id": "form_note", "label": "Form note", "default": "Gifts are not purchased online. The team will confirm final pricing and delivery in your proposal." },
-    { "type": "text", "id": "submit_label", "label": "Submit button", "default": "Request Personalized Quote" },
-    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Request received" },
-    { "type": "textarea", "id": "success_message", "label": "Success message", "default": "Thank you. Our gifting team will contact you shortly with a personalised proposal." },
+    { "type": "text", "id": "notes_placeholder", "label": "Notes placeholder", "default": "Theme, colours, personalisation ideas…" },
+    { "type": "textarea", "id": "form_note", "label": "Form note", "default": "Gifts are not purchased online. Our team will confirm final pricing and delivery in your proposal." },
+    { "type": "text", "id": "submit_label", "label": "Submit button", "default": "Submit Request" },
+    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Request Received!" },
+    { "type": "textarea", "id": "success_message", "label": "Success message", "default": "Thank you. Our gifting experts will contact you shortly with a personalised proposal." },
+    { "type": "text", "id": "success_button_label", "label": "Success button label", "default": "Done" },
     { "type": "textarea", "id": "privacy_note", "label": "Privacy note", "default": "Your wishlist and contact details are sent directly to our Shopify contact inbox. No payment or checkout is involved." }
   ],
   "presets": [{ "name": "SG · Wishlist request" }]

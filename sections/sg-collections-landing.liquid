@@ -1,80 +1,241 @@
 {%- liquid
   assign sg_collections_hero_alt = section.settings.hero_alt | default: section.settings.hero_image.alt | default: 'Wedding gifts arranged for a celebration'
+  assign sg_wishlist_url = pages.wishlist.url | default: '/pages/wishlist'
+  assign sg_planner_url = section.settings.cta_link | default: '/pages/planner'
 -%}
-<section class="sg-collections-page" id="sg-collections-page-{{ section.id }}" {{ section.shopify_attributes }}>
+<section
+  class="sg-collections-page"
+  id="sg-collections-page-{{ section.id }}"
+  data-sg-collections-page
+  data-base-heading="{{ section.settings.heading | escape }}"
+  data-base-description="{{ section.settings.description | escape }}"
+  data-filtered-description="{{ section.settings.filtered_description | escape }}"
+  {{ section.shopify_attributes }}
+>
   <header class="sg-collections-page__hero">
     {%- if section.settings.hero_image != blank -%}
       {{ section.settings.hero_image | image_url: width: 1600 | image_tag: class: 'sg-collections-page__hero-image', widths: '600, 900, 1200, 1600', sizes: '(min-width: 900px) 48vw, 100vw', loading: 'eager', alt: sg_collections_hero_alt }}
     {%- else -%}
-      <img class="sg-collections-page__hero-image" src="{{ 'sg-home-hero.jpg' | asset_url }}" alt="{{ sg_collections_hero_alt | escape }}" width="630" height="478" loading="eager">
+      <img class="sg-collections-page__hero-image" src="{{ 'sg-collections-hero.jpg' | asset_url }}" alt="{{ sg_collections_hero_alt | escape }}" width="630" height="478" loading="eager">
     {%- endif -%}
+    <svg class="sg-collections-page__leaf" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+      <path d="M20 190C40 120 80 60 170 20M60 140c-20-10-30-30-28-50 20 4 32 20 28 50zM90 110c-20-6-34-24-34-44 22 2 36 18 34 44zM122 80c-16-8-24-26-20-44 20 6 28 22 20 44zM64 150c22-6 40 2 50 20-22 6-42 0-50-20zM96 118c22-4 40 4 48 22-22 4-40-2-48-22zM130 86c20-2 36 6 42 22-20 2-36-4-42-22z"/>
+    </svg>
     <div class="sg-shell-width sg-collections-page__hero-copy">
       <nav class="sg-collections-page__crumbs" aria-label="Breadcrumb">
-        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span aria-current="page">Collections</span>
+        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span>
+        <span data-sg-collections-base-crumb aria-current="page">Collections</span>
+        <a href="{{ routes.collections_url }}" data-sg-collections-parent-crumb hidden>Collections</a>
+        <span aria-hidden="true" data-sg-collections-selected-separator hidden>›</span>
+        <span data-sg-collections-selected-crumb aria-current="page" hidden></span>
       </nav>
       {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-      <h1>{{ section.settings.heading | escape }}</h1>
-      {%- if section.settings.description != blank -%}<p>{{ section.settings.description | escape }}</p>{%- endif -%}
+      <h1 data-sg-collections-heading>{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.description != blank -%}<p data-sg-collections-description>{{ section.settings.description | escape }}</p>{%- endif -%}
     </div>
   </header>
 
-  <div class="sg-section sg-collections-page__content">
+  <div class="sg-collections-page__content">
     <div class="sg-shell-width">
-      <header class="sg-section-heading">
-        {%- if section.settings.grid_eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.grid_eyebrow | escape }}</p>{%- endif -%}
-        <h2>{{ section.settings.grid_heading | escape }}</h2>
-        {%- if section.settings.grid_description != blank -%}<p class="sg-section-heading__description">{{ section.settings.grid_description | escape }}</p>{%- endif -%}
-      </header>
-
       {%- assign sg_collection_cards_count = 0 -%}
-      <div class="sg-collections-page__grid">
-        {%- for collection in section.settings.collections limit: 12 -%}
-          {%- if collection != blank -%}
-            {%- liquid
-              assign sg_collection_card_image = collection.featured_image | default: collection.image
-              assign sg_collection_card_asset = blank
-              case collection.handle
-                when 'return-gifts'
-                  assign sg_collection_card_asset = 'sg-collection-return-gifts.jpg'
-                when 'welcome-hampers'
-                  assign sg_collection_card_asset = 'sg-collection-welcome-hampers.jpg'
-                when 'vip-family-gifts'
-                  assign sg_collection_card_asset = 'sg-collection-vip-family-gifts.jpg'
-                when 'bridal-party-gifts'
-                  assign sg_collection_card_asset = 'sg-collection-bridal-party-gifts.jpg'
-                when 'function-gifts'
-                  assign sg_collection_card_asset = 'sg-collection-function-gifts.jpg'
-                when 'trousseau-packing'
-                  assign sg_collection_card_asset = 'sg-collection-trousseau-packing.jpg'
-              endcase
-              assign sg_collection_cards_count = sg_collection_cards_count | plus: 1
-            -%}
-            <a class="sg-collection-card" href="{{ collection.url }}">
-              <span class="sg-collection-card__media">
-                {%- if sg_collection_card_image != blank -%}
-                  {{ sg_collection_card_image | image_url: width: 900 | image_tag: class: 'sg-collection-card__image', widths: '360, 540, 720, 900', sizes: '(min-width: 900px) 30vw, (min-width: 560px) 46vw, 92vw', loading: 'lazy', alt: collection.title }}
-                {%- elsif sg_collection_card_asset != blank -%}
-                  <img class="sg-collection-card__image" src="{{ sg_collection_card_asset | asset_url }}" alt="{{ collection.title | escape }}" width="267" height="158" loading="lazy">
-                {%- else -%}
-                  <span class="sg-collection-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+      <div class="sg-collections-page__toolbar" data-sg-collections-toolbar role="search" aria-label="Filter wedding gifts">
+        <div class="sg-collections-page__filter">
+          <span class="sg-collections-page__filter-icon" aria-hidden="true">{% render 'sg-icon', name: 'calendar' %}</span>
+          <div>
+            <label for="SGCollectionFilter-{{ section.id }}">{{ section.settings.collection_filter_label | escape }}</label>
+            <select id="SGCollectionFilter-{{ section.id }}" data-sg-filter-collection>
+              <option value="">{{ section.settings.all_collections_label | escape }}</option>
+              {%- for collection in section.settings.collections limit: 12 -%}
+                {%- if collection != blank -%}<option value="{{ collection.handle | escape }}">{{ collection.title | escape }}</option>{%- endif -%}
+              {%- endfor -%}
+            </select>
+          </div>
+        </div>
+
+        <div class="sg-collections-page__filter">
+          <span class="sg-collections-page__filter-icon" aria-hidden="true">{% render 'sg-icon', name: 'tag' %}</span>
+          <div>
+            <label for="SGPriceFilter-{{ section.id }}">{{ section.settings.price_filter_label | escape }}</label>
+            <select id="SGPriceFilter-{{ section.id }}" data-sg-filter-price>
+              <option value="">{{ section.settings.all_prices_label | escape }}</option>
+              <option value="10000-99999">{{ 10000 | money_without_trailing_zeros }} – {{ 99900 | money_without_trailing_zeros }}</option>
+              <option value="100000-199999">{{ 100000 | money_without_trailing_zeros }} – {{ 199900 | money_without_trailing_zeros }}</option>
+              <option value="200000-299999">{{ 200000 | money_without_trailing_zeros }} – {{ 299900 | money_without_trailing_zeros }}</option>
+              <option value="300000-">{{ 300000 | money_without_trailing_zeros }} {{ section.settings.and_above_label | escape }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sg-collections-page__filter">
+          <span class="sg-collections-page__filter-icon" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+          <div>
+            <label for="SGProductTypeFilter-{{ section.id }}">{{ section.settings.type_filter_label | escape }}</label>
+            <select id="SGProductTypeFilter-{{ section.id }}" data-sg-filter-type>
+              <option value="">{{ section.settings.all_types_label | escape }}</option>
+              {%- assign sg_seen_product_types = ',' -%}
+              {%- for collection in section.settings.collections limit: 12 -%}
+                {%- if collection != blank -%}
+                  {%- for product in collection.products limit: section.settings.products_per_collection -%}
+                    {%- assign sg_product_type = product.type | strip -%}
+                    {%- if sg_product_type != blank -%}
+                      {%- assign sg_type_token = sg_product_type | prepend: ',' | append: ',' -%}
+                      {%- unless sg_seen_product_types contains sg_type_token -%}
+                        <option value="{{ sg_product_type | escape }}">{{ sg_product_type | escape }}</option>
+                        {%- assign sg_seen_product_types = sg_seen_product_types | append: sg_product_type | append: ',' -%}
+                      {%- endunless -%}
+                    {%- endif -%}
+                  {%- endfor -%}
                 {%- endif -%}
-              </span>
-              <span class="sg-collection-card__meta">
-                <span class="sg-collection-card__title">{{ collection.title | escape }}</span>
-                {%- if section.settings.show_product_count -%}<span class="sg-collection-card__count">{{ collection.products_count }} gifts</span>{%- endif -%}
-                <span class="sg-collection-card__arrow" aria-hidden="true">{% render 'sg-icon', name: 'arrow' %}</span>
-              </span>
-            </a>
-          {%- endif -%}
-        {%- endfor -%}
+              {%- endfor -%}
+            </select>
+          </div>
+        </div>
+
+        <button class="sg-collections-page__clear" type="button" data-sg-filter-clear>{{ section.settings.clear_filters_label | escape }}</button>
       </div>
 
-      {%- if sg_collection_cards_count == 0 -%}
-        <div class="sg-empty-state" role="status">
-          <span class="sg-empty-state__icon" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
-          <p>Select the wedding-gift collections to feature in the theme editor. Products and collections must be published to the Online Store.</p>
+      <div class="sg-collections-page__results" data-sg-collections-results hidden>
+        <span data-sg-collections-count aria-live="polite"></span>
+        <label for="SGSortFilter-{{ section.id }}">{{ section.settings.sort_label | escape }}
+          <select id="SGSortFilter-{{ section.id }}" data-sg-filter-sort>
+            <option value="featured">{{ section.settings.sort_featured_label | escape }}</option>
+            <option value="price-ascending">{{ section.settings.sort_price_low_label | escape }}</option>
+            <option value="price-descending">{{ section.settings.sort_price_high_label | escape }}</option>
+            <option value="title-ascending">{{ section.settings.sort_name_label | escape }}</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="sg-collections-page__categories" data-sg-collections-categories>
+        <header class="sg-section-heading">
+          {%- if section.settings.grid_eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.grid_eyebrow | escape }}</p>{%- endif -%}
+          <h2>{{ section.settings.grid_heading | escape }}</h2>
+          {%- if section.settings.grid_description != blank -%}<p class="sg-section-heading__description">{{ section.settings.grid_description | escape }}</p>{%- endif -%}
+        </header>
+        <div class="sg-collections-page__grid">
+          {%- for collection in section.settings.collections limit: 12 -%}
+            {%- if collection != blank -%}
+              {%- liquid
+                assign sg_collection_card_image = collection.featured_image | default: collection.image
+                assign sg_collection_card_asset = blank
+                case collection.handle
+                  when 'return-gifts'
+                    assign sg_collection_card_asset = 'sg-collection-return-gifts.jpg'
+                  when 'welcome-hampers'
+                    assign sg_collection_card_asset = 'sg-collection-welcome-hampers.jpg'
+                  when 'vip-family-gifts'
+                    assign sg_collection_card_asset = 'sg-collection-vip-family-gifts.jpg'
+                  when 'bridal-party-gifts'
+                    assign sg_collection_card_asset = 'sg-collection-bridal-party-gifts.jpg'
+                  when 'function-gifts'
+                    assign sg_collection_card_asset = 'sg-collection-function-gifts.jpg'
+                  when 'trousseau-packing'
+                    assign sg_collection_card_asset = 'sg-collection-trousseau-packing.jpg'
+                endcase
+                assign sg_collection_cards_count = sg_collection_cards_count | plus: 1
+              -%}
+              <a class="sg-collection-card" href="{{ collection.url }}" data-sg-collection-card data-collection-handle="{{ collection.handle | escape }}" data-collection-title="{{ collection.title | escape }}">
+                <span class="sg-collection-card__media">
+                  {%- if sg_collection_card_image != blank -%}
+                    {{ sg_collection_card_image | image_url: width: 900 | image_tag: class: 'sg-collection-card__image', widths: '360, 540, 720, 900', sizes: '(min-width: 900px) 30vw, (min-width: 560px) 46vw, 92vw', loading: 'lazy', alt: collection.title }}
+                  {%- elsif sg_collection_card_asset != blank -%}
+                    <img class="sg-collection-card__image" src="{{ sg_collection_card_asset | asset_url }}" alt="{{ collection.title | escape }}" width="267" height="158" loading="lazy">
+                  {%- else -%}
+                    <span class="sg-collection-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+                  {%- endif -%}
+                </span>
+                <span class="sg-collection-card__meta">
+                  <span class="sg-collection-card__title">{{ collection.title | escape }}</span>
+                  {%- if section.settings.show_product_count -%}<span class="sg-collection-card__count">{{ collection.products_count }} gifts</span>{%- endif -%}
+                  <span class="sg-collection-card__arrow" aria-hidden="true">{% render 'sg-icon', name: 'arrow' %}</span>
+                </span>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
         </div>
-      {%- endif -%}
+        {%- if sg_collection_cards_count == 0 -%}
+          <div class="sg-empty-state" role="status">
+            <span class="sg-empty-state__icon" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+            <p>{{ section.settings.no_collections_message | escape }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="sg-collections-page__products" data-sg-collections-products hidden>
+        <div class="sg-collections-page__product-grid" data-sg-collections-product-grid>
+          {%- for collection in section.settings.collections limit: 12 -%}
+            {%- if collection != blank -%}
+              {%- for product in collection.products limit: section.settings.products_per_collection -%}
+                {%- liquid
+                  assign sg_product_image = product.featured_image | default: product.featured_media.preview_image
+                  assign sg_product_image_url = ''
+                  if sg_product_image != blank
+                    assign sg_product_image_url = sg_product_image | image_url: width: 900
+                  endif
+                -%}
+                <article
+                  class="sg-product-card"
+                  data-sg-collection-product
+                  data-product-id="{{ product.id }}"
+                  data-product-title="{{ product.title | escape }}"
+                  data-product-type="{{ product.type | escape }}"
+                  data-product-price-cents="{{ product.price_min }}"
+                  data-collection-handle="{{ collection.handle | escape }}"
+                >
+                  <div class="sg-product-card__media">
+                    <a class="sg-product-card__image-link" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+                      {%- if sg_product_image != blank -%}
+                        {{ sg_product_image | image_url: width: 900 | image_tag: class: 'sg-product-card__image', widths: '360, 540, 720, 900', sizes: '(min-width: 1000px) 24vw, (min-width: 650px) 46vw, 92vw', loading: 'lazy', alt: product.title }}
+                      {%- else -%}
+                        <span class="sg-product-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+                      {%- endif -%}
+                    </a>
+                    <button
+                      class="sg-product-card__wishlist"
+                      type="button"
+                      data-sg-wishlist-toggle
+                      data-sg-wishlist-url="{{ sg_wishlist_url | escape }}"
+                      data-product-id="{{ product.id }}"
+                      data-product-handle="{{ product.handle | escape }}"
+                      data-product-title="{{ product.title | escape }}"
+                      data-product-url="{{ product.url | escape }}"
+                      {% if sg_product_image_url != blank %}data-product-image="{{ sg_product_image_url | escape }}"{% endif %}
+                      data-product-price="{{ product.price_min | money | strip_html | strip | escape }}"
+                      data-product-type="{{ product.type | escape }}"
+                      data-product-category="{{ collection.title | escape }}"
+                      data-sg-label-add="Add {{ product.title | escape }} to wishlist"
+                      data-sg-label-remove="Remove {{ product.title | escape }} from wishlist"
+                      aria-label="Add {{ product.title | escape }} to wishlist"
+                      aria-pressed="false"
+                    >
+                      {% render 'sg-icon', name: 'heart' %}<span class="visually-hidden" data-sg-wishlist-button-label>Add to Wishlist</span>
+                    </button>
+                  </div>
+                  <div class="sg-product-card__body">
+                    <div class="sg-product-card__text"><h3><a href="{{ product.url }}">{{ product.title | escape }}</a></h3></div>
+                    {%- if product.description != blank -%}<p class="sg-product-card__description">{{ product.description | strip_html | truncatewords: 18 | escape }}</p>{%- endif -%}
+                    <p class="sg-product-card__price">{{ section.settings.price_prefix | escape }} <strong>{{ product.price_min | money }}</strong>{% if product.price_min != product.price_max %} {{ section.settings.price_range_suffix | escape }}{% endif %}</p>
+                    <div class="sg-product-card__actions">
+                      <button class="sg-button sg-button--wishlist" type="button" data-sg-wishlist-toggle data-sg-wishlist-url="{{ sg_wishlist_url | escape }}" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle | escape }}" data-product-title="{{ product.title | escape }}" data-product-url="{{ product.url | escape }}" {% if sg_product_image_url != blank %}data-product-image="{{ sg_product_image_url | escape }}"{% endif %} data-product-price="{{ product.price_min | money | strip_html | strip | escape }}" data-product-type="{{ product.type | escape }}" data-product-category="{{ collection.title | escape }}" data-sg-label-add="Add {{ product.title | escape }} to wishlist" data-sg-label-remove="Remove {{ product.title | escape }} from wishlist" aria-label="Add {{ product.title | escape }} to wishlist" aria-pressed="false">
+                        {% render 'sg-icon', name: 'heart' %}<span data-sg-wishlist-button-label>Add to Wishlist</span>
+                      </button>
+                      <a class="sg-product-card__details" href="{{ product.url }}">{{ section.settings.view_product_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
+                    </div>
+                  </div>
+                </article>
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="sg-collections-page__collection-link" data-sg-collection-view-all hidden>
+          <a class="sg-button sg-button--outline" href="{{ routes.collections_url }}"><span data-sg-collection-view-all-label></span>{% render 'sg-icon', name: 'arrow' %}</a>
+        </div>
+        <div class="sg-collections-page__empty sg-empty-state" data-sg-collections-empty role="status" hidden>
+          <h2>{{ section.settings.empty_results_heading | escape }}</h2>
+          <p>{{ section.settings.empty_results_message | escape }}</p>
+          <a class="sg-button sg-button--primary" href="{{ sg_planner_url | escape }}">{{ section.settings.cta_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
+        </div>
+      </div>
 
       <div class="sg-planner-cta sg-collections-page__cta">
         <svg class="sg-planner-cta__flourish" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
@@ -87,170 +248,11 @@
             <p>{{ section.settings.cta_description | escape }}</p>
           </div>
         </div>
-        {%- if section.settings.cta_link != blank -%}
-          <a class="sg-button sg-button--primary" href="{{ section.settings.cta_link }}">{{ section.settings.cta_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
-        {%- endif -%}
+        <a class="sg-button sg-button--primary" href="{{ sg_planner_url | escape }}">{{ section.settings.cta_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
       </div>
     </div>
   </div>
 </section>
-
-{% stylesheet %}
-  .sg-collections-page {
-    background: var(--sg-cream, #fdf7f0);
-  }
-
-  .sg-collections-page__hero {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border-bottom: 1px solid var(--sg-line, #ead9c8);
-    background: linear-gradient(180deg, #fdf1e4, var(--sg-cream, #fdf7f0));
-  }
-
-  .sg-collections-page__hero-copy {
-    position: relative;
-    z-index: 1;
-    order: 1;
-    padding-block: 28px 34px;
-  }
-
-  .sg-collections-page__hero-image {
-    display: block;
-    order: 2;
-    width: 100%;
-    height: 170px;
-    object-fit: cover;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
-  }
-
-  .sg-collections-page__crumbs {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 18px;
-    color: var(--sg-muted, #6b5654);
-    font-size: .9rem;
-  }
-
-  .sg-collections-page__crumbs a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .sg-collections-page__crumbs a:hover,
-  .sg-collections-page__crumbs [aria-current='page'] {
-    color: var(--sg-maroon, #7a1230);
-  }
-
-  .sg-collections-page__crumbs [aria-current='page'] {
-    font-weight: 600;
-  }
-
-  .sg-collections-page__crumbs span[aria-hidden='true'] {
-    color: var(--sg-gold, #b8862b);
-  }
-
-  .sg-collections-page__hero .sg-eyebrow {
-    margin-bottom: 1rem;
-    letter-spacing: .28em;
-  }
-
-  .sg-collections-page__hero h1 {
-    max-width: 620px;
-    margin: 0 0 .25em;
-    color: var(--sg-maroon, #7a1230);
-    font-family: var(--sg-display, Georgia, serif);
-    font-size: clamp(2rem, 4.6vw, 3.6rem);
-    line-height: 1.1;
-  }
-
-  .sg-collections-page__hero-copy > p:last-child {
-    max-width: 36em;
-    margin: 0;
-    color: var(--sg-muted, #6b5654);
-    font-size: 1.08rem;
-    line-height: 1.55;
-  }
-
-  .sg-collections-page__content {
-    padding-bottom: clamp(48px, 7vw, 84px);
-  }
-
-  .sg-collections-page__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
-  }
-
-  .sg-collections-page__cta {
-    margin-top: clamp(34px, 5vw, 58px);
-  }
-
-  .sg-collections-page__cta .sg-button {
-    white-space: nowrap;
-  }
-
-  @media screen and (min-width: 560px) {
-    .sg-collections-page__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-    }
-  }
-
-  @media screen and (min-width: 800px) {
-    .sg-collections-page__hero {
-      display: block;
-      min-height: 260px;
-    }
-
-    .sg-collections-page__hero-copy {
-      padding-block: 34px 56px;
-    }
-
-    .sg-collections-page__hero-image {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 44%;
-      height: 100%;
-      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 38%);
-      mask-image: linear-gradient(to right, transparent 0, #000 38%);
-    }
-  }
-
-  @media screen and (min-width: 960px) {
-    .sg-collections-page__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    .sg-collections-page__content .sg-section-heading h2 {
-      gap: 8px;
-    }
-
-    .sg-collections-page__content .sg-section-heading h2::before,
-    .sg-collections-page__content .sg-section-heading h2::after {
-      width: 18px;
-    }
-
-    .sg-collections-page__cta .sg-button {
-      width: 100%;
-      white-space: normal;
-    }
-  }
-
-  @media screen and (prefers-reduced-motion: reduce) {
-    .sg-collections-page .sg-collection-card,
-    .sg-collections-page .sg-collection-card__image {
-      transition: none;
-    }
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
@@ -261,12 +263,33 @@
     { "type": "text", "id": "eyebrow", "label": "Hero eyebrow", "default": "Our Collections" },
     { "type": "text", "id": "heading", "label": "Hero heading", "default": "Discover Curated Wedding Gift Collections" },
     { "type": "textarea", "id": "description", "label": "Hero description", "default": "Thoughtful gifts for every function, guest and celebration." },
-    { "type": "header", "content": "Collection cards" },
+    { "type": "textarea", "id": "filtered_description", "label": "Collection description", "default": "Thoughtful and elegant gifts your guests will love." },
+    { "type": "header", "content": "Collection filters and products" },
     { "type": "collection_list", "id": "collections", "label": "Collections to show", "limit": 12 },
-    { "type": "checkbox", "id": "show_product_count", "label": "Show product counts", "default": false },
-    { "type": "text", "id": "grid_eyebrow", "label": "Grid eyebrow", "default": "Thoughtfully grouped" },
-    { "type": "text", "id": "grid_heading", "label": "Grid heading", "default": "Find Gifts for Every Celebration" },
-    { "type": "textarea", "id": "grid_description", "label": "Grid description", "default": "Browse by gifting moment, then open a collection to explore its products and refine your selection with Shopify's native filters." },
+    { "type": "range", "id": "products_per_collection", "label": "Products per collection", "min": 4, "max": 20, "step": 4, "default": 8 },
+    { "type": "checkbox", "id": "show_product_count", "label": "Show product counts on collection cards", "default": false },
+    { "type": "text", "id": "collection_filter_label", "label": "Collection filter label", "default": "Function / Collection" },
+    { "type": "text", "id": "all_collections_label", "label": "All collections option", "default": "All Functions" },
+    { "type": "text", "id": "price_filter_label", "label": "Price filter label", "default": "Price Range (per gift)" },
+    { "type": "text", "id": "all_prices_label", "label": "All prices option", "default": "All Ranges" },
+    { "type": "text", "id": "and_above_label", "label": "Price option suffix", "default": "& above" },
+    { "type": "text", "id": "type_filter_label", "label": "Product type filter label", "default": "Gift Type" },
+    { "type": "text", "id": "all_types_label", "label": "All types option", "default": "All Gift Types" },
+    { "type": "text", "id": "clear_filters_label", "label": "Clear filters label", "default": "Clear All" },
+    { "type": "text", "id": "sort_label", "label": "Sort label", "default": "Sort by:" },
+    { "type": "text", "id": "sort_featured_label", "label": "Featured sort label", "default": "Featured" },
+    { "type": "text", "id": "sort_price_low_label", "label": "Low to high sort label", "default": "Price: Low to High" },
+    { "type": "text", "id": "sort_price_high_label", "label": "High to low sort label", "default": "Price: High to Low" },
+    { "type": "text", "id": "sort_name_label", "label": "Name sort label", "default": "Name: A–Z" },
+    { "type": "text", "id": "grid_eyebrow", "label": "Category grid eyebrow", "default": "Thoughtfully grouped" },
+    { "type": "text", "id": "grid_heading", "label": "Category grid heading", "default": "Find Gifts for Every Celebration" },
+    { "type": "textarea", "id": "grid_description", "label": "Category grid description", "default": "Browse by gifting moment, then open a collection to explore its products and refine your selection." },
+    { "type": "text", "id": "no_collections_message", "label": "Empty collection list message", "default": "Select the wedding-gift collections to feature in the theme editor. Products and collections must be published to the Online Store." },
+    { "type": "text", "id": "price_prefix", "label": "Product price prefix", "default": "Starting from" },
+    { "type": "text", "id": "price_range_suffix", "label": "Price range suffix", "default": "+" },
+    { "type": "text", "id": "view_product_label", "label": "Product link label", "default": "View Details" },
+    { "type": "text", "id": "empty_results_heading", "label": "No results heading", "default": "No gifts match these filters" },
+    { "type": "textarea", "id": "empty_results_message", "label": "No results message", "default": "Try a wider price range, or tell us what you have in mind and we will curate it for you." },
     { "type": "header", "content": "Planner call to action" },
     { "type": "text", "id": "cta_heading", "label": "CTA heading", "default": "Can't Find What You're Looking For?" },
     { "type": "textarea", "id": "cta_description", "label": "CTA description", "default": "Let us curate something unique for your celebration." },
