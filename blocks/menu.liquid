@@ -10,7 +10,6 @@
   if menu != blank
     assign menu_links = menu.links
     if menu_parent_title != blank
-      assign menu_links = blank
       for menu_parent in menu.links
         assign menu_parent_title_normalized = menu_parent.title | strip | downcase
         if menu_parent_title_normalized == menu_parent_title and menu_parent.links != blank
@@ -186,7 +185,7 @@
       "type": "text",
       "id": "parent_link_title",
       "label": "Show links inside menu item",
-      "info": "Optional. Enter a top-level menu label, such as Collections, to show its nested links. Leave blank to show the menu's top-level links."
+      "info": "Optional. Enter a top-level menu label, such as Collections, to show its nested links. Leave blank to show the menu's top-level links. If no matching parent with child links exists, the top-level links are shown instead."
     },
     {
       "type": "header",

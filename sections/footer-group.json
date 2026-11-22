@@ -39,9 +39,9 @@
         "footer_menu_collections": {
           "type": "menu",
           "settings": {
-            "menu": "main-menu",
+            "menu": "footer-collections",
             "heading": "Collections",
-            "parent_link_title": "Collections",
+            "parent_link_title": "",
             "menu_spacing": 12,
             "show_as_accordion": true,
             "accordion_icon": "caret",
