@@ -1,0 +1,26 @@
+{%- assign sg_mega_variant = variant | default: 'desktop' -%}
+<div class="sg-header-mega sg-header-mega--{{ sg_mega_variant }}">
+  <section class="sg-header-mega__group">
+    <h3 class="sg-header-mega__heading">Gift Collections</h3>
+    <ul class="sg-header-mega__links" role="list">
+      <li><a href="{{ routes.collections_url | append: '/return-gifts' }}">Return Gifts</a></li>
+      <li><a href="{{ routes.collections_url | append: '/welcome-hampers' }}">Welcome Hampers</a></li>
+      <li><a href="{{ routes.collections_url | append: '/vip-family-gifts' }}">VIP &amp; Family Gifts</a></li>
+      <li><a href="{{ routes.collections_url | append: '/bridal-party-gifts' }}">Bridal Party Gifts</a></li>
+      <li><a href="{{ routes.collections_url | append: '/function-gifts' }}">Function Gifts</a></li>
+      <li><a href="{{ routes.collections_url | append: '/trousseau-packing' }}">Trousseau Packing</a></li>
+    </ul>
+  </section>
+
+  <section class="sg-header-mega__group">
+    <h3 class="sg-header-mega__heading">Wedding Functions</h3>
+    <ul class="sg-header-mega__links" role="list">
+      <li><a href="{{ routes.all_products_collection_url | append: '/occasion-ring-ceremony' }}">Ring Ceremony</a></li>
+      <li><a href="{{ routes.all_products_collection_url | append: '/occasion-haldi' }}">Haldi</a></li>
+      <li><a href="{{ routes.all_products_collection_url | append: '/occasion-mehendi' }}">Mehendi</a></li>
+      <li><a href="{{ routes.all_products_collection_url | append: '/occasion-sangeet' }}">Sangeet</a></li>
+      <li><a href="{{ routes.all_products_collection_url | append: '/occasion-wedding' }}">Wedding</a></li>
+      <li><a href="{{ routes.all_products_collection_url | append: '/occasion-reception' }}">Reception</a></li>
+    </ul>
+  </section>
+</div>

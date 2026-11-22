@@ -111,9 +111,10 @@
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
+              {% assign sg_drawer_link_title = link.title | strip | downcase %}
               <li
                 style="--menu-drawer-animation-index: {{ animation_index }};"
-                class="{%- if block_settings.drawer_accordion -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
+                class="{%- if block_settings.drawer_accordion and link.links != blank -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
               >
                 {% if block_settings.drawer_accordion and link.links != blank %}
                   {%- comment -%}
@@ -254,6 +255,9 @@
                   >
                     <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                   </a>
+                  {% if sg_drawer_link_title == 'collections' and link.links == blank %}
+                    {% render 'sg-collections-mega-menu', variant: 'mobile' %}
+                  {% endif %}
                 {% endif %}
               </li>
             {%- endfor -%}
@@ -264,8 +268,9 @@
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
               {% assign animation_index = animation_index | plus: 1 %}
+              {% assign sg_drawer_link_title = link.title | strip | downcase %}
               <li
-                class="menu-drawer__list-item"
+                class="menu-drawer__list-item{% if link.links == blank and sg_drawer_link_title == 'collections' %} menu-drawer__list-item--flat{% endif %}"
                 style="--menu-drawer-animation-index: {{ animation_index }};"
               >
                 {%- if link.links != blank -%}
@@ -583,6 +588,9 @@
                   >
                     <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
                   </a>
+                  {% if sg_drawer_link_title == 'collections' and link.links == blank %}
+                    {% render 'sg-collections-mega-menu', variant: 'mobile' %}
+                  {% endif %}
                 {%- endif -%}
               </li>
             {%- endfor -%}

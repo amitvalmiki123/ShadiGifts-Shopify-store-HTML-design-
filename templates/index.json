@@ -55,7 +55,12 @@
       "settings": {
         "heading": "Explore Our Collections",
         "description": "Handpicked gifting options for every function and guest.",
-        "collections": [],
+        "collections": [
+          "return-gifts",
+          "welcome-hampers",
+          "vip-family-gifts",
+          "bridal-party-gifts"
+        ],
         "show_product_count": false,
         "show_all_link": true,
         "all_link_label": "View All Collections",

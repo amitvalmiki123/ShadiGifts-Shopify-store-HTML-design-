@@ -95,13 +95,24 @@
 
     {% capture children %}
       {% for link in menu.links %}
+        {% liquid
+          assign sg_menu_link_title = link.title | strip | downcase
+          assign sg_menu_has_submenu = false
+          assign sg_use_fallback_mega_menu = false
+          if link.links != blank
+            assign sg_menu_has_submenu = true
+          elsif sg_menu_link_title == 'collections'
+            assign sg_menu_has_submenu = true
+            assign sg_use_fallback_mega_menu = true
+          endif
+        %}
         <li
           class="menu-list__list-item"
           on:blur="/deactivate"
           on:pointerenter="/activate"
           on:pointerleave="/deactivate"
         >
-          {%- if link.links != blank -%}
+          {%- if sg_menu_has_submenu -%}
             <span class="menu-list__trigger">
           {%- endif -%}
           <a
@@ -115,7 +126,7 @@
           >
             <span class="menu-list__link-title">{{- link.title -}}</span>
           </a>
-          {%- if link.links != blank -%}
+          {%- if sg_menu_has_submenu -%}
             <button
               type="button"
               class="menu-list__disclosure button-unstyled"
@@ -152,17 +163,21 @@
                     class="mega-menu__grid"
                     data-menu-grid-id="{{ list_id }}"
                   >
-                    {% render 'mega-menu-list',
-                      parent_link: link,
-                      id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
-                    %}
+                    {% if sg_use_fallback_mega_menu %}
+                      {% render 'sg-collections-mega-menu' %}
+                    {% else %}
+                      {% render 'mega-menu-list',
+                        parent_link: link,
+                        id: list_id,
+                        section: section,
+                        grid_columns_count: 6,
+                        grid_columns_count_tablet: 4,
+                        grid_columns_count_collection_images: 8,
+                        menu_content_type: menu_content_type,
+                        content_aspect_ratio: ratio,
+                        image_border_radius: image_border_radius
+                      %}
+                    {% endif %}
                   </div>
                 </div>
               </div>

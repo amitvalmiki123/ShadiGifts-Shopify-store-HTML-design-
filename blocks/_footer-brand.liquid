@@ -1,31 +1,11 @@
-{%- liquid
-  assign sg_footer_logo = settings.logo_inverse | default: settings.logo
-  assign sg_footer_logo_alt = sg_footer_logo.alt | default: shop.name
--%}
-
 <div class="sg-footer-brand" {{ block.shopify_attributes }}>
-  {%- if sg_footer_logo != blank -%}
-    <a class="sg-footer-brand__logo-link" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
-      {{
-        sg_footer_logo
-        | image_url: width: 800
-        | image_tag:
-          class: 'sg-footer-brand__logo',
-          widths: '180, 240, 320, 480, 640, 800',
-          sizes: '(min-width: 990px) 24vw, 90vw',
-          loading: 'lazy',
-          alt: sg_footer_logo_alt
-      }}
-    </a>
-  {%- else -%}
-    <a class="sg-footer-brand__logo-link sg-footer-brand__logo-link--custom" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
-      <img class="sg-footer-brand__logo-icon" src="{{ 'sg-logo-footer-icon.svg' | asset_url }}" alt="" width="46" height="34" loading="lazy">
-      <span class="sg-footer-brand__copy">
-        <span class="sg-footer-brand__wordmark">{{ shop.name | escape }}</span>
-        <small class="sg-footer-brand__tagline">The Wedding Gifting Concierge</small>
-      </span>
-    </a>
-  {%- endif -%}
+  <a class="sg-footer-brand__logo-link sg-footer-brand__logo-link--custom" href="{{ routes.root_url }}" aria-label="ShaadiGifts — The Wedding Gifting Concierge home">
+    <img class="sg-footer-brand__logo-icon" src="{{ 'sg-logo-footer-icon.svg' | asset_url }}" alt="" width="46" height="34" loading="lazy">
+    <span class="sg-footer-brand__copy">
+      <span class="sg-footer-brand__wordmark">ShaadiGifts</span>
+      <small class="sg-footer-brand__tagline">The Wedding Gifting Concierge</small>
+    </span>
+  </a>
 
   {%- if block.settings.description != blank -%}
     <p class="sg-footer-brand__description">{{ block.settings.description | escape }}</p>
@@ -39,7 +19,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Uses the primary or inverse Theme settings logo when available; otherwise shows the supplied footer SVG mark with the store name."
+      "content": "Displays the approved gold three-ellipse mark with the ShaadiGifts wordmark and concierge tagline."
     },
     {
       "type": "textarea",

@@ -7,9 +7,15 @@
     </header>
     <div class="sg-function-grid">
       {%- for block in section.blocks -%}
-        {%- assign sg_function_url = block.settings.collection.url -%}
+        {%- liquid
+          assign sg_function_url = block.settings.collection.url
+          if sg_function_url == blank
+            assign sg_function_handle = block.settings.title | handleize
+            assign sg_function_tag = 'occasion-' | append: sg_function_handle
+            assign sg_function_url = routes.all_products_collection_url | append: '/' | append: sg_function_tag
+          endif
+        -%}
         {%- capture sg_function_content -%}
-          <span class="sg-function-tile__index">0{{ forloop.index }}</span>
           <span class="sg-function-tile__title">{{ block.settings.title | escape }}</span>
           <span class="sg-function-tile__description">{{ block.settings.description | escape }}</span>
         {%- endcapture -%}
