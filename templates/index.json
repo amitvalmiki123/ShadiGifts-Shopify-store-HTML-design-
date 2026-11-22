@@ -76,7 +76,7 @@
         "show_descriptions": false,
         "show_price": true,
         "price_prefix": "Starting from",
-        "details_label": "View details",
+        "details_label": "View Details",
         "wishlist_link": "/pages/wishlist",
         "collection": "new-arrivals"
       }

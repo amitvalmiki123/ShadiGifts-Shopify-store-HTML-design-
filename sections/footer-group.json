@@ -26,7 +26,7 @@
           "settings": {
             "menu": "main-menu",
             "heading": "Explore",
-            "menu_spacing": 12,
+            "menu_spacing": 4,
             "show_as_accordion": true,
             "accordion_icon": "caret",
             "accordion_dividers": false,
@@ -42,7 +42,7 @@
             "menu": "footer-collections",
             "heading": "Collections",
             "parent_link_title": "",
-            "menu_spacing": 12,
+            "menu_spacing": 4,
             "show_as_accordion": true,
             "accordion_icon": "caret",
             "accordion_dividers": false,
@@ -76,7 +76,7 @@
       ],
       "name": "t:names.footer",
       "settings": {
-        "section_width": "page-width",
+        "section_width": "full-width",
         "gap": 30,
         "background_color": "#5B0C23",
         "padding-block-start": 48,
@@ -92,7 +92,8 @@
           "settings": {
             "show_powered_by": false,
             "font_size": "0.875rem",
-            "case": "none"
+            "case": "none",
+            "text_color": "#F4E3DA"
           },
           "blocks": {}
         }
@@ -102,12 +103,12 @@
       ],
       "name": "t:names.utilities",
       "settings": {
-        "section_width": "page-width",
+        "section_width": "full-width",
         "gap": 24,
         "divider_thickness": 1,
         "divider_color": "#78384B",
         "background_color": "#5B0C23",
-        "padding-block-start": 18,
+        "padding-block-start": 16,
         "padding-block-end": 16
       }
     }

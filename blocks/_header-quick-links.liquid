@@ -20,7 +20,8 @@
   {% if block.settings.show_wishlist_link and block.settings.wishlist_label != blank %}
     <a class="sg-header-quick-links__link sg-header-quick-links__wishlist" href="{{ wishlist_link | escape }}">
       <span class="sg-header-quick-links__icon">{% render 'sg-icon', name: 'heart' %}</span>
-      <span class="sg-header-quick-links__wishlist-label">{{ block.settings.wishlist_label | escape }}</span>
+      <span class="sg-header-quick-links__wishlist-label">{{ block.settings.wishlist_label | escape }} (<span class="sg-header-quick-links__wishlist-count" data-sg-wishlist-count>0</span>)</span>
+      <span class="sg-header-quick-links__wishlist-badge" data-sg-wishlist-count aria-hidden="true">0</span>
     </a>
   {% endif %}
   {% if block.settings.show_planner_link and block.settings.planner_label != blank %}

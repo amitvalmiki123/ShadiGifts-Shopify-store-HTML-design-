@@ -47,7 +47,7 @@
               </div>
               {%- if section.settings.show_price and product.price_min != blank -%}<p class="sg-product-card__price"><span>{{ section.settings.price_prefix | escape }}</span> <strong>{{ product.price_min | money }}</strong></p>{%- endif -%}
               <div class="sg-product-card__actions">
-                <a class="sg-product-card__details" href="{{ product.url }}">{{ section.settings.details_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
+                <a class="sg-button sg-button--outline sg-product-card__details" href="{{ product.url }}">{{ section.settings.details_label | escape }} {% render 'sg-icon', name: 'arrow' %}</a>
               </div>
             </div>
           </article>
@@ -100,7 +100,7 @@
     { "type": "checkbox", "id": "show_descriptions", "label": "Show product descriptions", "default": false },
     { "type": "checkbox", "id": "show_price", "label": "Show indicative price", "default": true },
     { "type": "text", "id": "price_prefix", "label": "Price prefix", "default": "Starting from" },
-    { "type": "text", "id": "details_label", "label": "Product details link", "default": "View details" },
+    { "type": "text", "id": "details_label", "label": "Product details link", "default": "View Details" },
     { "type": "url", "id": "wishlist_link", "label": "Wishlist page link" }
   ],
   "presets": [{ "name": "SG · Featured products" }]

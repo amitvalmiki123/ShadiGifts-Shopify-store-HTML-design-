@@ -36,11 +36,11 @@
               {%- else -%}
                 <span class="sg-collection-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
               {%- endif -%}
-              <span class="sg-collection-card__arrow" aria-hidden="true">{% render 'sg-icon', name: 'arrow' %}</span>
             </span>
             <span class="sg-collection-card__meta">
               <span class="sg-collection-card__title">{{ collection.title | escape }}</span>
               {%- if section.settings.show_product_count -%}<span class="sg-collection-card__count">{{ collection.products_count }} gifts</span>{%- endif -%}
+              <span class="sg-collection-card__arrow" aria-hidden="true">{% render 'sg-icon', name: 'arrow' %}</span>
             </span>
           </a>
         {%- endfor -%}
@@ -58,11 +58,11 @@
                 {%- else -%}
                   <span class="sg-collection-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
                 {%- endif -%}
-                <span class="sg-collection-card__arrow" aria-hidden="true">{% render 'sg-icon', name: 'arrow' %}</span>
               </span>
               <span class="sg-collection-card__meta">
                 <span class="sg-collection-card__title">{{ menu_collection_link.title | escape }}</span>
                 {%- if section.settings.show_product_count -%}<span class="sg-collection-card__count">{{ collection.products_count }} gifts</span>{%- endif -%}
+                <span class="sg-collection-card__arrow" aria-hidden="true">{% render 'sg-icon', name: 'arrow' %}</span>
               </span>
             </a>
           {%- endif -%}
