@@ -1,0 +1,200 @@
+{
+  "sections": {
+    "main": {
+      "type": "sg-about-page",
+      "blocks": {
+        "service_curate": {
+          "type": "service",
+          "settings": {
+            "icon": "gift",
+            "heading": "Curate & Source",
+            "description": "Handpicked, high-quality gifts for every function and every guest group."
+          }
+        },
+        "service_personalize": {
+          "type": "service",
+          "settings": {
+            "icon": "pen",
+            "heading": "Personalization",
+            "description": "Names, monograms and custom touches that make each gift yours."
+          }
+        },
+        "service_packaging": {
+          "type": "service",
+          "settings": {
+            "icon": "box",
+            "heading": "Premium Packaging",
+            "description": "Elegant, theme-based packaging that leaves a lasting impression."
+          }
+        },
+        "service_delivery": {
+          "type": "service",
+          "settings": {
+            "icon": "truck",
+            "heading": "On-Time Venue Delivery",
+            "description": "Safe and timely delivery to your home, hotel or wedding venue."
+          }
+        },
+        "service_concierge": {
+          "type": "service",
+          "settings": {
+            "icon": "support",
+            "heading": "Dedicated Concierge",
+            "description": "A single point of contact for planning, updates and coordination."
+          }
+        },
+        "service_global": {
+          "type": "service",
+          "settings": {
+            "icon": "globe",
+            "heading": "India & Global Delivery",
+            "description": "Seamless delivery across India and international locations."
+          }
+        },
+        "step_explore": {
+          "type": "step",
+          "settings": {
+            "number": "1",
+            "heading": "You Explore",
+            "description": "Browse collections by function, price and gift type, and save favourites to your wishlist."
+          }
+        },
+        "step_details": {
+          "type": "step",
+          "settings": {
+            "number": "2",
+            "heading": "You Share Details",
+            "description": "Tell us your wedding date, location, guest count, functions and budget range."
+          }
+        },
+        "step_proposal": {
+          "type": "step",
+          "settings": {
+            "number": "3",
+            "heading": "We Propose",
+            "description": "Our gifting experts send a personalised proposal with quantities, customisation and packaging."
+          }
+        },
+        "step_delivery": {
+          "type": "step",
+          "settings": {
+            "number": "4",
+            "heading": "We Deliver",
+            "description": "We coordinate production and deliver on schedule, with updates from your concierge."
+          }
+        },
+        "value_personal": {
+          "type": "value",
+          "settings": {
+            "icon": "heart",
+            "heading": "Personal",
+            "description": "Every gift carries your names, your colours and your story."
+          }
+        },
+        "value_ontime": {
+          "type": "value",
+          "settings": {
+            "icon": "check",
+            "heading": "On Time",
+            "description": "Delivered to your venue before the first function begins."
+          }
+        },
+        "value_presented": {
+          "type": "value",
+          "settings": {
+            "icon": "gift",
+            "heading": "Presented Beautifully",
+            "description": "Premium, theme-based packaging that feels like a keepsake."
+          }
+        },
+        "value_concierge": {
+          "type": "value",
+          "settings": {
+            "icon": "support",
+            "heading": "One Point of Contact",
+            "description": "A dedicated concierge for planning, updates and coordination."
+          }
+        },
+        "faq_online": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you sell gifts online?",
+            "answer": "No. You browse and build a wishlist, then request a personalised quote. There is no online checkout."
+          }
+        },
+        "faq_contact": {
+          "type": "faq",
+          "settings": {
+            "question": "Who will I speak to?",
+            "answer": "A dedicated wedding concierge is your single point of contact for planning, updates and coordination."
+          }
+        },
+        "faq_whatsapp": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I reach you on WhatsApp?",
+            "answer": "Yes — use the Chat on WhatsApp link at the top of every page."
+          }
+        },
+        "faq_delivery": {
+          "type": "faq",
+          "settings": {
+            "question": "Where do you deliver?",
+            "answer": "Across India and to international wedding locations — to your home, hotel or venue."
+          }
+        }
+      },
+      "block_order": [
+        "service_curate",
+        "service_personalize",
+        "service_packaging",
+        "service_delivery",
+        "service_concierge",
+        "service_global",
+        "step_explore",
+        "step_details",
+        "step_proposal",
+        "step_delivery",
+        "value_personal",
+        "value_ontime",
+        "value_presented",
+        "value_concierge",
+        "faq_online",
+        "faq_contact",
+        "faq_whatsapp",
+        "faq_delivery"
+      ],
+      "settings": {
+        "eyebrow": "About Us",
+        "heading": "One Partner for Every Wedding Gift",
+        "intro": "<p>We take the many small decisions of wedding gifting off your plate — and put them in the hands of one dedicated concierge.</p>",
+        "story_eyebrow": "Our Story",
+        "story_heading": "Gifting, Done Properly",
+        "story": "<p>Weddings involve dozens of gifting moments — return gifts, welcome hampers, family and VIP presents, bridal party boxes. Managing this across many vendors is slow and stressful, and small details slip.</p><p>ShaadiGifts brings it all under one roof. We curate and source the gifts, personalise them with your names and theme, pack them beautifully, and deliver on time to your venue — whether it is a hotel in Jaipur or a resort abroad.</p><p>We do not run an online shop. Instead, you build a wishlist, share your wedding details, and receive a personalised proposal shaped around your guest list, functions and budget.</p>",
+        "story_button_label": "Plan My Wedding Gifting",
+        "story_button_link": "/pages/planner",
+        "services_heading": "What We Do",
+        "services_description": "End-to-end wedding gifting, from the first idea to the last delivery.",
+        "services_button_label": "See All Services",
+        "services_button_link": "/pages/services",
+        "process_heading": "How We Work",
+        "process_description": "A simple, transparent process from wishlist to delivery.",
+        "values_heading": "What We Stand For",
+        "audience_eyebrow": "Who We Work With",
+        "audience_heading": "For Every Kind Of Wedding",
+        "audience_description": "Whether it is an intimate celebration or a multi-day wedding with hundreds of guests, we shape the gifting to fit.",
+        "audience_one": "Couples and families planning Indian weddings",
+        "audience_two": "International and destination weddings",
+        "audience_three": "Multi-function celebrations — Ring Ceremony, Haldi, Mehendi, Sangeet, Wedding and Reception",
+        "audience_four": "Gifting for guests, VIPs, family members and the bridal party",
+        "faq_heading": "Good To Know",
+        "show_cta": true,
+        "cta_heading": "Let's Create Your Wedding Gifting Experience",
+        "cta_text": "Build a wishlist, share your wedding details, and let us take care of the gifting details.",
+        "cta_button_label": "Plan My Wedding Gifting",
+        "cta_link": "/pages/planner"
+      }
+    }
+  },
+  "order": ["main"]
+}

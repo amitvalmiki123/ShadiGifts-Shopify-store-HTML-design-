@@ -1,0 +1,278 @@
+{%- liquid
+  assign sg_collections_hero_alt = section.settings.hero_alt | default: section.settings.hero_image.alt | default: 'Wedding gifts arranged for a celebration'
+-%}
+<section class="sg-collections-page" id="sg-collections-page-{{ section.id }}" {{ section.shopify_attributes }}>
+  <header class="sg-collections-page__hero">
+    {%- if section.settings.hero_image != blank -%}
+      {{ section.settings.hero_image | image_url: width: 1600 | image_tag: class: 'sg-collections-page__hero-image', widths: '600, 900, 1200, 1600', sizes: '(min-width: 900px) 48vw, 100vw', loading: 'eager', alt: sg_collections_hero_alt }}
+    {%- else -%}
+      <img class="sg-collections-page__hero-image" src="{{ 'sg-home-hero.jpg' | asset_url }}" alt="{{ sg_collections_hero_alt | escape }}" width="630" height="478" loading="eager">
+    {%- endif -%}
+    <div class="sg-shell-width sg-collections-page__hero-copy">
+      <nav class="sg-collections-page__crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span aria-current="page">Collections</span>
+      </nav>
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h1>{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.description != blank -%}<p>{{ section.settings.description | escape }}</p>{%- endif -%}
+    </div>
+  </header>
+
+  <div class="sg-section sg-collections-page__content">
+    <div class="sg-shell-width">
+      <header class="sg-section-heading">
+        {%- if section.settings.grid_eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.grid_eyebrow | escape }}</p>{%- endif -%}
+        <h2>{{ section.settings.grid_heading | escape }}</h2>
+        {%- if section.settings.grid_description != blank -%}<p class="sg-section-heading__description">{{ section.settings.grid_description | escape }}</p>{%- endif -%}
+      </header>
+
+      {%- assign sg_collection_cards_count = 0 -%}
+      <div class="sg-collections-page__grid">
+        {%- for collection in section.settings.collections limit: 12 -%}
+          {%- if collection != blank -%}
+            {%- liquid
+              assign sg_collection_card_image = collection.featured_image | default: collection.image
+              assign sg_collection_card_asset = blank
+              case collection.handle
+                when 'return-gifts'
+                  assign sg_collection_card_asset = 'sg-collection-return-gifts.jpg'
+                when 'welcome-hampers'
+                  assign sg_collection_card_asset = 'sg-collection-welcome-hampers.jpg'
+                when 'vip-family-gifts'
+                  assign sg_collection_card_asset = 'sg-collection-vip-family-gifts.jpg'
+                when 'bridal-party-gifts'
+                  assign sg_collection_card_asset = 'sg-collection-bridal-party-gifts.jpg'
+                when 'function-gifts'
+                  assign sg_collection_card_asset = 'sg-collection-function-gifts.jpg'
+                when 'trousseau-packing'
+                  assign sg_collection_card_asset = 'sg-collection-trousseau-packing.jpg'
+              endcase
+              assign sg_collection_cards_count = sg_collection_cards_count | plus: 1
+            -%}
+            <a class="sg-collection-card" href="{{ collection.url }}">
+              <span class="sg-collection-card__media">
+                {%- if sg_collection_card_image != blank -%}
+                  {{ sg_collection_card_image | image_url: width: 900 | image_tag: class: 'sg-collection-card__image', widths: '360, 540, 720, 900', sizes: '(min-width: 900px) 30vw, (min-width: 560px) 46vw, 92vw', loading: 'lazy', alt: collection.title }}
+                {%- elsif sg_collection_card_asset != blank -%}
+                  <img class="sg-collection-card__image" src="{{ sg_collection_card_asset | asset_url }}" alt="{{ collection.title | escape }}" width="267" height="158" loading="lazy">
+                {%- else -%}
+                  <span class="sg-collection-card__placeholder" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+                {%- endif -%}
+              </span>
+              <span class="sg-collection-card__meta">
+                <span class="sg-collection-card__title">{{ collection.title | escape }}</span>
+                {%- if section.settings.show_product_count -%}<span class="sg-collection-card__count">{{ collection.products_count }} gifts</span>{%- endif -%}
+                <span class="sg-collection-card__arrow" aria-hidden="true">{% render 'sg-icon', name: 'arrow' %}</span>
+              </span>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if sg_collection_cards_count == 0 -%}
+        <div class="sg-empty-state" role="status">
+          <span class="sg-empty-state__icon" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+          <p>Select the wedding-gift collections to feature in the theme editor. Products and collections must be published to the Online Store.</p>
+        </div>
+      {%- endif -%}
+
+      <div class="sg-planner-cta sg-collections-page__cta">
+        <svg class="sg-planner-cta__flourish" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M20 190C40 120 80 60 170 20M60 140c-20-10-30-30-28-50 20 4 32 20 28 50zM90 110c-20-6-34-24-34-44 22 2 36 18 34 44zM122 80c-16-8-24-26-20-44 20 6 28 22 20 44zM64 150c22-6 40 2 50 20-22 6-42 0-50-20zM96 118c22-4 40 4 48 22-22 4-40-2-48-22zM130 86c20-2 36 6 42 22-20 2-36-4-42-22z"/>
+        </svg>
+        <div class="sg-planner-cta__content">
+          <span class="sg-planner-cta__icon" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span>
+          <div>
+            <h2>{{ section.settings.cta_heading | escape }}</h2>
+            <p>{{ section.settings.cta_description | escape }}</p>
+          </div>
+        </div>
+        {%- if section.settings.cta_link != blank -%}
+          <a class="sg-button sg-button--primary" href="{{ section.settings.cta_link }}">{{ section.settings.cta_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .sg-collections-page {
+    background: var(--sg-cream, #fdf7f0);
+  }
+
+  .sg-collections-page__hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-bottom: 1px solid var(--sg-line, #ead9c8);
+    background: linear-gradient(180deg, #fdf1e4, var(--sg-cream, #fdf7f0));
+  }
+
+  .sg-collections-page__hero-copy {
+    position: relative;
+    z-index: 1;
+    order: 1;
+    padding-block: 28px 34px;
+  }
+
+  .sg-collections-page__hero-image {
+    display: block;
+    order: 2;
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
+  }
+
+  .sg-collections-page__crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: var(--sg-muted, #6b5654);
+    font-size: .9rem;
+  }
+
+  .sg-collections-page__crumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sg-collections-page__crumbs a:hover,
+  .sg-collections-page__crumbs [aria-current='page'] {
+    color: var(--sg-maroon, #7a1230);
+  }
+
+  .sg-collections-page__crumbs [aria-current='page'] {
+    font-weight: 600;
+  }
+
+  .sg-collections-page__crumbs span[aria-hidden='true'] {
+    color: var(--sg-gold, #b8862b);
+  }
+
+  .sg-collections-page__hero .sg-eyebrow {
+    margin-bottom: 1rem;
+    letter-spacing: .28em;
+  }
+
+  .sg-collections-page__hero h1 {
+    max-width: 620px;
+    margin: 0 0 .25em;
+    color: var(--sg-maroon, #7a1230);
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: clamp(2rem, 4.6vw, 3.6rem);
+    line-height: 1.1;
+  }
+
+  .sg-collections-page__hero-copy > p:last-child {
+    max-width: 36em;
+    margin: 0;
+    color: var(--sg-muted, #6b5654);
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+
+  .sg-collections-page__content {
+    padding-bottom: clamp(48px, 7vw, 84px);
+  }
+
+  .sg-collections-page__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .sg-collections-page__cta {
+    margin-top: clamp(34px, 5vw, 58px);
+  }
+
+  .sg-collections-page__cta .sg-button {
+    white-space: nowrap;
+  }
+
+  @media screen and (min-width: 560px) {
+    .sg-collections-page__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+  }
+
+  @media screen and (min-width: 800px) {
+    .sg-collections-page__hero {
+      display: block;
+      min-height: 260px;
+    }
+
+    .sg-collections-page__hero-copy {
+      padding-block: 34px 56px;
+    }
+
+    .sg-collections-page__hero-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 44%;
+      height: 100%;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 38%);
+      mask-image: linear-gradient(to right, transparent 0, #000 38%);
+    }
+  }
+
+  @media screen and (min-width: 960px) {
+    .sg-collections-page__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .sg-collections-page__content .sg-section-heading h2 {
+      gap: 8px;
+    }
+
+    .sg-collections-page__content .sg-section-heading h2::before,
+    .sg-collections-page__content .sg-section-heading h2::after {
+      width: 18px;
+    }
+
+    .sg-collections-page__cta .sg-button {
+      width: 100%;
+      white-space: normal;
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .sg-collections-page .sg-collection-card,
+    .sg-collections-page .sg-collection-card__image {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SG · Collections landing",
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "hero_alt", "label": "Hero image alt text" },
+    { "type": "text", "id": "eyebrow", "label": "Hero eyebrow", "default": "Our Collections" },
+    { "type": "text", "id": "heading", "label": "Hero heading", "default": "Discover Curated Wedding Gift Collections" },
+    { "type": "textarea", "id": "description", "label": "Hero description", "default": "Thoughtful gifts for every function, guest and celebration." },
+    { "type": "header", "content": "Collection cards" },
+    { "type": "collection_list", "id": "collections", "label": "Collections to show", "limit": 12 },
+    { "type": "checkbox", "id": "show_product_count", "label": "Show product counts", "default": false },
+    { "type": "text", "id": "grid_eyebrow", "label": "Grid eyebrow", "default": "Thoughtfully grouped" },
+    { "type": "text", "id": "grid_heading", "label": "Grid heading", "default": "Find Gifts for Every Celebration" },
+    { "type": "textarea", "id": "grid_description", "label": "Grid description", "default": "Browse by gifting moment, then open a collection to explore its products and refine your selection with Shopify's native filters." },
+    { "type": "header", "content": "Planner call to action" },
+    { "type": "text", "id": "cta_heading", "label": "CTA heading", "default": "Can't Find What You're Looking For?" },
+    { "type": "textarea", "id": "cta_description", "label": "CTA description", "default": "Let us curate something unique for your celebration." },
+    { "type": "text", "id": "cta_button_label", "label": "CTA button label", "default": "Plan My Wedding Gifting" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" }
+  ],
+  "presets": [{ "name": "SG · Collections landing" }]
+}
+{% endschema %}

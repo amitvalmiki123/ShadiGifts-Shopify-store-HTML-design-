@@ -1,6 +1,14 @@
 
 
-{% assign product = closest.product %}
+{% liquid
+  assign product = closest.product
+  assign sg_wishlist_url = pages.wishlist.url | default: '/pages/wishlist'
+  assign sg_product_image = product.featured_image | default: product.featured_media.preview_image | default: product.images.first
+  assign sg_product_image_url = ''
+  if sg_product_image != blank
+    assign sg_product_image_url = sg_product_image | image_url: width: 900
+  endif
+%}
 
 {% capture children %}
   {% unless product == blank %}
@@ -29,6 +37,26 @@
     {% if product.available and settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add', product: product, section_id: section.id %}
     {% endif %}
+    {%- if product.id != blank and product.title != blank and product.url != blank -%}
+      <button
+        class="sg-product-card__wishlist"
+        type="button"
+        data-sg-wishlist-toggle
+        data-sg-wishlist-url="{{ sg_wishlist_url | escape }}"
+        data-product-id="{{ product.id }}"
+        data-product-handle="{{ product.handle | escape }}"
+        data-product-title="{{ product.title | escape }}"
+        data-product-url="{{ product.url | escape }}"
+        {% if sg_product_image_url != blank %}data-product-image="{{ sg_product_image_url | escape }}"{% endif %}
+        data-product-price="{{ product.price_min | money | strip_html | strip | escape }}"
+        data-sg-label-add="Add {{ product.title | escape }} to wishlist"
+        data-sg-label-remove="Remove {{ product.title | escape }} from wishlist"
+        aria-label="Add {{ product.title | escape }} to wishlist"
+        aria-pressed="false"
+      >
+        {% render 'sg-icon', name: 'heart' %}<span class="visually-hidden" data-sg-wishlist-button-label>Add to Wishlist</span>
+      </button>
+    {%- endif -%}
   {% endunless %}
 {% endcapture %}
 

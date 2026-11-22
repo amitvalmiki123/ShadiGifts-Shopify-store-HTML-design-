@@ -1,0 +1,686 @@
+{%- liquid
+  assign sg_about_image_alt = section.settings.image_alt | default: section.settings.hero_image.alt | default: 'A wedding gift thoughtfully wrapped for a celebration'
+  assign sg_collage_one_alt = section.settings.collage_image_one.alt | default: 'Personalised wedding gift box'
+  assign sg_collage_two_alt = section.settings.collage_image_two.alt | default: 'Decorative candle holder gift'
+  assign sg_collage_three_alt = section.settings.collage_image_three.alt | default: 'Embroidered potli wedding favour'
+  assign sg_collage_four_alt = section.settings.collage_image_four.alt | default: 'Curated tea jar gift set'
+  assign sg_audience_image_alt = section.settings.audience_image.alt | default: 'Wedding gifts prepared with care'
+-%}
+<section class="sg-about-page" id="sg-about-page-{{ section.id }}" {{ section.shopify_attributes }}>
+  <header class="sg-about-page__hero">
+    {%- if section.settings.hero_image != blank -%}
+      {{ section.settings.hero_image | image_url: width: 1800 | image_tag: class: 'sg-about-page__hero-image', widths: '600, 900, 1200, 1600, 1800', sizes: '(min-width: 900px) 55vw, 100vw', loading: 'eager', alt: sg_about_image_alt }}
+    {%- else -%}
+      <img class="sg-about-page__hero-image" src="{{ 'sg-services-hero.jpg' | asset_url }}" alt="{{ sg_about_image_alt | escape }}" width="337" height="178" loading="eager">
+    {%- endif -%}
+    <div class="sg-shell-width sg-about-page__hero-copy">
+      <nav class="sg-about-page__crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">›</span><span aria-current="page">About Us</span>
+      </nav>
+      {%- if section.settings.eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h1>{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.intro != blank -%}<div class="sg-about-page__intro rte">{{ section.settings.intro }}</div>{%- endif -%}
+    </div>
+  </header>
+
+  <section class="sg-about-page__story sg-section" aria-labelledby="sg-about-story-{{ section.id }}">
+    <div class="sg-shell-width sg-about-page__story-grid">
+      <div class="sg-about-page__collage" aria-label="Examples of curated wedding gifts">
+        {%- if section.settings.collage_image_one != blank -%}
+          {{ section.settings.collage_image_one | image_url: width: 900 | image_tag: class: 'sg-about-page__collage-image', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 900px) 22vw, 44vw', loading: 'lazy', alt: sg_collage_one_alt }}
+        {%- else -%}
+          <img class="sg-about-page__collage-image" src="{{ 'sg-personalization-royal-box.jpg' | asset_url }}" alt="{{ sg_collage_one_alt | escape }}" width="430" height="360" loading="lazy">
+        {%- endif -%}
+        {%- if section.settings.collage_image_two != blank -%}
+          {{ section.settings.collage_image_two | image_url: width: 900 | image_tag: class: 'sg-about-page__collage-image', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 900px) 22vw, 44vw', loading: 'lazy', alt: sg_collage_two_alt }}
+        {%- else -%}
+          <img class="sg-about-page__collage-image" src="{{ 'sg-personalization-candle-holder.jpg' | asset_url }}" alt="{{ sg_collage_two_alt | escape }}" width="430" height="360" loading="lazy">
+        {%- endif -%}
+        {%- if section.settings.collage_image_three != blank -%}
+          {{ section.settings.collage_image_three | image_url: width: 900 | image_tag: class: 'sg-about-page__collage-image', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 900px) 22vw, 44vw', loading: 'lazy', alt: sg_collage_three_alt }}
+        {%- else -%}
+          <img class="sg-about-page__collage-image" src="{{ 'sg-personalization-potli.jpg' | asset_url }}" alt="{{ sg_collage_three_alt | escape }}" width="430" height="360" loading="lazy">
+        {%- endif -%}
+        {%- if section.settings.collage_image_four != blank -%}
+          {{ section.settings.collage_image_four | image_url: width: 900 | image_tag: class: 'sg-about-page__collage-image', widths: '240, 360, 540, 720, 900', sizes: '(min-width: 900px) 22vw, 44vw', loading: 'lazy', alt: sg_collage_four_alt }}
+        {%- else -%}
+          <img class="sg-about-page__collage-image" src="{{ 'sg-personalization-tea-jars.jpg' | asset_url }}" alt="{{ sg_collage_four_alt | escape }}" width="430" height="360" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="sg-about-page__story-copy">
+        {%- if section.settings.story_eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.story_eyebrow | escape }}</p>{%- endif -%}
+        <h2 id="sg-about-story-{{ section.id }}">{{ section.settings.story_heading | escape }}</h2>
+        {%- if section.settings.story != blank -%}<div class="rte">{{ section.settings.story }}</div>{%- endif -%}
+        {%- if section.settings.story_button_label != blank and section.settings.story_button_link != blank -%}
+          <a class="sg-button sg-button--primary" href="{{ section.settings.story_button_link }}">{{ section.settings.story_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-about-page__services sg-section" aria-labelledby="sg-about-services-{{ section.id }}">
+    <div class="sg-shell-width">
+      <header class="sg-section-heading">
+        <h2 id="sg-about-services-{{ section.id }}">{{ section.settings.services_heading | escape }}</h2>
+        {%- if section.settings.services_description != blank -%}<p class="sg-section-heading__description">{{ section.settings.services_description | escape }}</p>{%- endif -%}
+      </header>
+      <div class="sg-about-page__services-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'service' -%}
+            <article class="sg-about-page__service" {{ block.shopify_attributes }}>
+              <span class="sg-about-page__service-icon" aria-hidden="true">{% render 'sg-icon', name: block.settings.icon %}</span>
+              <h3>{{ block.settings.heading | escape }}</h3>
+              <p>{{ block.settings.description | escape }}</p>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.services_button_label != blank and section.settings.services_button_link != blank -%}
+        <div class="sg-about-page__section-action"><a class="sg-button sg-button--outline" href="{{ section.settings.services_button_link }}">{{ section.settings.services_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a></div>
+      {%- endif -%}
+    </div>
+  </section>
+
+  <section class="sg-about-page__process sg-section" aria-labelledby="sg-about-process-{{ section.id }}">
+    <div class="sg-shell-width">
+      <header class="sg-section-heading">
+        <h2 id="sg-about-process-{{ section.id }}">{{ section.settings.process_heading | escape }}</h2>
+        {%- if section.settings.process_description != blank -%}<p class="sg-section-heading__description">{{ section.settings.process_description | escape }}</p>{%- endif -%}
+      </header>
+      <div class="sg-about-page__steps">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'step' -%}
+            <article class="sg-about-page__step" {{ block.shopify_attributes }}>
+              <span class="sg-about-page__step-number" aria-hidden="true">{{ block.settings.number | escape }}</span>
+              <h3>{{ block.settings.heading | escape }}</h3>
+              <p>{{ block.settings.description | escape }}</p>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-about-page__values sg-section" aria-labelledby="sg-about-values-{{ section.id }}">
+    <div class="sg-shell-width">
+      <header class="sg-section-heading"><h2 id="sg-about-values-{{ section.id }}">{{ section.settings.values_heading | escape }}</h2></header>
+      <div class="sg-about-page__values-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'value' -%}
+            <article class="sg-about-page__value" {{ block.shopify_attributes }}>
+              <span class="sg-about-page__value-icon" aria-hidden="true">{% render 'sg-icon', name: block.settings.icon %}</span>
+              <h3>{{ block.settings.heading | escape }}</h3>
+              <p>{{ block.settings.description | escape }}</p>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-about-page__audience sg-section" aria-labelledby="sg-about-audience-{{ section.id }}">
+    <div class="sg-shell-width sg-about-page__audience-grid">
+      <div class="sg-about-page__audience-copy">
+        {%- if section.settings.audience_eyebrow != blank -%}<p class="sg-eyebrow">{{ section.settings.audience_eyebrow | escape }}</p>{%- endif -%}
+        <h2 id="sg-about-audience-{{ section.id }}">{{ section.settings.audience_heading | escape }}</h2>
+        {%- if section.settings.audience_description != blank -%}<p>{{ section.settings.audience_description | escape }}</p>{%- endif -%}
+        <ul class="sg-about-page__check-list">
+          {%- if section.settings.audience_one != blank -%}<li>{{ section.settings.audience_one | escape }}</li>{%- endif -%}
+          {%- if section.settings.audience_two != blank -%}<li>{{ section.settings.audience_two | escape }}</li>{%- endif -%}
+          {%- if section.settings.audience_three != blank -%}<li>{{ section.settings.audience_three | escape }}</li>{%- endif -%}
+          {%- if section.settings.audience_four != blank -%}<li>{{ section.settings.audience_four | escape }}</li>{%- endif -%}
+        </ul>
+      </div>
+      <div class="sg-about-page__audience-media">
+        {%- if section.settings.audience_image != blank -%}
+          {{ section.settings.audience_image | image_url: width: 1200 | image_tag: class: 'sg-about-page__audience-image', widths: '360, 540, 720, 960, 1200', sizes: '(min-width: 900px) 46vw, 92vw', loading: 'lazy', alt: sg_audience_image_alt }}
+        {%- else -%}
+          <img class="sg-about-page__audience-image" src="{{ 'sg-services-hero.jpg' | asset_url }}" alt="{{ sg_audience_image_alt | escape }}" width="337" height="178" loading="lazy">
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-about-page__faq sg-section" aria-labelledby="sg-about-faq-{{ section.id }}">
+    <div class="sg-shell-width sg-about-page__faq-inner">
+      <header class="sg-section-heading"><h2 id="sg-about-faq-{{ section.id }}">{{ section.settings.faq_heading | escape }}</h2></header>
+      <div class="sg-about-page__faq-list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq' -%}
+            <details class="sg-about-page__faq-item" {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.question | escape }}</summary>
+              <p>{{ block.settings.answer | escape }}</p>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- if section.settings.show_cta -%}
+    <div class="sg-section sg-about-page__closing">
+      <div class="sg-shell-width">
+        <div class="sg-planner-cta">
+          <svg class="sg-planner-cta__flourish" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M20 190C40 120 80 60 170 20M60 140c-20-10-30-30-28-50 20 4 32 20 28 50zM90 110c-20-6-34-24-34-44 22 2 36 18 34 44zM122 80c-16-8-24-26-20-44 20 6 28 22 20 44zM64 150c22-6 40 2 50 20-22 6-42 0-50-20zM96 118c22-4 40 4 48 22-22 4-40-2-48-22z"/></svg>
+          <div class="sg-planner-cta__content"><span class="sg-planner-cta__icon" aria-hidden="true">{% render 'sg-icon', name: 'gift' %}</span><div><h2>{{ section.settings.cta_heading | escape }}</h2><p>{{ section.settings.cta_text | escape }}</p></div></div>
+          {%- if section.settings.cta_button_label != blank and section.settings.cta_link != blank -%}<a class="sg-button sg-button--primary" href="{{ section.settings.cta_link }}">{{ section.settings.cta_button_label | escape }}{% render 'sg-icon', name: 'arrow' %}</a>{%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+  .sg-about-page {
+    background: var(--sg-cream, #fdf7f0);
+  }
+
+  .sg-about-page__hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-bottom: 1px solid var(--sg-line, #ead9c8);
+    background: linear-gradient(180deg, #fdf1e4, var(--sg-cream, #fdf7f0));
+  }
+
+  .sg-about-page__hero-copy {
+    position: relative;
+    z-index: 1;
+    order: 1;
+    padding-block: 28px 34px;
+  }
+
+  .sg-about-page__hero-image {
+    display: block;
+    order: 2;
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 40%);
+  }
+
+  .sg-about-page__crumbs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: var(--sg-muted, #6b5654);
+    font-size: .9rem;
+  }
+
+  .sg-about-page__crumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .sg-about-page__crumbs a:hover,
+  .sg-about-page__crumbs [aria-current='page'] {
+    color: var(--sg-maroon, #7a1230);
+  }
+
+  .sg-about-page__crumbs [aria-current='page'] {
+    font-weight: 600;
+  }
+
+  .sg-about-page__crumbs span[aria-hidden='true'] {
+    color: var(--sg-gold, #b8862b);
+  }
+
+  .sg-about-page__hero .sg-eyebrow {
+    margin-bottom: 1rem;
+    letter-spacing: .28em;
+  }
+
+  .sg-about-page__hero h1 {
+    max-width: 620px;
+    margin: 0 0 .25em;
+    color: var(--sg-maroon, #7a1230);
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: clamp(2rem, 4.6vw, 3.6rem);
+    line-height: 1.1;
+  }
+
+  .sg-about-page__intro,
+  .sg-about-page__hero-copy > p:last-child {
+    max-width: 36em;
+    margin: 0;
+    color: var(--sg-muted, #6b5654);
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+
+  .sg-about-page__intro p {
+    margin: 0;
+  }
+
+  .sg-about-page__story-grid,
+  .sg-about-page__audience-grid {
+    display: grid;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .sg-about-page__collage {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .sg-about-page__collage-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.22 / 1;
+    border-radius: var(--sg-radius-medium, 16px);
+    object-fit: cover;
+    box-shadow: var(--sg-shadow-small, 0 4px 14px rgba(91, 12, 35, .08));
+  }
+
+  .sg-about-page__collage-image:nth-child(2),
+  .sg-about-page__collage-image:nth-child(3) {
+    transform: translateY(10px);
+  }
+
+  .sg-about-page__story-copy h2,
+  .sg-about-page__audience-copy h2 {
+    margin: 0 0 .55em;
+    color: var(--sg-maroon, #7a1230);
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    line-height: 1.14;
+  }
+
+  .sg-about-page__story-copy .rte {
+    color: var(--sg-muted, #6b5654);
+    line-height: 1.65;
+  }
+
+  .sg-about-page__story-copy .rte > :first-child {
+    margin-top: 0;
+  }
+
+  .sg-about-page__story-copy .rte > :last-child {
+    margin-bottom: 0;
+  }
+
+  .sg-about-page__story-copy .sg-button {
+    margin-top: 22px;
+  }
+
+  .sg-about-page__services {
+    background: linear-gradient(180deg, #fbf1e6, #faebdd);
+  }
+
+  .sg-about-page__services-grid,
+  .sg-about-page__steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .sg-about-page__values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 18px;
+  }
+
+  .sg-about-page__service {
+    padding: 26px 22px;
+    border: 1px solid var(--sg-line, #ead9c8);
+    border-radius: var(--sg-radius-medium, 16px);
+    background: rgba(255, 251, 246, .84);
+    text-align: center;
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+
+  .sg-about-page__service:hover {
+    box-shadow: var(--sg-shadow, 0 10px 30px rgba(91, 12, 35, .08));
+    transform: translateY(-3px);
+  }
+
+  .sg-about-page__service-icon,
+  .sg-about-page__value-icon {
+    display: block;
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 12px;
+    color: var(--sg-gold, #b8862b);
+  }
+
+  .sg-about-page__service-icon svg,
+  .sg-about-page__value-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .sg-about-page__service h3,
+  .sg-about-page__step h3,
+  .sg-about-page__value h3 {
+    margin: 0 0 .35em;
+    color: var(--sg-maroon, #7a1230);
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: 1.3rem;
+    line-height: 1.25;
+  }
+
+  .sg-about-page__service p,
+  .sg-about-page__step p,
+  .sg-about-page__value p {
+    margin: 0;
+    color: var(--sg-muted, #6b5654);
+    font-size: .95rem;
+    line-height: 1.55;
+  }
+
+  .sg-about-page__section-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 26px;
+  }
+
+  .sg-about-page__steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .sg-about-page__step {
+    padding: 24px 22px;
+    border: 1px solid var(--sg-line, #ead9c8);
+    border-radius: var(--sg-radius-medium, 16px);
+    background: #fff;
+    box-shadow: var(--sg-shadow-small, 0 4px 14px rgba(91, 12, 35, .08));
+  }
+
+  .sg-about-page__step-number {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    place-items: center;
+    margin-bottom: 12px;
+    border: 1.5px solid var(--sg-gold, #b8862b);
+    border-radius: 50%;
+    background: var(--sg-paper, #fffbf6);
+    color: var(--sg-maroon, #7a1230);
+    font-family: var(--sg-display, Georgia, serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .sg-about-page__values {
+    background: linear-gradient(180deg, #fbf1e6, #faebdd);
+  }
+
+  .sg-about-page__value {
+    padding: 25px 22px;
+    border: 1px solid rgba(234, 217, 200, .9);
+    border-radius: var(--sg-radius-medium, 16px);
+    background: rgba(255, 251, 246, .78);
+    text-align: center;
+  }
+
+  .sg-about-page__audience-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sg-about-page__audience-copy > p:not(.sg-eyebrow) {
+    color: var(--sg-muted, #6b5654);
+    line-height: 1.6;
+  }
+
+  .sg-about-page__check-list {
+    display: grid;
+    gap: 10px;
+    margin: 0 0 22px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sg-about-page__check-list li {
+    position: relative;
+    padding-left: 32px;
+    line-height: 1.5;
+  }
+
+  .sg-about-page__check-list li::before {
+    position: absolute;
+    top: .2em;
+    left: 0;
+    display: grid;
+    width: 20px;
+    height: 20px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--sg-maroon, #7a1230);
+    color: #fff;
+    content: '✓';
+    font-size: .75rem;
+    font-weight: 700;
+  }
+
+  .sg-about-page__audience-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 630 / 478;
+    border-radius: var(--sg-radius-large, 24px);
+    object-fit: cover;
+    box-shadow: var(--sg-shadow, 0 10px 30px rgba(91, 12, 35, .08));
+  }
+
+  .sg-about-page__faq {
+    background: linear-gradient(180deg, #fbf1e6, #faebdd);
+  }
+
+  .sg-about-page__faq-inner {
+    max-width: 920px;
+  }
+
+  .sg-about-page__faq-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .sg-about-page__faq-item {
+    padding: 0 20px;
+    border: 1px solid var(--sg-line, #ead9c8);
+    border-radius: var(--sg-radius-medium, 16px);
+    background: #fff;
+  }
+
+  .sg-about-page__faq-item summary {
+    position: relative;
+    display: flex;
+    min-height: 56px;
+    align-items: center;
+    padding: 16px 30px 16px 0;
+    color: var(--sg-maroon, #7a1230);
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .sg-about-page__faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sg-about-page__faq-item summary::after {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    color: var(--sg-gold, #b8862b);
+    content: '+';
+    font-size: 1.5rem;
+    line-height: 1;
+    transform: translateY(-50%);
+  }
+
+  .sg-about-page__faq-item[open] summary::after {
+    content: '−';
+  }
+
+  .sg-about-page__faq-item p {
+    margin: 0 0 18px;
+    color: var(--sg-muted, #6b5654);
+    line-height: 1.6;
+  }
+
+  .sg-about-page__closing {
+    padding-block: 0 clamp(44px, 7vw, 84px);
+  }
+
+  @media screen and (min-width: 620px) {
+    .sg-about-page__services-grid,
+    .sg-about-page__steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 800px) {
+    .sg-about-page__hero {
+      display: block;
+      min-height: 260px;
+    }
+
+    .sg-about-page__hero-copy {
+      padding-block: 34px 56px;
+    }
+
+    .sg-about-page__hero-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 44%;
+      height: 100%;
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 38%);
+      mask-image: linear-gradient(to right, transparent 0, #000 38%);
+    }
+
+    .sg-about-page__hero h1,
+    .sg-about-page__intro {
+      max-width: min(620px, 54%);
+    }
+
+  }
+
+  @media screen and (min-width: 900px) {
+    .sg-about-page__story-grid,
+    .sg-about-page__audience-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(36px, 6vw, 90px);
+    }
+  }
+
+  @media screen and (min-width: 960px) {
+    .sg-about-page__services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    .sg-about-page__steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .sg-about-page__service {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "SG · About page",
+  "max_blocks": 24,
+  "blocks": [
+    {
+      "type": "service",
+      "name": "What we do",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "gift", "options": [
+          { "value": "gift", "label": "Gift" }, { "value": "box", "label": "Box" }, { "value": "pen", "label": "Personalization" }, { "value": "truck", "label": "Delivery" }, { "value": "support", "label": "Concierge" }, { "value": "globe", "label": "Worldwide" }
+        ] },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Curate & Source" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Handpicked, high-quality gifts for every function and every guest group." }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "How we work step",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Step number", "default": "1" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "You Explore" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Browse collections and save your favourites to your wishlist." }
+      ]
+    },
+    {
+      "type": "value",
+      "name": "What we stand for",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "heart", "options": [
+          { "value": "heart", "label": "Personal" }, { "value": "check", "label": "On time" }, { "value": "gift", "label": "Presentation" }, { "value": "support", "label": "Concierge" }
+        ] },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Personal" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Every gift carries your names, your colours and your story." }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "Frequently asked question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Do you sell gifts online?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "No. You browse and build a wishlist, then request a personalised quote. There is no online checkout." }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "image_alt", "label": "Hero image alt text" },
+    { "type": "text", "id": "eyebrow", "label": "Hero eyebrow", "default": "About Us" },
+    { "type": "text", "id": "heading", "label": "Hero heading", "default": "One Partner for Every Wedding Gift" },
+    { "type": "richtext", "id": "intro", "label": "Hero introduction", "default": "<p>We take the many small decisions of wedding gifting off your plate — and put them in the hands of one dedicated concierge.</p>" },
+    { "type": "header", "content": "Our story" },
+    { "type": "image_picker", "id": "collage_image_one", "label": "Story collage image one" },
+    { "type": "image_picker", "id": "collage_image_two", "label": "Story collage image two" },
+    { "type": "image_picker", "id": "collage_image_three", "label": "Story collage image three" },
+    { "type": "image_picker", "id": "collage_image_four", "label": "Story collage image four" },
+    { "type": "text", "id": "story_eyebrow", "label": "Story eyebrow", "default": "Our Story" },
+    { "type": "text", "id": "story_heading", "label": "Story heading", "default": "Gifting, Done Properly" },
+    { "type": "richtext", "id": "story", "label": "Story text", "default": "<p>Weddings involve dozens of gifting moments — return gifts, welcome hampers, family and VIP presents, bridal party boxes. Managing this across many vendors is slow and stressful, and small details slip.</p><p>ShaadiGifts brings it all under one roof. We curate and source the gifts, personalise them with your names and theme, pack them beautifully, and deliver on time to your venue — whether it is a hotel in Jaipur or a resort abroad.</p><p>We do not run an online shop. Instead, you build a wishlist, share your wedding details, and receive a personalised proposal shaped around your guest list, functions and budget.</p>" },
+    { "type": "text", "id": "story_button_label", "label": "Story button label", "default": "Plan My Wedding Gifting" },
+    { "type": "url", "id": "story_button_link", "label": "Story button link" },
+    { "type": "header", "content": "What we do" },
+    { "type": "text", "id": "services_heading", "label": "Services heading", "default": "What We Do" },
+    { "type": "textarea", "id": "services_description", "label": "Services description", "default": "End-to-end wedding gifting, from the first idea to the last delivery." },
+    { "type": "text", "id": "services_button_label", "label": "Services button label", "default": "See All Services" },
+    { "type": "url", "id": "services_button_link", "label": "Services button link" },
+    { "type": "header", "content": "How we work" },
+    { "type": "text", "id": "process_heading", "label": "Process heading", "default": "How We Work" },
+    { "type": "textarea", "id": "process_description", "label": "Process description", "default": "A simple, transparent process from wishlist to delivery." },
+    { "type": "header", "content": "What we stand for" },
+    { "type": "text", "id": "values_heading", "label": "Values heading", "default": "What We Stand For" },
+    { "type": "header", "content": "Who we work with" },
+    { "type": "image_picker", "id": "audience_image", "label": "Audience image" },
+    { "type": "text", "id": "audience_eyebrow", "label": "Audience eyebrow", "default": "Who We Work With" },
+    { "type": "text", "id": "audience_heading", "label": "Audience heading", "default": "For Every Kind Of Wedding" },
+    { "type": "textarea", "id": "audience_description", "label": "Audience description", "default": "Whether it is an intimate celebration or a multi-day wedding with hundreds of guests, we shape the gifting to fit." },
+    { "type": "text", "id": "audience_one", "label": "First audience", "default": "Couples and families planning Indian weddings" },
+    { "type": "text", "id": "audience_two", "label": "Second audience", "default": "International and destination weddings" },
+    { "type": "text", "id": "audience_three", "label": "Third audience", "default": "Multi-function celebrations — Ring Ceremony, Haldi, Mehendi, Sangeet, Wedding and Reception" },
+    { "type": "text", "id": "audience_four", "label": "Fourth audience", "default": "Gifting for guests, VIPs, family members and the bridal party" },
+    { "type": "header", "content": "Good to know" },
+    { "type": "text", "id": "faq_heading", "label": "FAQ heading", "default": "Good To Know" },
+    { "type": "header", "content": "Closing call to action" },
+    { "type": "checkbox", "id": "show_cta", "label": "Show closing call to action", "default": true },
+    { "type": "text", "id": "cta_heading", "label": "CTA heading", "default": "Let's Create Your Wedding Gifting Experience" },
+    { "type": "textarea", "id": "cta_text", "label": "CTA text", "default": "Build a wishlist, share your wedding details, and let us take care of the gifting details." },
+    { "type": "text", "id": "cta_button_label", "label": "CTA button label", "default": "Plan My Wedding Gifting" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" }
+  ],
+  "presets": [{ "name": "SG · About page" }]
+}
+{% endschema %}
