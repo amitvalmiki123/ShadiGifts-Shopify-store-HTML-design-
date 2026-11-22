@@ -33,6 +33,9 @@
         {%- if form.errors -%}<div class="sg-form-errors" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
         <input type="hidden" name="contact[subject]" value="{{ section.settings.email_subject | escape }}">
         <input type="hidden" name="contact[Wishlist selection]" value="" data-sg-planner-wishlist-field>
+        <input type="hidden" name="contact[Wedding functions]" value="" data-sg-planner-group-field="functions">
+        <input type="hidden" name="contact[Gifting needs]" value="" data-sg-planner-group-field="needs">
+        <input type="hidden" name="contact[Additional services]" value="" data-sg-planner-group-field="services">
         <textarea class="sg-visually-hidden" name="contact[body]" tabindex="-1" aria-hidden="true" data-sg-planner-body></textarea>
 
         <ol class="sg-planner-stepper" data-sg-planner-stepper aria-label="Planner progress">
@@ -90,7 +93,7 @@
                   {%- if block.type == 'function' -%}
                     {%- assign sg_function_value = block.settings.value | default: block.settings.label -%}
                     <label class="sg-choice" for="SGPlannerFunction-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                      <input id="SGPlannerFunction-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Wedding functions][]" value="{{ sg_function_value | escape }}">
+                      <input id="SGPlannerFunction-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Wedding functions]" data-sg-planner-choice="functions" value="{{ sg_function_value | escape }}">
                       <span>{{ block.settings.label | escape }}</span>
                     </label>
                   {%- endif -%}
@@ -113,7 +116,7 @@
                   {%- if block.type == 'need' -%}
                     {%- assign sg_need_value = block.settings.value | default: block.settings.label -%}
                     <label class="sg-choice" for="SGPlannerNeed-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                      <input id="SGPlannerNeed-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Gifting needs][]" value="{{ sg_need_value | escape }}">
+                      <input id="SGPlannerNeed-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Gifting needs]" data-sg-planner-choice="needs" value="{{ sg_need_value | escape }}">
                       <span>{{ block.settings.label | escape }}</span>
                     </label>
                   {%- endif -%}
@@ -129,7 +132,7 @@
                   {%- if block.type == 'extra' -%}
                     {%- assign sg_extra_value = block.settings.value | default: block.settings.label -%}
                     <label class="sg-choice" for="SGPlannerExtra-{{ section.id }}-{{ block.id }}" {{ block.shopify_attributes }}>
-                      <input id="SGPlannerExtra-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Additional services][]" value="{{ sg_extra_value | escape }}">
+                      <input id="SGPlannerExtra-{{ section.id }}-{{ block.id }}" type="checkbox" name="contact[Additional services]" data-sg-planner-choice="services" value="{{ sg_extra_value | escape }}">
                       <span>{{ block.settings.label | escape }}</span>
                     </label>
                   {%- endif -%}

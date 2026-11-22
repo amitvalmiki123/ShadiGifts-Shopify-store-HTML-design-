@@ -522,9 +522,18 @@
       try {
         const draft = JSON.parse(window.localStorage.getItem(draftKey) || 'null');
         if (!draft || !Array.isArray(draft.controls)) return false;
+        const legacyChoiceNames = {
+          'contact[Wedding functions][]': 'functions',
+          'contact[Gifting needs][]': 'needs',
+          'contact[Additional services][]': 'services',
+        };
         draft.controls.forEach((saved) => {
+          const choice = saved.choice || legacyChoiceNames[saved.name] || '';
           const matching = Array.from(form.elements).filter((control) => {
-            if (control.name !== saved.name) return false;
+            if (choice) {
+              return control.getAttribute('data-sg-planner-choice') === choice && control.value === saved.value;
+            }
+            if (control.name !== saved.name || control.hasAttribute('data-sg-planner-choice')) return false;
             if (control.type === 'checkbox' || control.type === 'radio') return control.value === saved.value;
             return true;
           });
@@ -605,9 +614,15 @@
 
     function saveDraft(showNotice = true) {
       const controls = Array.from(form.elements)
-        .filter((control) => control.name && control.name.startsWith('contact[') && !['contact[body]', 'contact[subject]'].includes(control.name) && !['submit', 'button'].includes(control.type))
+        .filter((control) => {
+          const isContactField = control.name && control.name.startsWith('contact[')
+            && !['contact[body]', 'contact[subject]'].includes(control.name)
+            && !['submit', 'button'].includes(control.type);
+          return isContactField || control.hasAttribute('data-sg-planner-choice');
+        })
         .map((control) => ({
           name: control.name,
+          choice: control.getAttribute('data-sg-planner-choice') || undefined,
           value: control.value,
           checked: control.type === 'checkbox' || control.type === 'radio' ? control.checked : undefined,
         }));
@@ -620,6 +635,16 @@
     }
 
     function updatePayload() {
+      form.querySelectorAll('[data-sg-planner-group-field]').forEach((hiddenField) => {
+        const groupName = hiddenField.getAttribute('data-sg-planner-group-field');
+        const selected = Array.from(form.querySelectorAll('[data-sg-planner-choice]'))
+          .filter((control) => control.getAttribute('data-sg-planner-choice') === groupName && control.checked)
+          .map((control) => control.value.trim())
+          .filter(Boolean);
+        hiddenField.value = selected.join(', ');
+      });
+      // Submit one plain-text value per Shopify contact field; bracket-array names are rejected.
+      form.querySelectorAll('[data-sg-planner-choice]').forEach((control) => { control.removeAttribute('name'); });
       const wishlistField = form.querySelector('[data-sg-planner-wishlist-field]');
       if (wishlistField) wishlistField.value = formatPlannerWishlist(readWishlist());
       updateContactBody(form, '[data-sg-planner-body]', 'Wedding gifting planner enquiry');
